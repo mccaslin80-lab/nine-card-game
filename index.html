@@ -1,6 +1,827 @@
 <!DOCTYPE html>
 <html lang="en">
 <style>
+        .player-seat.current-turn {
+            border: 5px solid #00aaff !important;
+            box-shadow: 0 0 25px #00aaff, 0 0 50px #007bff, inset 0 0 20px rgba(0, 170, 255, 0.3);
+            animation: intenseBlink 0.6s infinite;
+            transform: scale(1.05);
+        }
+        
+        @keyframes intenseBlink {
+            0% { 
+                opacity: 1; 
+                border-color: #00aaff;
+                box-shadow: 0 0 25px #00aaff, 0 0 50px #007bff, inset 0 0 20px rgba(0, 170, 255, 0.3);
+            }
+            25% { 
+                opacity: 0.8; 
+                border-color: #0088ff;
+                box-shadow: 0 0 30px #0088ff, 0 0 60px #0066ff, inset 0 0 25px rgba(0, 136, 255, 0.4);
+            }
+            50% { 
+                opacity: 0.6; 
+                border-color: #0066ff;
+                box-shadow: 0 0 35px #0066ff, 0 0 70px #0044ff, inset 0 0 30px rgba(0, 102, 255, 0.5);
+            }
+            75% { 
+                opacity: 0.8; 
+                border-color: #0088ff;
+                box-shadow: 0 0 30px #0088ff, 0 0 60px #0066ff, inset 0 0 25px rgba(0, 136, 255, 0.4);
+            }
+            100% { 
+                opacity: 1; 
+                border-color: #00aaff;
+                box-shadow: 0 0 25px #00aaff, 0 0 50px #007bff, inset 0 0 20px rgba(0, 170, 255, 0.3);
+            }
+        }
+        
+        .version-badge {
+            font-size: 0.6em;
+            background: #28a745;
+            color: white;
+            padding: 2px 8px;
+            border-radius: 12px;
+            margin-left: 10px;
+            font-weight: normal;
+        }
+
+        .rules-btn {
+            background: linear-gradient(145deg, #28a745, #20c997);
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            margin-right: 10px;
+        }
+
+        .rules-btn:hover {
+            background: linear-gradient(145deg, #218838, #1e7e34);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        .rules-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+        
+        .admin-panel {
+            position: fixed;
+            top: 450px;
+            left: 250px;
+            background: linear-gradient(145deg, #2c3e50, #34495e);
+            border: 2px solid #3498db;
+            border-radius: 10px;
+            padding: 0;
+            z-index: 1000;
+            max-width: 400px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+            color: white;
+            cursor: move;
+            user-select: none;
+        }
+        
+        .admin-header {
+            background: linear-gradient(145deg, #1a252f, #2c3e50);
+            color: white;
+            padding: 10px 15px;
+            border-radius: 8px 8px 0 0;
+            cursor: move;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .admin-header h3 {
+            margin: 0;
+            font-size: 16px;
+        }
+        
+        .close-admin-btn {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 20px;
+            cursor: pointer;
+            padding: 0;
+            width: 25px;
+            height: 25px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .close-admin-btn:hover {
+            background: rgba(255,255,255,0.2);
+            border-radius: 3px;
+        }
+        
+        .admin-panel .admin-section {
+            padding: 15px;
+            color: white;
+        }
+        
+        .admin-panel .admin-section h4 {
+            color: #3498db;
+            margin-bottom: 10px;
+        }
+        
+        .admin-panel .stats-display div {
+            color: white;
+            margin-bottom: 5px;
+        }
+        
+        .admin-panel .sound-controls {
+            margin-bottom: 15px;
+        }
+        
+        .admin-panel .sound-controls .control-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+        
+        .admin-panel .sound-controls input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            accent-color: #3498db;
+        }
+        
+        .admin-panel .toggle-label {
+            color: #3498db;
+            font-weight: bold;
+        }
+        
+        /* Jackpot animation styles */
+        .jackpot-star {
+            position: absolute;
+            color: #FFD700;
+            font-size: 20px;
+            pointer-events: none;
+            z-index: 1000;
+            animation: starFloat 2s ease-out forwards;
+        }
+        
+        .jackpot-gold {
+            position: absolute;
+            color: #FFD700;
+            font-size: 16px;
+            pointer-events: none;
+            z-index: 1000;
+            animation: goldFloat 2s ease-out forwards;
+        }
+        
+        @keyframes starFloat {
+            0% {
+                opacity: 1;
+                transform: scale(0.5) rotate(0deg);
+            }
+            50% {
+                opacity: 1;
+                transform: scale(1.2) rotate(180deg);
+            }
+            100% {
+                opacity: 0;
+                transform: scale(0.8) rotate(360deg) translateY(-100px);
+            }
+        }
+        
+        @keyframes goldFloat {
+            0% {
+                opacity: 1;
+                transform: scale(0.3) rotate(0deg);
+            }
+            30% {
+                opacity: 1;
+                transform: scale(1.1) rotate(120deg);
+            }
+            100% {
+                opacity: 0;
+                transform: scale(0.6) rotate(360deg) translateY(-80px);
+            }
+        }
+        
+        /* Bank History Styles */
+        .bank-history {
+            background: linear-gradient(145deg, #8e44ad, #9b59b6);
+            color: white;
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-weight: bold;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+            margin-top: 8px;
+            font-size: 12px;
+        }
+        
+        .history-label {
+            font-size: 11px;
+            margin-bottom: 3px;
+            display: block;
+        }
+        
+        #bank-history-list {
+            display: flex;
+            gap: 4px;
+            flex-wrap: wrap;
+        }
+        
+        .bank-card-item {
+            background: rgba(255,255,255,0.2);
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-size: 10px;
+            border: 1px solid rgba(255,255,255,0.3);
+        }
+
+        .rules-content {
+            background: linear-gradient(145deg, #2c3e50, #34495e);
+            border-radius: 15px;
+            padding: 0;
+            max-width: 800px;
+            max-height: 90vh;
+            width: 90%;
+            overflow-y: auto;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        .rules-header {
+            background: linear-gradient(145deg, #3498db, #2980b9);
+            color: white;
+            padding: 20px;
+            border-radius: 15px 15px 0 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .rules-header h2 {
+            margin: 0;
+            font-size: 1.8em;
+        }
+
+        .close-rules-btn {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 2em;
+            cursor: pointer;
+            padding: 0;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            transition: background 0.3s ease;
+        }
+
+        .close-rules-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .rules-body {
+            padding: 30px;
+            color: #ecf0f1;
+            line-height: 1.6;
+        }
+
+        .rules-body h3 {
+            color: #3498db;
+            margin-top: 25px;
+            margin-bottom: 15px;
+            font-size: 1.3em;
+        }
+
+        .rules-body h3:first-child {
+            margin-top: 0;
+        }
+
+        .rules-body p {
+            margin-bottom: 15px;
+        }
+
+        .rules-body ul {
+            margin-bottom: 20px;
+            padding-left: 20px;
+        }
+
+        .rules-body li {
+            margin-bottom: 8px;
+        }
+
+        .rules-body strong {
+            color: #f39c12;
+        }
+
+        /* Payout Matrix Styles */
+        .payout-matrix {
+            background: rgba(0, 0, 0, 0.9);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            padding: 1rem;
+            margin: 1rem 0;
+            backdrop-filter: blur(10px);
+        }
+
+        .payout-matrix__table {
+            display: grid;
+            grid-template-columns: 60px repeat(9, 1fr);
+            gap: 2px;
+            font-size: 0.8rem;
+        }
+
+        .payout-matrix__header {
+            display: contents;
+        }
+
+        .payout-matrix__row {
+            display: contents;
+        }
+
+        .payout-matrix__cell {
+            padding: 4px 6px;
+            text-align: center;
+            border-radius: 3px;
+            font-weight: 500;
+            min-height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .payout-matrix__cell--header {
+            background: rgba(255, 255, 255, 0.1);
+            color: #fff;
+            font-weight: 600;
+            font-size: 0.75rem;
+        }
+
+        .payout-matrix__cell--green {
+            background: rgba(34, 197, 94, 0.2);
+            color: #22c55e;
+            border: 1px solid rgba(34, 197, 94, 0.3);
+        }
+
+        .payout-matrix__cell--red {
+            background: rgba(239, 68, 68, 0.2);
+            color: #ef4444;
+            border: 1px solid rgba(239, 68, 68, 0.3);
+        }
+
+        .payout-matrix__cell--yellow {
+            background: rgba(234, 179, 8, 0.2);
+            color: #eab308;
+            border: 1px solid rgba(234, 179, 8, 0.3);
+        }
+
+        .payout-matrix__legend {
+            margin-top: 1rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .payout-matrix__legend-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.75rem;
+            color: #ccc;
+        }
+
+        .payout-matrix__legend-color {
+            width: 12px;
+            height: 12px;
+            border-radius: 2px;
+            flex-shrink: 0;
+        }
+
+        .payout-matrix__legend-color--green {
+            background: rgba(34, 197, 94, 0.3);
+            border: 1px solid rgba(34, 197, 94, 0.5);
+        }
+
+        .payout-matrix__legend-color--red {
+            background: rgba(239, 68, 68, 0.3);
+            border: 1px solid rgba(239, 68, 68, 0.5);
+        }
+
+        .payout-matrix__legend-color--yellow {
+            background: rgba(234, 179, 8, 0.3);
+            border: 1px solid rgba(234, 179, 8, 0.5);
+        }
+
+        .card-value {
+            font-size: 1.2em;
+            color: #28a745;
+            font-weight: bold;
+            margin-top: 3px;
+            text-align: center;
+        }
+
+        .table-card .card-value {
+            font-size: 1.0em;
+            color: #28a745;
+            font-weight: bold;
+            margin-top: 2px;
+            text-align: center;
+        }
+
+        .card-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            height: 100%;
+            width: 100%;
+            padding-top: 8px;
+        }
+
+        .chip-stack-container {
+            position: absolute;
+            width: 40px;
+            height: 60px;
+            z-index: 10;
+        }
+
+        .chip-stack {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2px;
+            width: 100%;
+            height: 100%;
+            align-items: end;
+        }
+
+        .chip {
+            width: 10px;
+            height: 6px;
+            border-radius: 1px;
+            border: 1px solid;
+            box-shadow: 
+                0 2px 4px rgba(0, 0, 0, 0.4),
+                inset 0 1px 0 rgba(255, 255, 255, 0.3),
+                inset 0 -1px 0 rgba(0, 0, 0, 0.2);
+            transform: perspective(100px) rotateX(15deg);
+            transition: transform 0.2s ease;
+        }
+
+        .chip:hover {
+            transform: perspective(100px) rotateX(15deg) translateY(-2px);
+        }
+
+        .human-strategy-container {
+            position: absolute;
+            z-index: 15;
+        }
+
+        .human-strategy-container .strategy-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .animated-chip {
+            position: absolute;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            border: 2px solid;
+            box-shadow: 
+                0 4px 8px rgba(0, 0, 0, 0.4),
+                inset 0 2px 0 rgba(255, 255, 255, 0.3),
+                inset 0 -2px 0 rgba(0, 0, 0, 0.2);
+            transform: perspective(100px) rotateX(15deg);
+            z-index: 1000;
+            pointer-events: none;
+            transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        .chip-pile {
+            position: absolute;
+            width: 40px;
+            height: 30px;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 100;
+        }
+
+        .chip-pile .chip {
+            position: absolute;
+            width: 10px;
+            height: 6px;
+            border-radius: 1px;
+            border: 1px solid;
+            box-shadow: 
+                0 2px 4px rgba(0, 0, 0, 0.4),
+                inset 0 1px 0 rgba(255, 255, 255, 0.3),
+                inset 0 -1px 0 rgba(0, 0, 0, 0.2);
+            transform: perspective(100px) rotateX(15deg);
+        }
+
+        /* Jackpot Chip Stack Styles */
+        .jackpot-chip-stack {
+            position: absolute;
+            left: -60px;
+            top: 50%;
+            transform: translateY(-50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            z-index: 10;
+        }
+
+        .chip-stack-label {
+            color: #ffffff;
+            font-weight: bold;
+            font-size: 12px;
+            margin-bottom: 5px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
+        }
+
+        #jackpot-chip-pile {
+            position: relative;
+            width: 60px;
+            height: 80px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-end;
+        }
+
+        #jackpot-chip-pile .chip {
+            position: absolute;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            border: 3px solid #f39c12;
+            background: linear-gradient(145deg, #f39c12, #e67e22);
+            box-shadow: 
+                0 6px 12px rgba(0, 0, 0, 0.5),
+                inset 0 3px 0 rgba(255, 255, 255, 0.4),
+                inset 0 -3px 0 rgba(0, 0, 0, 0.3);
+            transform: perspective(100px) rotateX(15deg);
+            transition: all 0.3s ease;
+        }
+
+        #jackpot-chip-pile .chip:hover {
+            transform: perspective(100px) rotateX(15deg) translateY(-3px);
+            box-shadow: 
+                0 8px 16px rgba(0, 0, 0, 0.7),
+                inset 0 3px 0 rgba(255, 255, 255, 0.5),
+                inset 0 -3px 0 rgba(0, 0, 0, 0.4);
+        }
+        
+        .version-info {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 8px 12px;
+            border-radius: 5px;
+            font-size: 0.8em;
+            z-index: 1000;
+        }
+
+        /* Matrix Modal Styles */
+        .matrix-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+        }
+
+        .matrix-modal.hidden {
+            display: none;
+        }
+
+        .matrix-content {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            max-width: 90%;
+            max-height: 90%;
+            overflow: auto;
+            position: relative;
+            color: #333;
+        }
+
+        .matrix-content p {
+            color: #333;
+            margin: 10px 0;
+        }
+
+        .matrix-content strong {
+            color: #000;
+            font-weight: bold;
+        }
+
+        .matrix-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #333;
+            padding-bottom: 10px;
+        }
+
+        .matrix-header h2 {
+            margin: 0;
+            color: #333;
+        }
+
+        .close-matrix-btn {
+            background: #ff4444;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            font-size: 18px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .close-matrix-btn:hover {
+            background: #ff6666;
+        }
+
+        .matrix-image {
+            max-width: 100%;
+            height: auto;
+            border: 2px solid #333;
+            border-radius: 5px;
+        }
+
+        /* Payout Matrix Table Styles */
+        .payout-matrix {
+            margin-top: 20px;
+            overflow-x: auto;
+        }
+
+        .matrix-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 14px;
+            background: white;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .matrix-table th {
+            background: linear-gradient(145deg, #34495e, #2c3e50);
+            color: white;
+            padding: 12px 8px;
+            text-align: center;
+            font-weight: bold;
+            border: 1px solid #2c3e50;
+        }
+
+        .matrix-table td {
+            padding: 10px 8px;
+            text-align: center;
+            border: 1px solid #ddd;
+            font-weight: 500;
+        }
+
+        .matrix-table td:first-child,
+        .matrix-table td:nth-child(2) {
+            background-color: #f8f9fa !important;
+            color: #333 !important;
+            font-weight: bold;
+        }
+
+        .matrix-table tr:nth-child(even) {
+            background-color: #f8f9fa;
+        }
+
+        .matrix-table tr:hover {
+            background-color: #e8f4fd;
+        }
+
+        .matrix-table .win {
+            background-color: #d4edda !important;
+            color: #155724;
+            font-weight: bold;
+        }
+
+        .matrix-table .loss {
+            background-color: #f8d7da !important;
+            color: #721c24;
+            font-weight: bold;
+        }
+
+        .matrix-table .refund {
+            background-color: #ffb366 !important;
+            color: #cc5500;
+            font-weight: bold;
+        }
+
+        .matrix-table .jackpot {
+            background-color: #e1ecf4 !important;
+            color: #0c5460;
+            font-weight: bold;
+        }
+
+        /* Jackpot Promotional Text */
+        .jackpot-promo {
+            position: fixed;
+            right: 300px;
+            top: 15%;
+            transform: translateY(-50%);
+            background: rgba(255, 215, 0, 0.1);
+            color: #ffd700;
+            padding: 12px 20px;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 215, 0, 0.3);
+            text-align: center;
+            width: 350px;
+            box-shadow: 0 2px 8px rgba(255, 215, 0, 0.2);
+            z-index: 1000;
+        }
+
+        .promo-text {
+            font-weight: bold;
+            font-size: 13px;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+        }
+
+        /* Manual Timer Styles */
+        .manual-timer {
+            font-size: 0.9em !important;
+            color: #ff0000 !important;
+            font-weight: bold !important;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 1) !important;
+            position: absolute !important;
+            top: -20px !important;
+            left: 50% !important;
+            transform: translateX(-50%) !important;
+            background: rgba(255, 255, 255, 0.95) !important;
+            border: 1px solid #ff0000 !important;
+            padding: 1px 4px !important;
+            border-radius: 2px !important;
+            z-index: 9999 !important;
+            display: none !important; /* Initially hidden */
+            visibility: hidden !important; /* Initially hidden */
+            opacity: 0 !important; /* Initially hidden */
+            width: auto !important;
+            min-width: 20px !important;
+            max-width: 35px !important;
+            text-align: center !important;
+            white-space: nowrap !important;
+        }
+
+        .timer-text {
+            animation: timerPulse 1s ease-in-out infinite !important;
+            font-size: inherit !important;
+            color: inherit !important;
+            font-weight: inherit !important;
+        }
+
+        @keyframes timerPulse {
+            0%, 100% { 
+                opacity: 1; 
+                transform: scale(1);
+            }
+            50% { 
+                opacity: 0.7; 
+                transform: scale(1.1);
+            }
+        }
+
+        /* Game Table Container */
+        .game-table {
+            position: relative;
+            margin: 0 auto;
+        }      
+  </style>
+
 /* Basic CSS for Nine Card Game */
 body {
     font-family: Arial, sans-serif;
