@@ -94,10 +94,13 @@
             padding: 0;
             z-index: 1000;
             max-width: 400px;
+            max-height: 700px; /* Increased height for more vertical space */
             box-shadow: 0 4px 20px rgba(0,0,0,0.3);
             color: white;
             cursor: move;
             user-select: none;
+            display: flex;
+            flex-direction: column;
         }
         
         .admin-header {
@@ -114,6 +117,31 @@
         .admin-header h3 {
             margin: 0;
             font-size: 16px;
+        }
+        
+        .admin-content {
+            flex: 1;
+            overflow-y: auto;
+            padding: 0;
+            max-height: calc(700px - 60px); /* Subtract header height */
+        }
+        
+        .admin-content::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        .admin-content::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+        }
+        
+        .admin-content::-webkit-scrollbar-thumb {
+            background: #3498db;
+            border-radius: 4px;
+        }
+        
+        .admin-content::-webkit-scrollbar-thumb:hover {
+            background: #2980b9;
         }
         
         .close-admin-btn {
@@ -170,6 +198,132 @@
         .admin-panel .toggle-label {
             color: #3498db;
             font-weight: bold;
+        }
+        
+        .insurance-setting-input {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid #3498db;
+            border-radius: 4px;
+            color: white;
+            padding: 5px 8px;
+            width: 80px;
+            font-size: 14px;
+        }
+        
+        .insurance-setting-input:focus {
+            outline: none;
+            border-color: #2980b9;
+            background: rgba(255, 255, 255, 0.15);
+        }
+        
+        .insurance-timer-input {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid #3498db;
+            border-radius: 4px;
+            color: white;
+            padding: 5px 8px;
+            width: 80px;
+            font-size: 14px;
+        }
+        
+        .insurance-timer-input:focus {
+            outline: none;
+            border-color: #2980b9;
+            background: rgba(255, 255, 255, 0.15);
+        }
+        
+        .human-insurance-icon {
+            position: absolute;
+            top: -15px;
+            right: -15px;
+            font-size: 20px;
+            cursor: pointer;
+            color: #888 !important;
+            opacity: 0.6;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+            transition: all 0.3s ease;
+            z-index: 10;
+            user-select: none;
+        }
+        
+        .human-insurance-icon:hover:not(.purchased):not(.disabled) {
+            transform: scale(1.1);
+            color: #3498db !important;
+            opacity: 0.8;
+        }
+        
+        .human-insurance-icon.purchased {
+            color: #e74c3c !important;
+            opacity: 1;
+            animation: insuranceGlow 2s ease-in-out infinite alternate;
+        }
+        
+        .human-insurance-icon.disabled {
+            color: #444 !important;
+            opacity: 0.3;
+            cursor: not-allowed;
+        }
+        
+        .human-insurance-icon.clicking {
+            animation: insuranceClickFlash 0.3s ease-out;
+        }
+        
+        @keyframes insuranceClickFlash {
+            0% {
+                color: #27ae60 !important;
+                transform: scale(1.2);
+                opacity: 1;
+            }
+            50% {
+                color: #2ecc71 !important;
+                transform: scale(1.1);
+            }
+            100% {
+                color: #e74c3c !important;
+                transform: scale(1);
+            }
+        }
+        
+        .insurance-marker {
+            position: absolute;
+            top: -15px;
+            right: -15px;
+            z-index: 10;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .insurance-marker > div {
+            animation: insuranceGlow 2s ease-in-out infinite alternate;
+        }
+        
+        .insurance-select-all {
+            margin-bottom: 10px;
+            padding: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 5px;
+            border: 1px solid #3498db;
+        }
+        
+        .select-all-checkbox {
+            margin-right: 8px;
+            transform: scale(1.2);
+        }
+        
+        .insurance-select-all label {
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        
+        @keyframes insuranceGlow {
+            0% {
+                box-shadow: 0 0 10px rgba(231, 76, 60, 0.8), 0 0 20px rgba(231, 76, 60, 0.4);
+            }
+            100% {
+                box-shadow: 0 0 20px rgba(231, 76, 60, 1), 0 0 40px rgba(231, 76, 60, 0.8);
+            }
         }
         
         /* Jackpot animation styles */
@@ -543,27 +697,33 @@
         /* Jackpot Chip Stack Styles */
         .jackpot-chip-stack {
             position: absolute;
-            left: -60px;
-            top: 50%;
-            transform: translateY(-50%);
+            left: -70px;
+            top: 35%;
             display: flex;
             flex-direction: column;
             align-items: center;
             z-index: 10;
         }
-
+        
         .chip-stack-label {
+            position: absolute;
+            left: -70px;
+            top: 20%;
             color: #ffffff;
             font-weight: bold;
             font-size: 12px;
-            margin-bottom: 5px;
+            margin-top: 5px;
             text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
+            white-space: nowrap;
+            z-index: 10;
         }
-
+        
         #jackpot-chip-pile {
             position: relative;
-            width: 60px;
-            height: 80px;
+            width: 70px;
+            height: 100px;
+            max-height: 100px;
+            overflow: hidden;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -572,8 +732,8 @@
 
         #jackpot-chip-pile .chip {
             position: absolute;
-            width: 28px;
-            height: 28px;
+            width: 32px;
+            height: 32px;
             border-radius: 50%;
             border: 3px solid #f39c12;
             background: linear-gradient(145deg, #f39c12, #e67e22);
@@ -757,24 +917,25 @@
         /* Jackpot Promotional Text */
         .jackpot-promo {
             position: fixed;
-            right: 300px;
-            top: 15%;
+            right: 100px;
+            top: 20%;
             transform: translateY(-50%);
             background: rgba(255, 215, 0, 0.1);
             color: #ffd700;
-            padding: 12px 20px;
+            padding: 15px 20px;
             border-radius: 8px;
             border: 1px solid rgba(255, 215, 0, 0.3);
             text-align: center;
-            width: 350px;
+            width: 500px;
             box-shadow: 0 2px 8px rgba(255, 215, 0, 0.2);
             z-index: 1000;
         }
 
         .promo-text {
             font-weight: bold;
-            font-size: 13px;
+            font-size: 12px;
             text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+            line-height: 1.4;
         }
 
         /* Manual Timer Styles */
@@ -831,10 +992,14 @@
     <div id="game-container">
         <!-- Header -->
         <header class="game-header">
-            <h1>🎯 Nine Card <span class="version-badge">v1.100.0</span></h1>
+            <h1>🎯 Nine Card <span class="version-badge">v1.120.34</span></h1>
             <div class="jackpot-display">
                 <span class="jackpot-label">Jackpot:</span>
                 <span id="jackpot-amount">0</span>
+            </div>
+            <div class="insurance-jackpot-display">
+                <span class="insurance-label">Insurance:</span>
+                <span id="insurance-amount">0</span>
             </div>
         <div class="bank-history">
             <span class="history-label">Bank History:</span>
@@ -853,11 +1018,11 @@
                     <div class="card-back">🏦</div>
                 </div>
                 <div class="jackpot-chip-stack" id="jackpot-chip-stack">
-                    <div class="chip-stack-label">Jackpot</div>
                     <div class="chip-pile" id="jackpot-chip-pile">
                         <!-- Chips will be dynamically generated here -->
                     </div>
                 </div>
+                <div class="chip-stack-label">Jackpot</div>
                 <div class="bank-info">
                     <div class="round-info">
                         <span id="current-round">Round 1</span>
@@ -873,7 +1038,10 @@
 
         <!-- Jackpot Promotional Text -->
         <div class="jackpot-promo">
-            <span class="promo-text">💎 JACKPOT: 90% payout when<br>player & bank draw same number with ♥️ Hearts!</span>
+            <span class="promo-text">💎 <strong>HEARTS JACKPOT:</strong> Match rank & suit with ♥️ Hearts<br>
+            🛡️ <strong>INSURANCE JACKPOT:</strong> Buy $10 insurance, match ANY suit<br>
+            <small>⚠️ Insurance available when pot reaches $50 minimum</small><br>
+            <em>Two ways to win BIG! 80% Hearts / 20% Insurance from all contributions!</em></span>
         </div>
 
         <!-- Game Controls -->
@@ -896,7 +1064,7 @@
                     <h3>🃏 Card Selection</h3>
                     <ul>
                         <li>Each player selects one card from A, 2, 3, 4, 5, 6, 7, 8, or 9</li>
-                        <li>Cards are selected in turn order based on balance (lowest first)</li>
+                        <li>Cards are selected in turn order decided by the admin (can be changed in Admin controls)</li>
                         <li>Once a card is selected, it cannot be chosen by another player</li>
                     </ul>
                     
@@ -908,21 +1076,38 @@
                         <li><strong>WIN:</strong> Your card number is LOWER than the bank's card</li>
                         <li><strong>LOSS:</strong> Your card number is the same number as the bank's card</li>
                         <li><strong>REFUND:</strong> your card number is HIGHER than the bank's card (you keep your bet minus the jackpot withdraw)</li>
-                        <li><strong>BANK 10:</strong> If bank draws 10, all players lose except the one with card 9</li>
+                        <li><strong>BANK 10:</strong> If bank draws 10, all players lose except player with card 9</li>
                     </ul>
                     
                     <h3>🎰 Payout System</h3>
                     <ul>
                         <li><strong>Winners:</strong> Share the losing player's bet in cascade order (highest number first)</li>
                         <li><strong>Refunds:</strong> Keep their original bet minus jackpot contribution</li>
-                        <li><strong>Jackpot:</strong> 5% of refunded bets go to the jackpot</li>
-                        <li><strong>JACKPOT:</strong> 90% payout when player & bank draw same number with ♥️ Hearts!</li>
-                        <li><strong>Bank Rake:</strong> The casino takes 2% from the losing player's bet as house commission</li>
+                        <li><strong>Jackpot Contribution:</strong> 5% of refunded bets go to the jackpots. Contribution percentage can be changed in admin controls</li>
+                        <li><strong>Bank Rake:</strong> The casino takes 2% from the losing player's bet as house commission. Can be changed in admin controls</li>
+                    </ul>
+                    
+                    <h3>💎 Hearts Jackpot</h3>
+                    <ul>
+                        <li><strong>How to Win:</strong> Draw the same rank AND suit as the bank with ♥️ Hearts!</li>
+                        <li><strong>Jackpot Split:</strong> Contributions are split 80% to Hearts Jackpot, 20% to Insurance Jackpot</li>
+                        <li><strong>Payout:</strong> Win the entire Hearts Jackpot if bank card matches players number and heart suit</li>
+                        <li><strong>Example:</strong> If you select the 7♥ and the bank draws 7♥, you win!</li>
+                    </ul>
+                    
+                    <h3>🛡️ Insurance System</h3>
+                    <ul>
+                        <li><strong>Purchase:</strong> Buy insurance for $10 before each round (only if Insurance Pot ≥ $20). Insurance cost and minimum pot can be set in admin controls.</li>
+                        <li><strong>Insurance Pot:</strong> Receives 20% of all jackpot contributions and the insurance buy in from all players.</li>
+                        <li><strong>How to Win:</strong> Have the same rank AND suit as the bank's card (any suit, not just hearts)</li>
+                        <li><strong>Payout:</strong> Win the entire Insurance Pot (accumulates until won)</li>
+                        <li><strong>Example:</strong> If you have insurance and both you and the bank draw 5♠, you win the Insurance Pot!</li>
+                        <li><strong>Visual Indicator:</strong> Blue shield icon appears on player seat when insurance is purchased</li>
                     </ul>
                     
                     <h3>🎯 Special Rules</h3>
                     <ul>
-                        <li><strong>Turn Order:</strong> Previous round's loser goes first, then by balance</li>
+                        <li><strong>Turn Order:</strong> Default set to clockwise order but can be changed in admin controls</li>
                         <li><strong>Balance:</strong> Each player starts with $1000 (total: $9000)</li>
                         <li><strong>Balance Conservation:</strong> Total money in game = Player balances + Jackpot + Bank Rake</li>
                         <li><strong>No Rebuys:</strong> Players cannot add money during the game</li>
@@ -1135,6 +1320,7 @@
             <h3>Admin Controls</h3>
                 <button id="close-admin-btn" class="close-admin-btn">&times;</button>
             </div>
+            <div class="admin-content">
             <div class="admin-section">
                 <h4>Game Stats</h4>
                 <div class="stats-display">
@@ -1142,6 +1328,7 @@
                     <div>Expected: <span id="expected-balance">9000</span></div>
                     <div>Player Balances: <span id="player-balances">0</span></div>
                     <div>Jackpot: <span id="admin-jackpot">0</span></div>
+                    <div>Insurance: <span id="admin-insurance">0</span></div>
                     <div>Bank Rake: <span id="admin-bank-rake">0</span></div>
                     <div>Round: <span id="admin-round">1</span></div>
                 </div>
@@ -1168,7 +1355,7 @@
                 <div class="jackpot-controls">
                     <div class="control-group">
                         <label for="jackpot-rate">Jackpot Rate (from refund players):</label>
-                        <input type="number" id="jackpot-rate" min="0" max="100" step="1" value="5">
+                        <input type="number" id="jackpot-rate" min="0" max="100" step="1" value="10">
                         <span>%</span>
                     </div>
                     <div class="control-group">
@@ -1179,11 +1366,43 @@
                 </div>
             </div>
             <div class="admin-section">
+                <h4>Turn Order Settings</h4>
+                <div class="turn-order-controls">
+                    <div class="control-group">
+                        <label for="turn-order-select">Turn Order:</label>
+                        <select id="turn-order-select" class="turn-order-select">
+                            <option value="A">A: Previous loser first, then lowest balance</option>
+                            <option value="B">B: Previous loser first, then highest balance</option>
+                            <option value="C" selected>C: Clockwise order (with marker)</option>
+                            <option value="D">D: Random order</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="admin-section">
+                <h4>Insurance Settings</h4>
+                <div class="insurance-controls">
+                    <div class="control-group">
+                        <label for="insurance-timer">Insurance Timer (seconds):</label>
+                        <input type="number" id="insurance-timer" min="5" max="30" value="10" class="insurance-timer-input">
+                    </div>
+                    <div class="control-group">
+                        <label for="insurance-cost">Insurance Cost ($):</label>
+                        <input type="number" id="insurance-cost" min="1" max="100" value="10" class="insurance-setting-input">
+                    </div>
+                    <div class="control-group">
+                        <label for="insurance-min-pot">Min Insurance Pot ($):</label>
+                        <input type="number" id="insurance-min-pot" min="10" max="500" value="50" class="insurance-setting-input">
+                    </div>
+                </div>
+            </div>
+            <div class="admin-section">
                 <h4>Game Control</h4>
                 <div class="game-controls">
                     <button id="pause-game-btn" class="control-btn">Pause Game</button>
                     <button id="resume-game-btn" class="control-btn">Resume Game</button>
                 </div>
+            </div>
             </div>
         </div>
 
@@ -1191,6 +1410,36 @@
         <div class="game-status">
             <div id="game-state">Waiting for round to start</div>
             <div id="game-timer" class="timer hidden"></div>
+        </div>
+    </div>
+
+    <!-- Insurance Purchase Modal -->
+    <div id="insurance-modal" class="insurance-modal hidden">
+        <div class="insurance-content">
+            <div class="insurance-header">
+                <h2>🛡️ Insurance Purchase</h2>
+                <div class="insurance-info">
+                    <p>Cost: $<span id="modal-insurance-cost">10</span> | Insurance Pot: $<span id="modal-insurance-pot">0</span></p>
+                    <div class="insurance-timer">
+                        <span>Time remaining: </span>
+                        <span id="insurance-countdown">10</span>s
+                    </div>
+                </div>
+            </div>
+            <div class="insurance-body">
+                <p>Select players who want to buy insurance:</p>
+                <div class="insurance-select-all">
+                    <input type="checkbox" id="select-all-bots" class="select-all-checkbox">
+                    <label for="select-all-bots">Select All Bots</label>
+                </div>
+                <div class="insurance-players" id="insurance-players">
+                    <!-- Player checkboxes will be generated here -->
+                </div>
+                <div class="insurance-actions">
+                    <button id="confirm-insurance-btn" class="insurance-btn confirm">Confirm Purchases</button>
+                    <button id="skip-insurance-btn" class="insurance-btn skip">Skip Insurance</button>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -1207,6 +1456,7 @@
         
         const GAME_STATES = {
             WAITING_FOR_ROUND_START: 'waiting_for_round_start',
+            INSURANCE_PURCHASE: 'insurance_purchase',
             CARD_SELECTION: 'card_selection',
             REVEALING_CARDS: 'revealing_cards',
             BANK_DRAW: 'bank_draw',
@@ -1233,9 +1483,13 @@
             HUMAN_PLAYERS: 1,
             BOT_PLAYERS: 8,
             INITIAL_BALANCE: 1000,
-            JACKPOT_RATE: 0.05,  // 5% from refund players
+            JACKPOT_RATE: 0.10,  // 10% from refund players
             BANK_RATE: 0.02,     // 2% from losing players
-            JACKPOT_PAYOUT_RATE: 0.90,
+            JACKPOT_PAYOUT_RATE: 0.80,        // 80% to hearts winner
+            INSURANCE_JACKPOT_RATE: 0.20,    // 20% stays as insurance
+            INSURANCE_COST: 10,               // Cost to buy insurance
+            INSURANCE_MIN_POT: 50,            // Minimum insurance pot to enable purchases
+            INSURANCE_TIMER: 10,              // Seconds to decide on insurance purchase
             JACKPOT_CARRYOVER_RATE: 0.10,
             CASCADE_RATE: 0.50,
             CARD_SELECTION_TIMEOUT: 10000,
@@ -1280,57 +1534,58 @@
                 }
             }
 
-            calculateWinValue(playerRank, bankRank, bankRate) {
-                const playerValue = this.cardValues[playerRank];
-                
-                // Convert card ranks to numeric values for comparison (A=1, 2=2, ..., 9=9, 10=10)
-                const playerNumericValue = playerRank === 'A' ? 1 : parseInt(playerRank);
-                const bankNumericValue = bankRank === 'A' ? 1 : (bankRank === '10' ? 10 : parseInt(bankRank));
-                
-                // Find the losing player (same rank as bank)
-                const losingPlayerValue = this.cardValues[bankRank];
-                
-                // Calculate winnings from losing player
-                const totalPool = losingPlayerValue;
-                const bankRake = totalPool * bankRate;
-                const availablePool = totalPool - bankRake;
-                
-                // Calculate cascade distribution (highest number first)
-                const winners = [];
-                this.cardRanks.forEach(rank => {
-                    const rankNumericValue = rank === 'A' ? 1 : parseInt(rank);
-                    if (rankNumericValue < bankNumericValue) {
-                        winners.push({ rank, numericValue: rankNumericValue });
-                    }
-                });
-                
-                // Sort winners by numeric value (highest first)
-                winners.sort((a, b) => b.numericValue - a.numericValue);
-                
-                // Distribute winnings in cascade order
-                let remainingPool = availablePool;
-                let playerWin = playerValue; // Player gets their bet back
-                
-                // Find player's position in cascade
-                const playerIndex = winners.findIndex(w => w.rank === playerRank);
-                
-                if (playerIndex >= 0) {
-                    // Distribute to all players before this player
-                    for (let i = 0; i < playerIndex; i++) {
-                        if (remainingPool > 0) {
-                            const share = Math.min(remainingPool * 0.5, remainingPool);
-                            remainingPool -= share;
-                        }
-                    }
-                    
-                    // This player gets whatever is left (for Ace, this is the remaining amount)
-                    if (remainingPool > 0) {
-                        playerWin += remainingPool;
-                    }
-                }
-                
-                return { type: 'win', value: Math.round(playerWin * 100) / 100 };
-            }
+             calculateWinValue(playerRank, bankRank, bankRate) {
+                 const playerValue = this.cardValues[playerRank];
+                 
+                 // Convert card ranks to numeric values for comparison (A=1, 2=2, ..., 9=9, 10=10)
+                 const playerNumericValue = playerRank === 'A' ? 1 : parseInt(playerRank);
+                 const bankNumericValue = bankRank === 'A' ? 1 : (bankRank === '10' ? 10 : parseInt(bankRank));
+                 
+                 // Find the losing player (same rank as bank)
+                 const losingPlayerValue = this.cardValues[bankRank];
+                 
+                 // Calculate available pool from losing player
+                 const totalPool = losingPlayerValue;
+                 const bankRake = totalPool * bankRate;
+                 const availablePool = totalPool - bankRake; // (1-x%) * losing player bet
+                 
+                 // Calculate cascade distribution (highest number first)
+                 const winners = [];
+                 this.cardRanks.forEach(rank => {
+                     const rankNumericValue = rank === 'A' ? 1 : parseInt(rank);
+                     if (rankNumericValue < bankNumericValue) {
+                         winners.push({ rank, numericValue: rankNumericValue });
+                     }
+                 });
+                 
+                 // Sort winners by numeric value (highest first for cascade)
+                 winners.sort((a, b) => b.numericValue - a.numericValue);
+                 
+                 // Player gets their bet back + share of available pool
+                 let playerWin = playerValue; // Bet returned
+                 
+                 // Find player's position in cascade
+                 const playerIndex = winners.findIndex(w => w.rank === playerRank);
+                 
+                 if (playerIndex >= 0 && winners.length > 0) {
+                     // Each winner gets 50% of remaining pool in cascade order
+                     let remainingPool = availablePool;
+                     
+                     for (let i = 0; i <= playerIndex; i++) {
+                         if (i === playerIndex) {
+                             // This is our player - they get 50% of remaining pool
+                             const share = remainingPool * 0.5;
+                             playerWin += share;
+                             break;
+                         } else {
+                             // Previous players take 50% of remaining pool
+                             remainingPool *= 0.5;
+                         }
+                     }
+                 }
+                 
+                 return { type: 'win', value: Math.round(playerWin * 100) / 100 };
+             }
 
             calculateBankTenWin(playerRank) {
                 if (playerRank !== '9') {
@@ -1421,6 +1676,7 @@
                     players: [],
                     bankCard: null,
                     jackpot: 0,
+                    insuranceJackpot: 0,
                     bankRake: 0,
                     previousLoser: null,
                     selectedCards: new Map(),
@@ -1443,7 +1699,8 @@
                     selectedCard: null,
                     result: null,
                     isBot: false,
-                    strategy: 'random'
+                    strategy: 'random',
+                    hasInsurance: false
                 });
 
                 // Create bot players
@@ -1456,11 +1713,13 @@
                         selectedCard: null,
                         result: null,
                         isBot: true,
-                        strategy: 'random'
+                        strategy: 'random',
+                        hasInsurance: false
                     });
                 }
 
                 this.gameData.jackpot = 0;
+                this.gameData.insuranceJackpot = 0;
                 this.gameData.bankRake = 0;
                 this.gameData.selectedCards.clear();
                 this.gameData.previousLoser = null;
@@ -1571,6 +1830,14 @@
                 if (this.currentState !== GAME_STATES.WAITING_FOR_ROUND_START && 
                     this.currentState !== GAME_STATES.ROUND_SUMMARY) {
                     console.log('Cannot start new round, invalid state:', this.currentState);
+                    
+                    // Emergency reset if stuck in insurance_purchase state
+                    if (this.currentState === GAME_STATES.INSURANCE_PURCHASE) {
+                        console.log('🚨 Emergency reset from insurance_purchase state');
+                        this.setState(GAME_STATES.WAITING_FOR_ROUND_START);
+                        return this.startNewRound(); // Retry
+                    }
+                    
                     return false;
                 }
 
@@ -1578,6 +1845,7 @@
                 this.gameData.players.forEach(player => {
                     player.selectedCard = null;
                     player.result = null;
+                    player.hasInsurance = false; // Reset insurance status
                 });
                 this.gameData.selectedCards.clear();
                 this.gameData.bankCard = null;
@@ -1585,7 +1853,8 @@
                 // Reset bank card display to card back
                 this.resetBankCardDisplay();
 
-                this.setState(GAME_STATES.CARD_SELECTION);
+                // Start with insurance purchase phase
+                this.setState(GAME_STATES.INSURANCE_PURCHASE);
                 console.log('New round started, state changed to:', this.currentState);
                 return true;
             }
@@ -1631,12 +1900,87 @@
 
             pauseGame() {
                 this.isPaused = true;
-                console.log('Game paused by admin');
+                console.log('Game paused by admin at state:', this.currentState);
+                
+                // Store the current state when pausing
+                this.pausedState = {
+                    state: this.currentState,
+                    timestamp: Date.now()
+                };
             }
 
             resumeGame() {
+                console.log('🔄 resumeGame() called');
+                console.log('🔄 Current isPaused:', this.isPaused);
+                console.log('🔄 Current pausedState:', this.pausedState);
+                
                 this.isPaused = false;
-                console.log('Game resumed by admin');
+                console.log('🔄 Game resumed by admin from state:', this.pausedState?.state || 'unknown');
+                
+                // Continue the game from where it was paused
+                if (this.pausedState) {
+                    console.log('🔄 Calling resumeFromPausedState()');
+                    this.resumeFromPausedState();
+                } else {
+                    console.log('🔄 No paused state found, game was not properly paused');
+                }
+            }
+
+            resumeFromPausedState() {
+                console.log('Resuming game from paused state:', this.pausedState.state);
+                
+                // Continue based on the state we were in when paused
+                switch (this.pausedState.state) {
+                    case GAME_STATES.CARD_SELECTION:
+                        console.log('Resuming card selection phase...');
+                        // Check if we need to continue with remaining players
+                        const gameData = this.getGameData();
+                        const playersToMove = gameData.players.filter(p => !p.selectedCard);
+                        
+                        if (playersToMove.length > 0) {
+                            // Continue with remaining players
+                            setTimeout(() => {
+                                if (window.uiController) {
+                                    console.log('🔄 Continuing with remaining players after resume');
+                                    window.uiController.continueWithRemainingPlayers();
+                                } else {
+                                    console.log('🔄 Cannot continue - no UI controller');
+                                }
+                            }, 500);
+                        } else {
+                            // All cards selected, move to reveal
+                            console.log('🔄 All cards selected, moving to reveal phase');
+                            this.setState(GAME_STATES.REVEALING_CARDS);
+                        }
+                        break;
+                        
+                    case GAME_STATES.REVEALING_CARDS:
+                        console.log('Resuming revealing cards phase...');
+                        // Continue with bank draw
+                        setTimeout(() => {
+                            if (window.uiController) {
+                                window.uiController.updateRevealingCardsState();
+                            }
+                        }, 500);
+                        break;
+                        
+                    case GAME_STATES.DISTRIBUTE_WINNINGS:
+                        console.log('Resuming distribute winnings phase...');
+                        // Continue with winnings distribution
+                        setTimeout(() => {
+                            if (window.uiController) {
+                                window.uiController.updateDistributeWinningsState();
+                            }
+                        }, 500);
+                        break;
+                        
+                    default:
+                        console.log('Resume: No specific action needed for state:', this.pausedState.state);
+                        break;
+                }
+                
+                // Clear the paused state
+                this.pausedState = null;
             }
 
             isGamePaused() {
@@ -1651,12 +1995,47 @@
                     return;
                 }
                 
+                if (amount > 0) {
+                    // Split positive contributions: 80% to main jackpot, 20% to insurance
+                    const mainJackpotAmount = amount * GAME_CONFIG.JACKPOT_PAYOUT_RATE; // 80%
+                    const insuranceAmount = amount * GAME_CONFIG.INSURANCE_JACKPOT_RATE; // 20%
+                    
+                    this.gameData.jackpot += mainJackpotAmount;
+                    this.gameData.insuranceJackpot += insuranceAmount;
+                    
+                    console.log(`Jackpot contribution split: $${amount.toFixed(2)} -> Main: $${mainJackpotAmount.toFixed(2)}, Insurance: $${insuranceAmount.toFixed(2)}`);
+                } else {
+                    // Negative amounts (withdrawals) only affect main jackpot
                 this.gameData.jackpot += amount;
+                }
+                
                 if (this.gameData.jackpot < 0) {
                     this.gameData.jackpot = 0;
                 }
+                if (this.gameData.insuranceJackpot < 0) {
+                    this.gameData.insuranceJackpot = 0;
+                }
+                
                 // Round to nearest integer
                 this.gameData.jackpot = Math.round(this.gameData.jackpot);
+                this.gameData.insuranceJackpot = Math.round(this.gameData.insuranceJackpot);
+            }
+
+            updateInsuranceJackpot(amount) {
+                // Safety check for NaN or undefined
+                if (isNaN(amount) || amount === undefined || amount === null) {
+                    console.error('Invalid insurance jackpot amount:', amount);
+                    console.error('Stack trace:', new Error().stack);
+                    return;
+                }
+                
+                this.gameData.insuranceJackpot += amount;
+                if (this.gameData.insuranceJackpot < 0) {
+                    this.gameData.insuranceJackpot = 0;
+                }
+                // Round to nearest integer
+                this.gameData.insuranceJackpot = Math.round(this.gameData.insuranceJackpot);
+                console.log('Insurance jackpot updated:', this.gameData.insuranceJackpot);
             }
 
             updateBankRake(amount) {
@@ -1743,6 +2122,11 @@
         class GameLogic {
             constructor(stateManager) {
                 this.stateManager = stateManager;
+                this.uiController = null; // Will be set later
+            }
+            
+            setUIController(uiController) {
+                this.uiController = uiController;
             }
 
             generateRandomCard() {
@@ -1812,8 +2196,31 @@
                 
                 this.distributeCascadeWinnings(bankCard, betValue);
                 
+                console.log(`🎰 Checking jackpot conditions:`);
+                console.log(`🎰 Losing player card: ${losingPlayer.selectedCard.rank} of ${losingPlayer.selectedCard.suit}`);
+                console.log(`🎰 Bank card: ${bankCard.rank} of ${bankCard.suit}`);
+                console.log(`🎰 Both hearts? Player: ${losingPlayer.selectedCard.suit === 'hearts'}, Bank: ${bankCard.suit === 'hearts'}`);
+                
                 if (losingPlayer.selectedCard.suit === 'hearts' && bankCard.suit === 'hearts') {
+                    console.log(`🎰 JACKPOT CONDITIONS MET! Calling processJackpotPayout...`);
                     this.processJackpotPayout(losingPlayer);
+                } else {
+                    console.log(`🎰 No jackpot - conditions not met`);
+                }
+                
+                // Check for insurance win (same rank AND suit as bank)
+                console.log(`🛡️ Checking insurance conditions:`);
+                console.log(`🛡️ Player has insurance: ${losingPlayer.hasInsurance}`);
+                console.log(`🛡️ Same rank? Player: ${losingPlayer.selectedCard.rank}, Bank: ${bankCard.rank}`);
+                console.log(`🛡️ Same suit? Player: ${losingPlayer.selectedCard.suit}, Bank: ${bankCard.suit}`);
+                
+                if (losingPlayer.hasInsurance && 
+                    losingPlayer.selectedCard.rank === bankCard.rank && 
+                    losingPlayer.selectedCard.suit === bankCard.suit) {
+                    console.log(`🛡️ INSURANCE CONDITIONS MET! Calling processInsurancePayout...`);
+                    this.processInsurancePayout(losingPlayer);
+                } else {
+                    console.log(`🛡️ No insurance win - conditions not met`);
                 }
             }
 
@@ -2081,7 +2488,7 @@
                         console.log(`Special Rule 2: Adding remaining ${jackpotAmount.toFixed(2)} to jackpot`);
                         this.stateManager.updateJackpot(jackpotAmount);
                         remainingPool = 0;
-                    } else {
+                } else {
                         // No Ace winner - all goes to jackpot
                         console.log(`Special Rule 2: No Ace winner - adding ${remainingPool} to jackpot`);
                         this.stateManager.updateJackpot(remainingPool);
@@ -2159,51 +2566,294 @@
                 const jackpotAmount = gameData.jackpot;
                 
                 if (jackpotAmount > 0) {
-                    const payout = jackpotAmount * GAME_CONFIG.JACKPOT_PAYOUT_RATE;
-                    const carryover = jackpotAmount * GAME_CONFIG.JACKPOT_CARRYOVER_RATE;
+                    // Player gets the full main jackpot (insurance was already separated during contributions)
+                    const payout = jackpotAmount;
                     
                     this.stateManager.updatePlayerBalance(losingPlayer.id, payout);
-                    this.stateManager.updatePlayer(losingPlayer.id, { result: RESULT_TYPES.JACKPOT });
-                    this.stateManager.updateJackpot(-jackpotAmount + carryover);
+                    this.stateManager.updatePlayer(losingPlayer.id, { 
+                        result: RESULT_TYPES.JACKPOT,
+                        jackpotAmount: payout 
+                    });
+                    
+                    // Clear main jackpot (insurance jackpot stays untouched)
+                    this.stateManager.updateJackpot(-jackpotAmount);
+                    
+                    console.log(`🎰 JACKPOT WON! Player ${losingPlayer.id} (${losingPlayer.name}) gets full main jackpot: $${payout}`);
+                    console.log(`🎰 Player isHuman: ${losingPlayer.isHuman}`);
+                    console.log(`🎰 window.uiController exists: ${!!window.uiController}`);
+                    console.log(`🎰 soundManager exists: ${!!(window.uiController && window.uiController.soundManager)}`);
+                    
+                    // Play jackpot sound and animation immediately
+                    if (this.uiController && this.uiController.soundManager) {
+                        console.log(`🎰 About to play jackpot sound...`);
+                        if (losingPlayer.isHuman) {
+                            console.log(`🎰 Playing HUMAN jackpot sound`);
+                            this.uiController.soundManager.playSound('jackpot');
+                        } else {
+                            console.log(`🎰 Playing BOT jackpot sound`);
+                            this.uiController.soundManager.playSound('botJackpot');
+                        }
+                    } else {
+                        console.error(`🎰 Cannot play jackpot sound - missing uiController or soundManager`);
+                        console.error(`🎰 this.uiController: ${!!this.uiController}`);
+                        console.error(`🎰 soundManager: ${!!(this.uiController && this.uiController.soundManager)}`);
+                    }
+                    
+                    // Create jackpot animation immediately
+                    if (this.uiController) {
+                        console.log(`🎰 About to create jackpot animation for player ${losingPlayer.id} with amount $${payout}`);
+                        this.uiController.createJackpotAnimation(losingPlayer.id, payout);
+                    } else {
+                        console.error(`🎰 Cannot create jackpot animation - missing uiController`);
+                    }
                 }
+            }
+
+            processInsurancePayout(winningPlayer) {
+                const gameData = this.stateManager.getGameData();
+                const insurancePot = gameData.insuranceJackpot;
+                
+                if (insurancePot > 0) {
+                    console.log(`🛡️ INSURANCE WON! Player ${winningPlayer.id} (${winningPlayer.name}) gets insurance pot: $${insurancePot}`);
+                    
+                    // Player gets the full insurance pot
+                    this.stateManager.updatePlayerBalance(winningPlayer.id, insurancePot);
+                    this.stateManager.updatePlayer(winningPlayer.id, { 
+                        result: 'INSURANCE_WIN',
+                        insuranceAmount: insurancePot 
+                    });
+                    
+                    // Clear insurance pot
+                    this.stateManager.updateInsuranceJackpot(-insurancePot);
+                    
+                    // Play insurance win sound and animation immediately
+                    if (this.uiController && this.uiController.soundManager) {
+                        console.log(`🛡️ Playing insurance win sound`);
+                        this.uiController.soundManager.playSound('insuranceWin');
+                    } else {
+                        console.error(`🛡️ Cannot play insurance sound - missing uiController or soundManager`);
+                    }
+                    
+                    // Create insurance win animation
+                    if (this.uiController) {
+                        console.log(`🛡️ Creating insurance win animation for player ${winningPlayer.id} with amount $${insurancePot}`);
+                        this.uiController.createInsuranceWinAnimation(winningPlayer.id, insurancePot);
+                    } else {
+                        console.error(`🛡️ Cannot create insurance animation - missing uiController`);
+                    }
+                }
+            }
+
+            proceedWithoutInsurance() {
+                console.log('🛡️ Proceeding without insurance');
+                this.stateManager.setState(GAME_STATES.CARD_SELECTION);
+            }
+
+            proceedToCardSelection() {
+                console.log('🛡️ Proceeding to card selection phase');
+                this.stateManager.setState(GAME_STATES.CARD_SELECTION);
             }
 
             getTurnOrder() {
                 const gameData = this.stateManager.getGameData();
                 const previousLoser = this.stateManager.getPreviousLoser();
+                const turnOrderType = document.getElementById('turn-order-select')?.value || 'A';
                 
-                console.log('getTurnOrder called, previousLoser:', previousLoser);
+                console.log('getTurnOrder called, previousLoser:', previousLoser, 'turnOrderType:', turnOrderType);
                 
+                switch (turnOrderType) {
+                    case 'A': // Previous loser first, then lowest balance
+                        return this.getTurnOrderA(gameData, previousLoser);
+                    case 'B': // Previous loser first, then highest balance
+                        return this.getTurnOrderB(gameData, previousLoser);
+                    case 'C': // Clockwise order with marker
+                        return this.getTurnOrderC(gameData);
+                    case 'D': // Random order
+                        return this.getTurnOrderD(gameData);
+                    default:
+                        return this.getTurnOrderA(gameData, previousLoser);
+                }
+            }
+
+            getTurnOrderA(gameData, previousLoser) {
+                // Original logic: Previous loser first, then lowest balance
                 if (previousLoser !== null) {
-                    // Previous loser goes first
                     const previousLoserPlayer = this.stateManager.getPlayer(previousLoser);
                     const otherPlayers = gameData.players.filter(p => p.id !== previousLoser);
                     
-                    // Sort other players by balance (lowest first)
-                    // If balances are equal, randomize the order
                     otherPlayers.sort((a, b) => {
                         if (a.balance === b.balance) {
-                            // Random order when balances are equal
                             return Math.random() - 0.5;
                         }
                         return a.balance - b.balance;
                     });
                     
                     const turnOrder = [previousLoserPlayer, ...otherPlayers].filter(p => p !== null);
-                    console.log('Turn order (previous loser first, others by balance):', turnOrder.map(p => ({ id: p.id, name: p.name, isHuman: p.isHuman, balance: p.balance })));
+                    console.log('Turn order A (previous loser first, others by lowest balance):', turnOrder.map(p => ({ id: p.id, name: p.name, balance: p.balance })));
                     return turnOrder;
                 } else {
-                    // First round - sort all players by balance (lowest first)
-                    // If balances are equal, randomize the order
                     const turnOrder = [...gameData.players].sort((a, b) => {
                         if (a.balance === b.balance) {
-                            // Random order when balances are equal
                             return Math.random() - 0.5;
                         }
                         return a.balance - b.balance;
                     });
-                    console.log('Turn order (first round, by balance with random tie-breaker):', turnOrder.map(p => ({ id: p.id, name: p.name, isHuman: p.isHuman, balance: p.balance })));
+                    console.log('Turn order A (first round, by lowest balance):', turnOrder.map(p => ({ id: p.id, name: p.name, balance: p.balance })));
                     return turnOrder;
+                }
+            }
+
+            getTurnOrderB(gameData, previousLoser) {
+                // Previous loser first, then highest balance
+                if (previousLoser !== null) {
+                    const previousLoserPlayer = this.stateManager.getPlayer(previousLoser);
+                    const otherPlayers = gameData.players.filter(p => p.id !== previousLoser);
+                    
+                    otherPlayers.sort((a, b) => {
+                        if (a.balance === b.balance) {
+                            return Math.random() - 0.5;
+                        }
+                        return b.balance - a.balance; // Highest first (reversed)
+                    });
+                    
+                    const turnOrder = [previousLoserPlayer, ...otherPlayers].filter(p => p !== null);
+                    console.log('Turn order B (previous loser first, others by highest balance):', turnOrder.map(p => ({ id: p.id, name: p.name, balance: p.balance })));
+                    return turnOrder;
+                } else {
+                    const turnOrder = [...gameData.players].sort((a, b) => {
+                        if (a.balance === b.balance) {
+                            return Math.random() - 0.5;
+                        }
+                        return b.balance - a.balance; // Highest first (reversed)
+                    });
+                    console.log('Turn order B (first round, by highest balance):', turnOrder.map(p => ({ id: p.id, name: p.name, balance: p.balance })));
+                    return turnOrder;
+                }
+            }
+
+            getTurnOrderC(gameData) {
+                // Clockwise order with marker
+                if (this.clockwiseStartPlayer === undefined) {
+                    // First round - random starting player
+                    this.clockwiseStartPlayer = Math.floor(Math.random() * GAME_CONFIG.TOTAL_PLAYERS);
+                    console.log('First round clockwise, random start player:', this.clockwiseStartPlayer);
+                }
+                
+                // Create clockwise order starting from the designated player
+                // Use player IDs 0-8 in clockwise order
+                const turnOrder = [];
+                for (let i = 0; i < GAME_CONFIG.TOTAL_PLAYERS; i++) {
+                    const playerId = (this.clockwiseStartPlayer + i) % GAME_CONFIG.TOTAL_PLAYERS;
+                    const player = gameData.players.find(p => p.id === playerId);
+                    if (player) {
+                        turnOrder.push(player);
+                    }
+                }
+                
+                console.log('Turn order C (clockwise from player', this.clockwiseStartPlayer + '):', turnOrder.map(p => ({ id: p.id, name: p.name })));
+                return turnOrder;
+            }
+
+            getTurnOrderD(gameData) {
+                // Completely random order
+                const turnOrder = [...gameData.players].sort(() => Math.random() - 0.5);
+                console.log('Turn order D (random):', turnOrder.map(p => ({ id: p.id, name: p.name })));
+                return turnOrder;
+            }
+
+            showTurnMarker(playerId) {
+                // Show marker only for clockwise mode (variant C)
+                const turnOrderType = document.getElementById('turn-order-select')?.value || 'A';
+                
+                if (turnOrderType === 'C') {
+                    // For clockwise mode, add current-turn class to current player
+                    this.clearCurrentTurnMarkers();
+                    
+                    const marker = document.getElementById(`turn-marker-${playerId}`);
+                    if (marker) {
+                        // Always show marker and add current-turn class for current player
+                        marker.style.display = 'block';
+                        marker.classList.add('current-turn');
+                        console.log(`Showing current-turn marker for player ${playerId} - Clockwise mode`);
+                    }
+                } else {
+                    // For variants A, B, D - no markers at all
+                    console.log(`No turn markers for mode ${turnOrderType} (player ${playerId})`);
+                }
+            }
+
+            clearCurrentTurnMarkers() {
+                // Remove current-turn class and hide non-first-player markers
+                const turnOrderType = document.getElementById('turn-order-select')?.value || 'A';
+                
+                if (turnOrderType === 'C') {
+                    // In clockwise mode, keep first player marker visible, hide others
+                    const turnOrder = this.getTurnOrder();
+                    const firstPlayer = turnOrder.length > 0 ? turnOrder[0] : null;
+                    
+                    for (let i = 0; i < GAME_CONFIG.TOTAL_PLAYERS; i++) {
+                        const marker = document.getElementById(`turn-marker-${i}`);
+                        if (marker) {
+                            marker.classList.remove('current-turn');
+                            
+                            // Hide marker if it's not the first player
+                            if (!firstPlayer || i !== firstPlayer.id) {
+                                marker.style.display = 'none';
+                            }
+                        }
+                    }
+                } else {
+                    // For other modes, just remove current-turn class
+                    for (let i = 0; i < GAME_CONFIG.TOTAL_PLAYERS; i++) {
+                        const marker = document.getElementById(`turn-marker-${i}`);
+                        if (marker) {
+                            marker.classList.remove('current-turn');
+                        }
+                    }
+                }
+            }
+
+            hideAllTurnMarkers() {
+                // Hide all turn markers
+                for (let i = 0; i < GAME_CONFIG.TOTAL_PLAYERS; i++) {
+                    const marker = document.getElementById(`turn-marker-${i}`);
+                    if (marker) {
+                        marker.style.display = 'none';
+                    }
+                }
+            }
+
+            updateClockwiseStartPlayer() {
+                // For clockwise mode, move to next player after each round
+                const turnOrderType = document.getElementById('turn-order-select')?.value || 'A';
+                if (turnOrderType === 'C' && this.clockwiseStartPlayer !== undefined) {
+                    this.clockwiseStartPlayer = (this.clockwiseStartPlayer + 1) % GAME_CONFIG.TOTAL_PLAYERS;
+                    console.log('Updated clockwise start player to:', this.clockwiseStartPlayer);
+                }
+            }
+
+            showFirstPlayerMarker() {
+                // Only show first player marker for clockwise mode (variant C)
+                const turnOrderType = document.getElementById('turn-order-select')?.value || 'A';
+                
+                if (turnOrderType !== 'C') {
+                    // For variants A, B, D - hide all markers, no first player indication needed
+                    this.hideAllTurnMarkers();
+                    return;
+                }
+                
+                // Show marker for the first player in clockwise turn order for the entire round
+                const turnOrder = this.getTurnOrder();
+                if (turnOrder.length > 0) {
+                    const firstPlayer = turnOrder[0];
+                    this.hideAllTurnMarkers();
+                    
+                    const marker = document.getElementById(`turn-marker-${firstPlayer.id}`);
+                    if (marker) {
+                        marker.style.display = 'block';
+                        // Don't add current-turn class - this is the persistent first player marker
+                        console.log(`Showing first player marker for player ${firstPlayer.id} (${firstPlayer.name}) - Clockwise mode`);
+                    }
                 }
             }
 
@@ -2277,6 +2927,12 @@
                 
                 // Jackpot sound (trumpetljud)
                 this.sounds.jackpot = this.createTrumpetSound();
+                
+                // Bot jackpot sound (different celebration sound)
+                this.sounds.botJackpot = this.createBotJackpotSound();
+                
+                // Insurance win sound (protective/secure sound)
+                this.sounds.insuranceWin = this.createInsuranceWinSound();
                 
                 // Bank draw sound (dramatic tone)
                 this.sounds.bankDraw = this.createTone(200, 0.5, 'triangle');
@@ -2398,6 +3054,87 @@
                     
                     oscillator.start(this.audioContext.currentTime);
                     oscillator.stop(this.audioContext.currentTime + duration);
+                };
+            }
+
+            createBotJackpotSound() {
+                return () => {
+                    console.log('🤖 Playing bot jackpot sound!');
+                    if (!this.soundsEnabled || !this.audioContext) {
+                        console.log('Bot jackpot sound disabled - soundsEnabled:', this.soundsEnabled, 'audioContext:', !!this.audioContext);
+                        return;
+                    }
+                    
+                    const duration = 2.0;
+                    
+                    // Create multiple oscillators for rich bot celebration sound
+                    const createOscillator = (freq, type, delay = 0) => {
+                        const osc = this.audioContext.createOscillator();
+                        const gain = this.audioContext.createGain();
+                        
+                        osc.frequency.setValueAtTime(freq, this.audioContext.currentTime + delay);
+                        osc.type = type;
+                        
+                        gain.gain.setValueAtTime(0.15, this.audioContext.currentTime + delay);
+                        gain.gain.exponentialRampToValueAtTime(0.01, this.audioContext.currentTime + delay + duration);
+                        
+                        osc.connect(gain);
+                        gain.connect(this.audioContext.destination);
+                        
+                        osc.start(this.audioContext.currentTime + delay);
+                        osc.stop(this.audioContext.currentTime + delay + duration);
+                    };
+                    
+                    // Bot celebration melody - more electronic/digital sounding
+                    createOscillator(523, 'square', 0);      // C5
+                    createOscillator(659, 'square', 0.2);    // E5
+                    createOscillator(784, 'square', 0.4);    // G5
+                    createOscillator(1047, 'square', 0.6);   // C6
+                    createOscillator(1319, 'square', 0.8);   // E6
+                    
+                    // Add some harmonic richness
+                    createOscillator(262, 'sine', 0.1);     // Lower octave
+                    createOscillator(330, 'sine', 0.3);     // Harmony
+                };
+            }
+
+            createInsuranceWinSound() {
+                return () => {
+                    console.log('🛡️ Playing insurance win sound!');
+                    if (!this.soundsEnabled || !this.audioContext) {
+                        console.log('Insurance win sound disabled - soundsEnabled:', this.soundsEnabled, 'audioContext:', !!this.audioContext);
+                        return;
+                    }
+                    
+                    const duration = 1.5;
+                    
+                    // Create protective/secure sounding melody
+                    const createOscillator = (freq, type, delay = 0, vol = 0.1) => {
+                        const osc = this.audioContext.createOscillator();
+                        const gain = this.audioContext.createGain();
+                        
+                        osc.frequency.setValueAtTime(freq, this.audioContext.currentTime + delay);
+                        osc.type = type;
+                        
+                        gain.gain.setValueAtTime(vol, this.audioContext.currentTime + delay);
+                        gain.gain.exponentialRampToValueAtTime(0.01, this.audioContext.currentTime + delay + duration);
+                        
+                        osc.connect(gain);
+                        gain.connect(this.audioContext.destination);
+                        
+                        osc.start(this.audioContext.currentTime + delay);
+                        osc.stop(this.audioContext.currentTime + delay + duration);
+                    };
+                    
+                    // Insurance protection melody - stable, secure tones
+                    createOscillator(440, 'sine', 0, 0.15);      // A4 - foundation
+                    createOscillator(554, 'sine', 0.2, 0.12);    // C#5 - security
+                    createOscillator(659, 'sine', 0.4, 0.12);    // E5 - protection
+                    createOscillator(880, 'sine', 0.6, 0.15);    // A5 - completion
+                    
+                    // Add harmonic richness for "shield" effect
+                    createOscillator(220, 'triangle', 0.1, 0.08); // Lower octave
+                    createOscillator(330, 'triangle', 0.3, 0.08); // Harmony
                 };
             }
             
@@ -2645,8 +3382,15 @@
                 this.animationQueue = [];
                 this.isAnimating = false;
                 
+                // Insurance system
+                this.insuranceTimer = null;
+                this.insuranceTimeLeft = 0;
+                this.humanInsuranceTimer = null;
+                this.humanCountdownInterval = null;
+                
                 this.initializeElements();
                 this.setupEventListeners();
+                this.initializeInsuranceSettings();
                 this.setupStateListeners();
             }
 
@@ -2657,6 +3401,7 @@
                     playerSeats: document.querySelector('.player-seats'),
                     bankCard: document.getElementById('bank-card'),
                     jackpotAmount: document.getElementById('jackpot-amount'),
+                    insuranceAmount: document.getElementById('insurance-amount'),
                     bankHistoryList: document.getElementById('bank-history-list'),
                     startRoundBtn: document.getElementById('start-round-btn'),
                     adminPanelBtn: document.getElementById('admin-panel-btn'),
@@ -2667,10 +3412,23 @@
                     expectedBalance: document.getElementById('expected-balance'),
                     playerBalances: document.getElementById('player-balances'),
                     adminJackpot: document.getElementById('admin-jackpot'),
+                    adminInsurance: document.getElementById('admin-insurance'),
                     adminBankRake: document.getElementById('admin-bank-rake'),
                     adminBankRakeDisplay: document.getElementById('admin-bank-rake-display'),
                     adminRound: document.getElementById('admin-round'),
                     currentRound: document.getElementById('current-round'),
+                    
+                    // Insurance elements
+                    insuranceModal: document.getElementById('insurance-modal'),
+                    insurancePlayers: document.getElementById('insurance-players'),
+                    insuranceCountdown: document.getElementById('insurance-countdown'),
+                    modalInsuranceCost: document.getElementById('modal-insurance-cost'),
+                    modalInsurancePot: document.getElementById('modal-insurance-pot'),
+                    confirmInsuranceBtn: document.getElementById('confirm-insurance-btn'),
+                    skipInsuranceBtn: document.getElementById('skip-insurance-btn'),
+                    insuranceTimer: document.getElementById('insurance-timer'),
+                    insuranceCostInput: document.getElementById('insurance-cost'),
+                    insuranceMinPotInput: document.getElementById('insurance-min-pot'),
                 };
                 
                 console.log('UI elements initialized:', this.elements);
@@ -2720,6 +3478,20 @@
                 const closeRulesBtn = document.getElementById('close-rules-btn');
                 if (closeRulesBtn) {
                     closeRulesBtn.addEventListener('click', () => this.hideRules());
+                }
+
+                // Turn order select
+                const turnOrderSelect = document.getElementById('turn-order-select');
+                if (turnOrderSelect) {
+                    turnOrderSelect.addEventListener('change', (e) => {
+                        console.log('Turn order changed to:', e.target.value);
+                        // Hide all markers when changing turn order
+                        this.gameLogic.hideAllTurnMarkers();
+                        // Reset clockwise start player for new mode
+                        if (e.target.value === 'C') {
+                            this.gameLogic.clockwiseStartPlayer = undefined;
+                        }
+                    });
                 }
 
                 // Matrix button
@@ -2791,20 +3563,214 @@
                 const resumeBtn = document.getElementById('resume-game-btn');
                 
                 if (pauseBtn) {
-                    pauseBtn.addEventListener('click', () => {
-                        this.stateManager.pauseGame();
-                        console.log('Game paused by admin');
+                    pauseBtn.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        if (!this.stateManager.isGamePaused()) {
+                            console.log('⏸️ Pause button clicked - pausing game');
+                            this.stateManager.pauseGame();
+                            this.updatePauseButtons();
+                            console.log('Game paused by admin');
+                        } else {
+                            console.log('⏸️ Game already paused, ignoring pause button click');
+                        }
                     });
                 }
                 
                 if (resumeBtn) {
-                    resumeBtn.addEventListener('click', () => {
-                        this.stateManager.resumeGame();
-                        console.log('Game resumed by admin');
+                    resumeBtn.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        if (this.stateManager.isGamePaused()) {
+                            console.log('🔄 Resume button clicked - resuming game');
+                            console.log('🔄 Game paused state:', this.stateManager.isGamePaused());
+                            console.log('🔄 Paused state data:', this.stateManager.pausedState);
+                            this.stateManager.resumeGame();
+                            this.updatePauseButtons();
+                            console.log('🔄 Game resumed by admin');
+                        } else {
+                            console.log('🔄 Game not paused, ignoring resume button click');
+                        }
                     });
                 }
                 
+                // Insurance event listeners
+                if (this.elements.confirmInsuranceBtn) {
+                    this.elements.confirmInsuranceBtn.addEventListener('click', () => {
+                        this.confirmInsurancePurchases();
+                    });
+                }
+                
+                if (this.elements.skipInsuranceBtn) {
+                    this.elements.skipInsuranceBtn.addEventListener('click', () => {
+                        this.skipInsurance();
+                    });
+                }
+                
+                // Insurance timer setting
+                if (this.elements.insuranceTimer) {
+                    this.elements.insuranceTimer.addEventListener('change', (e) => {
+                        const newTimer = parseInt(e.target.value);
+                        if (newTimer >= 5 && newTimer <= 30) {
+                            console.log(`Insurance timer updated to ${newTimer} seconds`);
+                        }
+                    });
+                }
+                
+                // Insurance cost setting
+                if (this.elements.insuranceCostInput) {
+                    this.elements.insuranceCostInput.addEventListener('change', (e) => {
+                        const newCost = parseInt(e.target.value);
+                        if (newCost >= 1 && newCost <= 100) {
+                            GAME_CONFIG.INSURANCE_COST = newCost;
+                            console.log(`Insurance cost updated to $${newCost}`);
+                        } else {
+                            e.target.value = GAME_CONFIG.INSURANCE_COST; // Reset to current value
+                        }
+                    });
+                }
+                
+                // Insurance minimum pot setting
+                if (this.elements.insuranceMinPotInput) {
+                    this.elements.insuranceMinPotInput.addEventListener('change', (e) => {
+                        const newMinPot = parseInt(e.target.value);
+                        if (newMinPot >= 10 && newMinPot <= 500) {
+                            GAME_CONFIG.INSURANCE_MIN_POT = newMinPot;
+                            console.log(`Insurance minimum pot updated to $${newMinPot}`);
+                        } else {
+                            e.target.value = GAME_CONFIG.INSURANCE_MIN_POT; // Reset to current value
+                        }
+                    });
+                }
+                
+                // Human insurance icon click handlers
+                this.setupHumanInsuranceListeners();
+                
                 console.log('Event listeners set up');
+            }
+            
+            setupHumanInsuranceListeners() {
+                // Set up click handlers for human insurance icons (will be called after seats are created)
+                document.addEventListener('click', (e) => {
+                    // Check if click is on the icon or any of its children
+                    const icon = e.target.closest('.human-insurance-icon');
+                    if (icon && !icon.classList.contains('disabled')) {
+                        const playerId = parseInt(icon.id.replace('human-insurance-', ''));
+                        console.log(`Human insurance icon clicked for player ${playerId}`);
+                        this.handleHumanInsuranceClick(playerId);
+                    }
+                });
+            }
+            
+            handleHumanInsuranceClick(playerId) {
+                console.log(`🛡️ handleHumanInsuranceClick called for player ${playerId}`);
+                const gameData = this.stateManager.getGameData();
+                const player = gameData.players.find(p => p.id === playerId);
+                
+                console.log(`Player found: ${player ? player.name : 'NOT FOUND'}`);
+                console.log(`Current state: ${this.stateManager.getState()}`);
+                console.log(`Insurance purchase state: ${GAME_STATES.INSURANCE_PURCHASE}`);
+                
+                if (!player) {
+                    console.log('Early return: player not found');
+                    return;
+                }
+                
+                // Check if insurance phase is active
+                const currentState = this.stateManager.getState();
+                console.log(`Current state check: ${currentState} === ${GAME_STATES.INSURANCE_PURCHASE}? ${currentState === GAME_STATES.INSURANCE_PURCHASE}`);
+                if (currentState !== GAME_STATES.INSURANCE_PURCHASE) {
+                    console.log('Insurance can only be purchased during insurance phase');
+                    console.log(`Current state: ${currentState}, Required state: ${GAME_STATES.INSURANCE_PURCHASE}`);
+                    return;
+                }
+                
+                // Check if player can afford insurance
+                if (player.balance < GAME_CONFIG.INSURANCE_COST) {
+                    console.log(`Player ${player.name} cannot afford insurance ($${GAME_CONFIG.INSURANCE_COST})`);
+                    return;
+                }
+                
+                // Toggle insurance purchase
+                if (player.hasInsurance) {
+                    // Cancel insurance
+                    this.stateManager.updatePlayer(playerId, { hasInsurance: false });
+                    this.stateManager.updatePlayerBalance(playerId, GAME_CONFIG.INSURANCE_COST); // Refund
+                    console.log(`${player.name} cancelled insurance purchase`);
+                } else {
+                    // Buy insurance
+                    this.stateManager.updatePlayer(playerId, { hasInsurance: true });
+                    this.stateManager.updatePlayerBalance(playerId, -GAME_CONFIG.INSURANCE_COST);
+                    console.log(`${player.name} purchased insurance for $${GAME_CONFIG.INSURANCE_COST}`);
+                }
+                
+                // Update player display
+                this.updatePlayerDisplay(playerId);
+                
+                // Update button text to show current state
+                const buyBtn = document.getElementById('buy-insurance-btn');
+                if (buyBtn) {
+                    const updatedPlayer = this.stateManager.getGameData().players.find(p => p.id === playerId);
+                    if (updatedPlayer && updatedPlayer.hasInsurance) {
+                        buyBtn.textContent = 'Cancel Insurance';
+                        buyBtn.style.background = '#27ae60';
+                    } else {
+                        buyBtn.textContent = 'Buy Insurance';
+                        buyBtn.style.background = '#e74c3c';
+                    }
+                }
+            }
+            
+            initializeInsuranceSettings() {
+                // Initialize insurance setting inputs with current GAME_CONFIG values
+                if (this.elements.insuranceCostInput) {
+                    this.elements.insuranceCostInput.value = GAME_CONFIG.INSURANCE_COST;
+                }
+                if (this.elements.insuranceMinPotInput) {
+                    this.elements.insuranceMinPotInput.value = GAME_CONFIG.INSURANCE_MIN_POT;
+                }
+                if (this.elements.insuranceTimer) {
+                    this.elements.insuranceTimer.value = GAME_CONFIG.INSURANCE_TIMER;
+                }
+            }
+
+            updatePauseButtons() {
+                const pauseBtn = document.getElementById('pause-game-btn');
+                const resumeBtn = document.getElementById('resume-game-btn');
+                const gameState = document.getElementById('game-state');
+                
+                if (this.stateManager.isGamePaused()) {
+                    if (pauseBtn) {
+                        pauseBtn.disabled = true;
+                        pauseBtn.textContent = 'Game Paused';
+                        pauseBtn.style.backgroundColor = '#666';
+                    }
+                    if (resumeBtn) {
+                        resumeBtn.disabled = false;
+                        resumeBtn.textContent = 'Resume Game';
+                        resumeBtn.style.backgroundColor = '#28a745';
+                    }
+                    if (gameState) {
+                        gameState.textContent = '⏸️ GAME PAUSED - Click Resume to continue';
+                        gameState.style.color = '#ff6b6b';
+                        gameState.style.fontWeight = 'bold';
+                    }
+                } else {
+                    if (pauseBtn) {
+                        pauseBtn.disabled = false;
+                        pauseBtn.textContent = 'Pause Game';
+                        pauseBtn.style.backgroundColor = '#dc3545';
+                    }
+                    if (resumeBtn) {
+                        resumeBtn.disabled = true;
+                        resumeBtn.textContent = 'Game Running';
+                        resumeBtn.style.backgroundColor = '#666';
+                    }
+                    if (gameState) {
+                        gameState.style.color = '';
+                        gameState.style.fontWeight = '';
+                    }
+                }
             }
 
             showRules() {
@@ -2948,6 +3914,7 @@
                     seat.style.top = `${y}px`;
                     
                     seat.innerHTML = `
+                        <div class="turn-marker" id="turn-marker-${player.id}"></div>
                         <div class="player-name">${player.name}</div>
                         <div class="player-balance">$${player.balance}</div>
                         <div class="bot-controls" id="bot-controls-${player.id}">
@@ -3119,18 +4086,18 @@
                         if (cardRankElement) {
                             // Create new event handler for the card-rank element
                             cardRankElement._cardClickHandler = (e) => {
-                                console.log('=== HUMAN PLAYER CARD CLICKED ===');
-                                console.log('Card clicked, calling selectTableCard with playerId:', playerId);
+                            console.log('=== HUMAN PLAYER CARD CLICKED ===');
+                            console.log('Card clicked, calling selectTableCard with playerId:', playerId);
                                 console.log('Card element:', card);
                                 console.log('Card rank:', card.dataset.rank);
                                 console.log('Event target:', e.target);
                                 console.log('Event currentTarget:', e.currentTarget);
                                 console.log('Player ID from handler:', playerId);
                                 console.log('Game state at click:', this.stateManager.getState());
-                                e.preventDefault();
-                                e.stopPropagation();
-                                this.selectTableCard(card, playerId);
-                            };
+                            e.preventDefault();
+                            e.stopPropagation();
+                            this.selectTableCard(card, playerId);
+                        };
                             cardRankElement.addEventListener('click', cardRankElement._cardClickHandler, true); // Use capture phase
                             console.log(`Added click handler to card-rank element ${rank} for human player`);
                         } else {
@@ -3664,34 +4631,24 @@
                     }
                     
                     if (player.selectedCard) {
-                        // Cards are now revealed immediately when they reach player seats
-                        // This function is mainly for updating balance and adding selected class
-                        cardElement.style.display = 'flex';
                         // Only add selected class if no result class is present
                         if (!seat.classList.contains('win') && !seat.classList.contains('loss') && 
                             !seat.classList.contains('refund') && !seat.classList.contains('jackpot')) {
-                            seat.classList.add('selected');
+                        seat.classList.add('selected');
                         }
                         
-                        // Ensure the card is actually displayed in the player's card area
+                        // Prepare the card area but don't show the card yet (animation will handle display)
                         const playerCardArea = seat.querySelector('.player-card');
                         if (playerCardArea) {
-                            // Always ensure white background for selected cards
-                            playerCardArea.style.background = 'linear-gradient(145deg, #fff, #f0f0f0)';
-                            playerCardArea.style.border = '2px solid #333';
-                            playerCardArea.style.color = '#333';
+                            // Keep the card area empty - animation will populate it
+                            playerCardArea.innerHTML = '';
+                            // Reset any previous styling
+                            playerCardArea.style.background = '';
+                            playerCardArea.style.border = '';
+                            playerCardArea.style.color = '';
+                            playerCardArea.classList.remove('hearts-jackpot');
                             
-                            // If the card area is empty, populate it with the selected card
-                            if (!playerCardArea.innerHTML) {
-                                const cardValue = this.getBetValue(player.selectedCard);
-                                playerCardArea.innerHTML = `
-                                    <div class="card-content">
-                                        <div class="card-rank">${player.selectedCard.rank}</div>
-                                        <div class="card-suit">${this.getSuitSymbol(player.selectedCard.suit)}</div>
-                                        <div class="card-value">$${cardValue}</div>
-                                    </div>
-                                `;
-                            }
+                            console.log(`🎴 Card area prepared for player ${playerId} (${player.name}) - waiting for animation`);
                         }
                     }
                 }
@@ -3702,10 +4659,12 @@
                 
                 // Safety checks for display values
                 const jackpot = isNaN(gameData.jackpot) ? 0 : gameData.jackpot;
+                const insuranceJackpot = isNaN(gameData.insuranceJackpot) ? 0 : gameData.insuranceJackpot;
                 const bankRake = isNaN(gameData.bankRake) ? 0 : gameData.bankRake;
                 const totalBalance = this.stateManager.getTotalBalance();
                 
                 this.elements.jackpotAmount.textContent = `$${Math.round(jackpot)}`;
+                this.elements.insuranceAmount.textContent = `$${Math.round(insuranceJackpot)}`;
                 
                 // Update jackpot chip stack
                 if (window.updateJackpotChipStack) {
@@ -3737,8 +4696,9 @@
                 // Calculate detailed balance breakdown
                 const playerBalances = gameData.players.reduce((sum, player) => sum + (player.balance || 0), 0);
                 const jackpot = gameData.jackpot || 0;
+                const insuranceJackpot = gameData.insuranceJackpot || 0;
                 const bankRake = gameData.bankRake || 0;
-                const totalBalance = playerBalances + jackpot + bankRake;
+                const totalBalance = playerBalances + jackpot + insuranceJackpot + bankRake;
                 const expectedTotal = GAME_CONFIG.TOTAL_PLAYERS * GAME_CONFIG.INITIAL_BALANCE;
                 
                 // Update admin panel displays
@@ -3746,6 +4706,7 @@
                 this.elements.expectedBalance.textContent = `$${expectedTotal}`;
                 this.elements.playerBalances.textContent = `$${Math.round(playerBalances)}`;
                 this.elements.adminJackpot.textContent = `$${Math.round(jackpot)}`;
+                this.elements.adminInsurance.textContent = `$${Math.round(insuranceJackpot)}`;
                 this.elements.adminBankRake.textContent = `$${Math.round(bankRake)}`;
                 this.elements.adminBankRakeDisplay.textContent = `$${Math.round(bankRake)}`;
                 this.elements.adminRound.textContent = gameData.round;
@@ -3762,6 +4723,18 @@
                 }
                 
                 console.log('Admin panel updated with balance validation');
+            }
+            
+            updateInsuranceJackpotDisplay() {
+                const gameData = this.stateManager.getGameData();
+                const insuranceJackpot = gameData.insuranceJackpot || 0;
+                
+                // Update main header insurance display
+                if (this.elements.insuranceAmount) {
+                    this.elements.insuranceAmount.textContent = Math.round(insuranceJackpot);
+                }
+                
+                console.log(`Insurance jackpot display updated to $${Math.round(insuranceJackpot)}`);
             }
 
             updateWaitingState() {
@@ -3781,6 +4754,9 @@
                 
                 // Place cards on table for selection
                 this.placeCardsOnTable();
+                
+                // Show first player marker for turn order indication
+                this.gameLogic.showFirstPlayerMarker();
                 
                 console.log('Starting bot moves...');
                 this.processBotMovesWithTurnIndication();
@@ -3847,6 +4823,12 @@
                 this.elements.startRoundBtn.disabled = false;
                 this.elements.startRoundBtn.textContent = 'Start New Round';
                 
+                // Update clockwise start player for next round
+                this.gameLogic.updateClockwiseStartPlayer();
+                
+                // Hide all turn markers
+                this.gameLogic.hideAllTurnMarkers();
+                
                 // Auto-start next round if enabled and not paused
                 if (GAME_CONFIG.AUTO_START_NEXT_ROUND && !this.stateManager.isGamePaused()) {
                     console.log(`Auto-starting next round in ${GAME_CONFIG.ROUND_DELAY}ms...`);
@@ -3896,6 +4878,11 @@
                 console.log('Turn order:', playersToMove.map(p => ({ id: p.id, name: p.name, isHuman: p.isHuman })));
                 
                 for (const player of playersToMove) {
+                    // Check for pause before processing each player
+                    if (this.stateManager.isGamePaused()) {
+                        console.log('Game paused during player processing, stopping...');
+                        return;
+                    }
                     console.log(`=== Processing player: ${player.name} (ID: ${player.id}, isHuman: ${player.isHuman}) ===`);
                     // Show whose turn it is
                     this.showCurrentTurn(player.id);
@@ -3921,20 +4908,25 @@
                             this.cleanupAdminSelection();
                             console.log('=== Cleaned up admin selection interface ===');
                             
+                            // Show turn marker for clockwise mode
+                            this.gameLogic.showTurnMarker(player.id);
+                            
                             // Human player - enable card selection with countdown
                             this.elements.gameState.textContent = `${player.name}'s turn - click a card to select`;
                             
                             // Add a small delay to ensure DOM is ready
                             setTimeout(() => {
-                                this.showCardSelectionModal(player.id);
-                                this.startManualCountdown(player.id, player.name);
-                                console.log(`=== Human player card selection enabled, waiting for input ===`);
+                            this.showCardSelectionModal(player.id);
+                            this.startManualCountdown(player.id, player.name);
+                            console.log(`=== Human player card selection enabled, waiting for input ===`);
                             }, 100);
                             
                             // Don't auto-proceed, wait for human input
                             return;
                         } else {
                             console.log(`=== Human player strategy is ${currentStrategy} - making automatic move ===`);
+                            // Show turn marker for clockwise mode
+                            this.gameLogic.showTurnMarker(player.id);
                             // Human player with non-manual strategy - make automatic move
                             await this.delay(1000); // Show turn indication for 1 second
                             await this.botController.makeBotMove(player.id);
@@ -3988,11 +4980,21 @@
             async continueWithRemainingPlayers() {
                 console.log('=== continueWithRemainingPlayers called ===');
                 console.log('Current game state:', this.stateManager.getState());
+                
+                // Check for pause at start
+                if (this.stateManager.isGamePaused()) {
+                    console.log('Game paused, cannot continue with remaining players');
+                    return;
+                }
+                
                 const gameData = this.stateManager.getGameData();
-                const playersToMove = gameData.players.filter(p => !p.selectedCard);
+                
+                // Use turn order to get remaining players
+                const turnOrder = this.gameLogic.getTurnOrder();
+                const playersToMove = turnOrder.filter(p => !p.selectedCard);
                 
                 console.log(`Continuing with ${playersToMove.length} remaining players...`);
-                console.log('Players to move:', playersToMove.map(p => ({ id: p.id, name: p.name, isHuman: p.isHuman, selectedCard: p.selectedCard })));
+                console.log('Players to move (in turn order):', playersToMove.map(p => ({ id: p.id, name: p.name, isHuman: p.isHuman, selectedCard: p.selectedCard })));
                 console.log('All players:', gameData.players.map(p => ({ id: p.id, name: p.name, selectedCard: p.selectedCard })));
                 
                 if (playersToMove.length === 0) {
@@ -4001,8 +5003,13 @@
                     return;
                 }
                 
-                // Process each remaining player
+                // Process each remaining player in turn order
                 for (const player of playersToMove) {
+                    // Check for pause before processing each player
+                    if (this.stateManager.isGamePaused()) {
+                        console.log('Game paused during remaining player processing, stopping...');
+                        return;
+                    }
                     console.log(`Processing player: ${player.name} (ID: ${player.id})`);
                     
                     if (player.isHuman) {
@@ -4017,6 +5024,9 @@
                             this.cleanupAdminSelection();
                             console.log('=== Cleaned up admin selection interface in continueWithRemainingPlayers ===');
                             
+                            // Show turn marker
+                            this.gameLogic.showTurnMarker(player.id);
+                            
                             this.elements.gameState.textContent = `${player.name}'s turn - click a card to select`;
                             this.showCardSelectionModal(player.id);
                             this.startManualCountdown(player.id, player.name);
@@ -4025,6 +5035,7 @@
                             console.log(`Human player strategy is ${player.strategy} - making automatic move in continueWithRemainingPlayers`);
                             // Human player with non-manual strategy - make automatic move
                             this.showCurrentTurn(player.id);
+                            this.gameLogic.showTurnMarker(player.id);
                             await this.delay(1000);
                             
                             // Make human move
@@ -4048,6 +5059,7 @@
                     } else {
                         console.log('Bot player turn - making move');
                         this.showCurrentTurn(player.id);
+                        this.gameLogic.showTurnMarker(player.id);
                         await this.delay(1000);
                         
                         // Make bot move
@@ -4084,15 +5096,11 @@
                 if (bankCard) {
                     console.log('🏦 Bank card revealed:', bankCard);
                     
-                    // Calculate bank card value
-                    const bankCardValue = this.getBetValue(bankCard);
-                    
                     // Update the content immediately with the correct card (vertically stacked)
                     this.elements.bankCard.innerHTML = `
                         <div class="card-content" style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%;">
                             <div class="card-rank">${bankCard.rank}</div>
                             <div class="card-suit">${this.getSuitSymbol(bankCard.suit)}</div>
-                            <div class="card-value">$${bankCardValue}</div>
                         </div>
                     `;
                     
@@ -4137,9 +5145,8 @@
                                 } else if (player.result === RESULT_TYPES.REFUND) {
                                     this.soundManager.playSound('refund');
                                 } else if (player.result === RESULT_TYPES.JACKPOT) {
-                                    this.soundManager.playSound('jackpot');
-                                    // Create jackpot animation
-                                    this.createJackpotAnimation(player.id);
+                                    // Jackpot sound and animation already played in processJackpotPayout
+                                    console.log(`Jackpot result displayed for player ${player.id}`);
                                 }
                             }
                         }
@@ -4168,7 +5175,9 @@
                         const actualRefund = betValue - jackpotContribution;
                         return `REFUND +$${Math.round(actualRefund)}`;
                     case RESULT_TYPES.JACKPOT: 
-                        return `JACKPOT! +$${Math.round(betValue)}`;
+                        // Use the stored jackpot amount if available, otherwise fall back to bet value
+                        const jackpotWinnings = player.jackpotAmount || betValue;
+                        return `JACKPOT! +$${Math.round(jackpotWinnings)}`;
                     default: return '';
                 }
             }
@@ -4183,8 +5192,8 @@
                 return symbols[suit] || '?';
             }
             
-            createJackpotAnimation(playerId) {
-                console.log(`Creating jackpot animation for player ${playerId}`);
+            createJackpotAnimation(playerId, jackpotAmount = 0) {
+                console.log(`Creating jackpot animation for player ${playerId} with amount $${jackpotAmount}`);
                 const playerSeat = document.getElementById(`player-${playerId}`);
                 if (!playerSeat) {
                     console.error(`Player seat not found for ID: ${playerId}`);
@@ -4251,6 +5260,108 @@
                             }
                         }, 2000);
                     }, i * 150);
+                }
+                
+                // Create jackpot amount display (gold box)
+                if (jackpotAmount > 0) {
+                    console.log(`🏆 Creating gold jackpot display for $${jackpotAmount}`);
+                    const jackpotDisplay = document.createElement('div');
+                    jackpotDisplay.className = 'jackpot-amount-display';
+                    jackpotDisplay.innerHTML = `
+                        <div class="jackpot-title">🏆 JACKPOT! 🏆</div>
+                        <div class="jackpot-amount">+$${Math.round(jackpotAmount)}</div>
+                    `;
+                    
+                    // Position above the player seat
+                    jackpotDisplay.style.position = 'fixed';
+                    jackpotDisplay.style.left = (centerX - 100) + 'px';
+                    jackpotDisplay.style.top = (centerY - 80) + 'px';
+                    jackpotDisplay.style.zIndex = '10000';
+                    
+                    document.body.appendChild(jackpotDisplay);
+                    
+                    // Remove after 4 seconds
+                    setTimeout(() => {
+                        if (jackpotDisplay.parentNode) {
+                            jackpotDisplay.parentNode.removeChild(jackpotDisplay);
+                        }
+                    }, 4000);
+                }
+            }
+
+            createInsuranceWinAnimation(playerId, insuranceAmount = 0) {
+                console.log(`🛡️ Creating insurance win animation for player ${playerId} with amount $${insuranceAmount}`);
+                const playerSeat = document.getElementById(`player-${playerId}`);
+                if (!playerSeat) {
+                    console.error(`Player seat not found for ID: ${playerId}`);
+                    return;
+                }
+                
+                const seatRect = playerSeat.getBoundingClientRect();
+                const centerX = seatRect.left + seatRect.width / 2;
+                const centerY = seatRect.top + seatRect.height / 2;
+                
+                // Create shield particles
+                for (let i = 0; i < 6; i++) {
+                    setTimeout(() => {
+                        const shield = document.createElement('div');
+                        shield.className = 'insurance-particle';
+                        shield.textContent = '🛡️';
+                        shield.style.position = 'fixed';
+                        shield.style.left = centerX + 'px';
+                        shield.style.top = centerY + 'px';
+                        shield.style.fontSize = '24px';
+                        shield.style.zIndex = '9999';
+                        shield.style.pointerEvents = 'none';
+                        shield.style.animation = 'insuranceParticle 2s ease-out forwards';
+                        
+                        // Random position around the player
+                        const angle = (i / 6) * Math.PI * 2;
+                        const distance = 40 + Math.random() * 20;
+                        const x = centerX + Math.cos(angle) * distance;
+                        const y = centerY + Math.sin(angle) * distance;
+                        
+                        setTimeout(() => {
+                            shield.style.left = x + 'px';
+                            shield.style.top = y + 'px';
+                            shield.style.opacity = '0';
+                        }, 100);
+                        
+                        document.body.appendChild(shield);
+                        
+                        // Remove after animation
+                        setTimeout(() => {
+                            if (shield.parentNode) {
+                                shield.parentNode.removeChild(shield);
+                            }
+                        }, 2000);
+                    }, i * 100);
+                }
+                
+                // Create insurance amount display (blue shield box)
+                if (insuranceAmount > 0) {
+                    console.log(`🛡️ Creating insurance win display for $${insuranceAmount}`);
+                    const insuranceDisplay = document.createElement('div');
+                    insuranceDisplay.className = 'insurance-win-display';
+                    insuranceDisplay.innerHTML = `
+                        <div class="insurance-win-title">🛡️ INSURANCE WIN! 🛡️</div>
+                        <div class="insurance-win-amount">+$${Math.round(insuranceAmount)}</div>
+                    `;
+                    
+                    // Position above the player seat
+                    insuranceDisplay.style.position = 'fixed';
+                    insuranceDisplay.style.left = (centerX - 100) + 'px';
+                    insuranceDisplay.style.top = (centerY - 80) + 'px';
+                    insuranceDisplay.style.zIndex = '10000';
+                    
+                    document.body.appendChild(insuranceDisplay);
+                    
+                    // Remove after 4 seconds
+                    setTimeout(() => {
+                        if (insuranceDisplay.parentNode) {
+                            insuranceDisplay.parentNode.removeChild(insuranceDisplay);
+                        }
+                    }, 4000);
                 }
             }
 
@@ -4384,10 +5495,10 @@
                 setTimeout(() => {
                     const gameTable = document.querySelector('.game-table');
                     if (gameTable) {
-                        animatedChip.style.position = 'absolute';
-                        animatedChip.style.pointerEvents = 'none';
-                        animatedChip.style.transition = 'none';
-                        
+                    animatedChip.style.position = 'absolute';
+                    animatedChip.style.pointerEvents = 'none';
+                    animatedChip.style.transition = 'none';
+                    
                         const tableRect = gameTable.getBoundingClientRect();
                         const currentRect = animatedChip.getBoundingClientRect();
                         
@@ -4628,9 +5739,143 @@
                 if (matrixModal) {
                     matrixModal.classList.remove('hidden');
                     // Regenerate matrix with current settings
-                    generateDynamicMatrix();
+                    this.generateDynamicMatrix();
                     console.log('Matrix modal opened');
                 }
+            }
+            
+            generateDynamicMatrix() {
+                const table = document.getElementById('dynamic-matrix-table');
+                if (!table) {
+                    console.error('Matrix table element not found');
+                    return;
+                }
+                
+                // Clear existing content
+                table.innerHTML = '';
+                
+                // Create header row
+                const headerRow = table.insertRow();
+                const headers = ['Card', 'Bet Value', 'k=A', 'k=2', 'k=3', 'k=4', 'k=5', 'k=6', 'k=7', 'k=8', 'k=9', 'k=10'];
+                headers.forEach(header => {
+                    const th = document.createElement('th');
+                    th.textContent = header;
+                    headerRow.appendChild(th);
+                });
+                
+                // Card ranks and their values (A through 9 for players)
+                const cardRanks = ['A', '2', '3', '4', '5', '6', '7', '8', '9'];
+                const bankRanks = ['A', '2', '3', '4', '5', '6', '7', '8', '9', '10']; // Bank can draw 10
+                const cardValues = { 'A': 10, '2': 15, '3': 23, '4': 34, '5': 51, '6': 76, '7': 114, '8': 171, '9': 256 };
+                
+                // Add rows for each card (A through 9)
+                cardRanks.forEach(playerRank => {
+                    const row = table.insertRow();
+                    
+                    // Card name
+                    const cardCell = row.insertCell();
+                    cardCell.textContent = playerRank;
+                    cardCell.className = 'card-name';
+                    
+                    // Bet value for this card
+                    const betCell = row.insertCell();
+                    betCell.textContent = cardValues[playerRank];
+                    betCell.className = 'bet-value';
+                    
+                    // Results for each possible bank card (A through 10)
+                    bankRanks.forEach(bankRank => {
+                        const cell = row.insertCell();
+                        const result = this.calculateMatrixResult(playerRank, bankRank, cardValues[playerRank]);
+                        cell.textContent = result.display;
+                        cell.className = result.cssClass;
+                    });
+                });
+                
+                // Add jackpot row
+                const jackpotRow = table.insertRow();
+                const jackpotCardCell = jackpotRow.insertCell();
+                jackpotCardCell.textContent = 'Jackpot';
+                jackpotCardCell.className = 'jackpot-label';
+                
+                const jackpotBetCell = jackpotRow.insertCell();
+                jackpotBetCell.textContent = '-';
+                jackpotBetCell.className = 'jackpot-label';
+                
+                // Jackpot contributions for each bank card
+                bankRanks.forEach(bankRank => {
+                    const cell = jackpotRow.insertCell();
+                    const jackpotValue = this.calculateJackpotContribution(bankRank);
+                    cell.textContent = Math.round(jackpotValue);
+                    cell.className = 'jackpot';
+                });
+                
+                console.log('Dynamic matrix generated successfully');
+            }
+            
+            calculateMatrixResult(playerRank, bankRank, betValue) {
+                const playerIndex = this.getCardIndex(playerRank);
+                const bankIndex = this.getCardIndex(bankRank);
+                
+                if (bankRank === '10') {
+                    // Special case: Bank draws 10
+                    if (playerRank === '9') {
+                        // Player 9 wins when bank draws 10
+                        return { display: `739`, cssClass: 'win' };
+                    } else {
+                        // All other players lose their entire bet when bank draws 10
+                        return { display: `-${betValue}`, cssClass: 'loss' };
+                    }
+                } else if (playerRank === bankRank) {
+                    // Loss - same card as bank
+                    return { display: `-${betValue}`, cssClass: 'loss' };
+                } else if (playerIndex < bankIndex) {
+                    // Win - lower card than bank
+                    const winAmount = this.calculateWinAmount(playerRank, bankRank, betValue);
+                    return { display: `${winAmount}`, cssClass: 'win' };
+                } else {
+                    // Refund - higher card than bank
+                    const jackpotContribution = Math.round(betValue * GAME_CONFIG.JACKPOT_RATE);
+                    const refund = betValue - jackpotContribution;
+                    return { display: `${refund}`, cssClass: 'refund' };
+                }
+            }
+            
+            calculateWinAmount(playerRank, bankRank, betValue) {
+                // Simplified win calculation - in reality this would be more complex
+                // based on the actual cascade distribution logic
+                const cardValues = { 'A': 10, '2': 15, '3': 23, '4': 34, '5': 51, '6': 76, '7': 114, '8': 171, '9': 256 };
+                const losingPlayerValue = cardValues[bankRank];
+                
+                // Basic calculation: get bet back + share of losing player's bet
+                const baseWin = betValue + Math.round(losingPlayerValue * 0.5);
+                return baseWin;
+            }
+            
+            getCardIndex(rank) {
+                const cardOrder = ['A', '2', '3', '4', '5', '6', '7', '8', '9', '10'];
+                return cardOrder.indexOf(rank);
+            }
+            
+            calculateJackpotContribution(bankRank) {
+                // Calculate total jackpot contribution for each bank card
+                // This is the sum of jackpot contributions from all refund players
+                const cardRanks = ['A', '2', '3', '4', '5', '6', '7', '8', '9'];
+                const cardValues = { 'A': 10, '2': 15, '3': 23, '4': 34, '5': 51, '6': 76, '7': 114, '8': 171, '9': 256 };
+                
+                let totalJackpot = 0;
+                const bankIndex = this.getCardIndex(bankRank);
+                
+                cardRanks.forEach(playerRank => {
+                    const playerIndex = this.getCardIndex(playerRank);
+                    const betValue = cardValues[playerRank];
+                    
+                    // If player card index > bank card index, it's a refund (contributes to jackpot)
+                    if (playerIndex > bankIndex) {
+                        totalJackpot += betValue * GAME_CONFIG.JACKPOT_RATE;
+                    }
+                });
+                
+                return totalJackpot;
             }
 
             hideMatrix() {
@@ -4669,6 +5914,10 @@
             
             clearCardSelectedClasses() {
                 console.log('Clearing card-selected classes for new round...');
+                
+                // Reset human insurance icons for new round
+                this.resetHumanInsuranceIcons();
+                
                 const gameData = this.stateManager.getGameData();
                 gameData.players.forEach(player => {
                     const seat = document.getElementById(`player-${player.id}`);
@@ -4683,6 +5932,8 @@
                             playerCardArea.style.background = '';
                             playerCardArea.style.border = '';
                             playerCardArea.style.color = '';
+                            // Remove hearts-jackpot class for new round
+                            playerCardArea.classList.remove('hearts-jackpot');
                         }
                         
                         console.log(`Cleared card-selected class for ${player.name}`);
@@ -4727,6 +5978,8 @@
                         console.log(`Cleared turn indication for player ${player.id}`);
                     }
                 });
+                // Clear current turn markers but keep first player marker visible
+                this.gameLogic.clearCurrentTurnMarkers();
             }
 
             continueWithNextPlayer() {
@@ -4863,8 +6116,8 @@
                         return;
                     }
                     
-                    // Clear player card area
-                    playerCardArea.innerHTML = '';
+                    // Player card area should already be empty from updatePlayerDisplay
+                    console.log(`🎴 Player card area for ${playerId} should be empty, current content:`, playerCardArea.innerHTML);
                     
                     // Reset animated card styles
                     animatedCard.style.position = 'relative';
@@ -4888,8 +6141,18 @@
                     
                     // Set card background to white (revealed)
                     animatedCard.style.background = 'linear-gradient(145deg, #fff, #f0f0f0)';
-                    animatedCard.style.border = '2px solid #333';
                     animatedCard.style.color = '#333';
+                    
+                    // Check if card is hearts for jackpot potential
+                    if (player.selectedCard.suit === 'hearts') {
+                        console.log(`💛 Adding hearts-jackpot class to animated card for player ${playerId} (${player.name}) with ${player.selectedCard.rank} of hearts`);
+                        animatedCard.classList.add('hearts-jackpot');
+                        // Hearts cards get gold border instead of regular border
+                        animatedCard.style.border = '2px solid #ffd700';
+                    } else {
+                        animatedCard.classList.remove('hearts-jackpot');
+                        animatedCard.style.border = '2px solid #333';
+                    }
                     
                     // Move to player card area
                     playerCardArea.appendChild(animatedCard);
@@ -5080,7 +6343,507 @@
             }
 
             delay(ms) {
-                return new Promise(resolve => setTimeout(resolve, ms));
+                return new Promise(resolve => {
+                    const checkPause = () => {
+                        if (this.stateManager && this.stateManager.isGamePaused()) {
+                            // If paused, check again in 100ms
+                            setTimeout(checkPause, 100);
+                        } else {
+                            // Not paused, resolve after the delay
+                            setTimeout(resolve, ms);
+                        }
+                    };
+                    checkPause();
+                });
+            }
+
+            // Insurance System Functions
+            showInsuranceModal() {
+                const gameData = this.stateManager.getGameData();
+                const insurancePot = gameData.insuranceJackpot || 0;
+                
+                // Check if insurance pot is large enough
+                if (insurancePot < GAME_CONFIG.INSURANCE_MIN_POT) {
+                    console.log(`Insurance pot too small: $${insurancePot} < $${GAME_CONFIG.INSURANCE_MIN_POT}`);
+                    this.proceedWithoutInsurance();
+                    return;
+                }
+                
+                console.log('🛡️ Showing insurance purchase modal');
+                
+                // Update modal info
+                if (this.elements.modalInsuranceCost) {
+                    this.elements.modalInsuranceCost.textContent = GAME_CONFIG.INSURANCE_COST;
+                } else {
+                    console.error('modalInsuranceCost element not found');
+                }
+                
+                if (this.elements.modalInsurancePot) {
+                    this.elements.modalInsurancePot.textContent = Math.round(insurancePot);
+                } else {
+                    console.error('modalInsurancePot element not found');
+                }
+                
+                // Generate player checkboxes
+                this.generateInsurancePlayerList();
+                
+                // Show modal
+                if (this.elements.insuranceModal) {
+                    this.elements.insuranceModal.classList.remove('hidden');
+                } else {
+                    console.error('insuranceModal element not found');
+                    this.proceedWithoutInsurance();
+                    return;
+                }
+                
+                // Start countdown timer
+                this.startInsuranceTimer();
+            }
+
+            generateInsurancePlayerList() {
+                const gameData = this.stateManager.getGameData();
+                const playersContainer = this.elements.insurancePlayers;
+                playersContainer.innerHTML = '';
+                
+                gameData.players.forEach(player => {
+                    // Only show bot players who can afford insurance (exclude human players)
+                    if (!player.isHuman && player.balance >= GAME_CONFIG.INSURANCE_COST) {
+                        const playerDiv = document.createElement('div');
+                        playerDiv.className = 'insurance-player';
+                        
+                        const checkbox = document.createElement('input');
+                        checkbox.type = 'checkbox';
+                        checkbox.id = `insurance-${player.id}`;
+                        checkbox.value = player.id;
+                        
+                        const label = document.createElement('label');
+                        label.htmlFor = `insurance-${player.id}`;
+                        
+                        const playerInfo = document.createElement('div');
+                        playerInfo.className = 'insurance-player-info';
+                        
+                        const playerName = document.createElement('div');
+                        playerName.className = 'insurance-player-name';
+                        playerName.textContent = player.name;
+                        
+                        const playerBalance = document.createElement('div');
+                        playerBalance.className = 'insurance-player-balance';
+                        playerBalance.textContent = `Balance: $${player.balance}`;
+                        
+                        playerInfo.appendChild(playerName);
+                        playerInfo.appendChild(playerBalance);
+                        
+                        label.appendChild(playerInfo);
+                        
+                        playerDiv.appendChild(checkbox);
+                        playerDiv.appendChild(label);
+                        
+                        playersContainer.appendChild(playerDiv);
+                    }
+                });
+                
+                // Add event listener for "Select All" checkbox
+                this.setupSelectAllInsurance();
+            }
+            
+            setupSelectAllInsurance() {
+                const selectAllCheckbox = document.getElementById('select-all-bots');
+                const playerCheckboxes = this.elements.insurancePlayers.querySelectorAll('input[type="checkbox"]');
+                
+                if (selectAllCheckbox) {
+                    // Ensure select-all checkbox is unchecked by default
+                    selectAllCheckbox.checked = false;
+                    
+                    // Remove any existing event listeners to prevent duplicates
+                    selectAllCheckbox.removeEventListener('change', this.handleSelectAllChange);
+                    
+                    // Add event listener for select-all checkbox
+                    this.handleSelectAllChange = (e) => {
+                        const isChecked = e.target.checked;
+                        playerCheckboxes.forEach(checkbox => {
+                            checkbox.checked = isChecked;
+                        });
+                        console.log(`🛡️ ${isChecked ? 'Selected' : 'Deselected'} all bot insurance`);
+                    };
+                    
+                    selectAllCheckbox.addEventListener('change', this.handleSelectAllChange);
+                    
+                    // Add event listeners to individual checkboxes to update select-all state
+                    playerCheckboxes.forEach(checkbox => {
+                        checkbox.removeEventListener('change', this.handleIndividualCheckboxChange);
+                        
+                        this.handleIndividualCheckboxChange = () => {
+                            const checkedCount = this.elements.insurancePlayers.querySelectorAll('input[type="checkbox"]:checked').length;
+                            const totalCount = playerCheckboxes.length;
+                            
+                            if (checkedCount === 0) {
+                                selectAllCheckbox.checked = false;
+                                selectAllCheckbox.indeterminate = false;
+                            } else if (checkedCount === totalCount) {
+                                selectAllCheckbox.checked = true;
+                                selectAllCheckbox.indeterminate = false;
+                            } else {
+                                selectAllCheckbox.checked = false;
+                                selectAllCheckbox.indeterminate = true;
+                            }
+                        };
+                        
+                        checkbox.addEventListener('change', this.handleIndividualCheckboxChange);
+                    });
+                }
+            }
+
+            startInsuranceTimer() {
+                const gameData = this.stateManager.getGameData();
+                const timerElement = this.elements.insuranceCountdown;
+                
+                // Get timer duration from admin panel or use default
+                const timerInput = document.getElementById('insurance-timer');
+                this.insuranceTimeLeft = timerInput ? parseInt(timerInput.value) : GAME_CONFIG.INSURANCE_TIMER;
+                
+                console.log(`🛡️ Starting insurance timer: ${this.insuranceTimeLeft} seconds`);
+                
+                this.updateInsuranceCountdown();
+                
+                this.insuranceTimer = setInterval(() => {
+                    this.insuranceTimeLeft--;
+                    this.updateInsuranceCountdown();
+                    
+                    if (this.insuranceTimeLeft <= 0) {
+                        console.log('🛡️ Insurance timer expired - auto-confirming');
+                        this.autoConfirmInsurance();
+                    }
+                }, 1000);
+            }
+
+            updateInsuranceCountdown() {
+                if (this.elements.insuranceCountdown) {
+                    this.elements.insuranceCountdown.textContent = `${this.insuranceTimeLeft}s`;
+                }
+            }
+
+            confirmInsurancePurchases() {
+                console.log('🛡️ Confirming insurance purchases');
+                this.clearInsuranceTimer();
+                
+                const gameData = this.stateManager.getGameData();
+                const checkboxes = this.elements.insurancePlayers.querySelectorAll('input[type="checkbox"]:checked');
+                
+                let totalInsuranceCost = 0;
+                
+                // Process bot insurance purchases from modal
+                checkboxes.forEach(checkbox => {
+                    const playerId = parseInt(checkbox.value);
+                    const player = gameData.players.find(p => p.id === playerId);
+                    
+                    if (player && player.balance >= GAME_CONFIG.INSURANCE_COST) {
+                        console.log(`🛡️ Player ${player.name} (${playerId}) bought insurance for $${GAME_CONFIG.INSURANCE_COST}`);
+                        
+                        // Deduct insurance cost from player balance
+                        this.stateManager.updatePlayerBalance(playerId, -GAME_CONFIG.INSURANCE_COST);
+                        
+                        // Mark player as having insurance
+                        this.stateManager.updatePlayer(playerId, { hasInsurance: true });
+                        
+                        // Add insurance marker to player seat
+                        this.addInsuranceMarker(playerId);
+                        
+                        // Update player display immediately to show new balance
+                        this.updatePlayerDisplay(playerId);
+                        
+                        totalInsuranceCost += GAME_CONFIG.INSURANCE_COST;
+                    }
+                });
+                
+                // Process human insurance purchases (already handled by click events, just add to total cost)
+                gameData.players.forEach(player => {
+                    if (player.isHuman && player.hasInsurance) {
+                        totalInsuranceCost += GAME_CONFIG.INSURANCE_COST;
+                        // Add insurance marker to human player seat too
+                        this.addInsuranceMarker(player.id);
+                    }
+                });
+                
+                // Add total insurance cost to insurance pot
+                if (totalInsuranceCost > 0) {
+                    this.stateManager.updateInsuranceJackpot(totalInsuranceCost);
+                    console.log(`🛡️ Added $${totalInsuranceCost} to insurance pot`);
+                    
+                    // Update admin panel and insurance display immediately
+                    this.updateAdminPanel();
+                    this.updateInsuranceJackpotDisplay();
+                }
+                
+                this.hideInsuranceModal();
+                this.proceedToCardSelection();
+            }
+
+            skipInsurance() {
+                console.log('🛡️ Skipping insurance phase');
+                this.clearInsuranceTimer();
+                this.hideInsuranceModal();
+                this.proceedToCardSelection();
+            }
+
+            autoConfirmInsurance() {
+                console.log('🛡️ Auto-confirming insurance (timer expired)');
+                this.confirmInsurancePurchases();
+            }
+
+            clearInsuranceTimer() {
+                if (this.insuranceTimer) {
+                    clearInterval(this.insuranceTimer);
+                    this.insuranceTimer = null;
+                }
+            }
+
+            hideInsuranceModal() {
+                if (this.elements.insuranceModal) {
+                    this.elements.insuranceModal.classList.add('hidden');
+                }
+                // Disable human insurance icons after insurance phase
+                this.disableHumanInsuranceIcons();
+            }
+            
+            enableHumanInsuranceIcons() {
+                console.log('🛡️ Enabling human insurance icons...');
+                const gameData = this.stateManager.getGameData();
+                gameData.players.forEach(player => {
+                    if (player.isHuman) {
+                        const icon = document.getElementById(`human-insurance-${player.id}`);
+                        console.log(`🛡️ Human player ${player.id} (${player.name}): icon found = ${!!icon}, balance = $${player.balance}`);
+                        if (icon) {
+                            icon.classList.remove('disabled');
+                            if (player.balance >= GAME_CONFIG.INSURANCE_COST) {
+                                icon.style.display = 'block';
+                                console.log(`🛡️ Enabled insurance icon for ${player.name}`);
+                            } else {
+                                icon.classList.add('disabled');
+                                console.log(`🛡️ Disabled insurance icon for ${player.name} (insufficient balance)`);
+                            }
+                        } else {
+                            console.log(`🛡️ No insurance icon found for player ${player.id}`);
+                        }
+                    }
+                });
+            }
+            
+            disableHumanInsuranceIcons() {
+                const gameData = this.stateManager.getGameData();
+                gameData.players.forEach(player => {
+                    if (player.isHuman) {
+                        const icon = document.getElementById(`human-insurance-${player.id}`);
+                        if (icon) {
+                            icon.classList.add('disabled');
+                        }
+                    }
+                });
+            }
+            
+            resetHumanInsuranceIcons() {
+                const gameData = this.stateManager.getGameData();
+                gameData.players.forEach(player => {
+                    if (player.isHuman) {
+                        const icon = document.getElementById(`human-insurance-${player.id}`);
+                        if (icon) {
+                            icon.classList.remove('purchased', 'disabled');
+                        }
+                    }
+                });
+            }
+            
+            startHumanInsurancePhase() {
+                console.log('🛡️ Starting human insurance phase (5 seconds)');
+                
+                // Check if insurance pot is large enough
+                const gameData = this.stateManager.getGameData();
+                const insurancePot = gameData.insuranceJackpot || 0;
+                console.log(`🛡️ Insurance pot check: $${insurancePot} >= $${GAME_CONFIG.INSURANCE_MIN_POT}?`);
+                
+                if (insurancePot < GAME_CONFIG.INSURANCE_MIN_POT) {
+                    console.log(`Insurance pot too small: $${insurancePot} < $${GAME_CONFIG.INSURANCE_MIN_POT}`);
+                    this.proceedWithoutInsurance();
+                    return;
+                }
+                
+                // Enable human insurance icons
+                this.enableHumanInsuranceIcons();
+                
+                // Show countdown message
+                this.showHumanInsuranceCountdown();
+                
+                // Start 5-second timer for human phase
+                this.humanInsuranceTimer = setTimeout(() => {
+                    console.log('🛡️ Human insurance phase ended, starting bot phase');
+                    this.endHumanInsurancePhase();
+                }, 5000);
+            }
+            
+            showHumanInsuranceCountdown() {
+                // Create or update countdown display
+                let countdownElement = document.getElementById('human-insurance-countdown');
+                if (!countdownElement) {
+                    countdownElement = document.createElement('div');
+                    countdownElement.id = 'human-insurance-countdown';
+                    countdownElement.style.cssText = `
+                        position: fixed;
+                        top: 50%;
+                        left: 50%;
+                        transform: translate(-50%, -50%);
+                        background: rgba(52, 152, 219, 0.9);
+                        color: white;
+                        padding: 20px 30px;
+                        border-radius: 10px;
+                        font-size: 18px;
+                        font-weight: bold;
+                        text-align: center;
+                        z-index: 2000;
+                        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+                    `;
+                    document.body.appendChild(countdownElement);
+                }
+                
+                let timeLeft = 5;
+                countdownElement.innerHTML = `
+                    <div>🛡️ INSURANCE AVAILABLE 🛡️</div>
+                    <div style="margin-top: 10px;">Insurance Pot: $${this.stateManager.getGameData().insuranceJackpot}</div>
+                    <div style="margin-top: 10px;">Cost: $${GAME_CONFIG.INSURANCE_COST}</div>
+                    <button id="buy-insurance-btn" style="margin-top: 15px; padding: 10px 20px; font-size: 16px; background: #e74c3c; color: white; border: none; border-radius: 5px; cursor: pointer; font-weight: bold;">Buy Insurance</button>
+                    <div style="margin-top: 10px; font-size: 24px; color: #FFD700;">${timeLeft}s</div>
+                `;
+                
+                // Add click handler for buy insurance button
+                const buyBtn = document.getElementById('buy-insurance-btn');
+                if (buyBtn) {
+                    // Set initial button state based on current insurance status
+                    const humanPlayer = this.stateManager.getGameData().players.find(p => p.isHuman);
+                    if (humanPlayer && humanPlayer.hasInsurance) {
+                        buyBtn.textContent = 'Cancel Insurance';
+                        buyBtn.style.background = '#27ae60';
+                    } else {
+                        buyBtn.textContent = 'Buy Insurance';
+                        buyBtn.style.background = '#e74c3c';
+                    }
+                    
+                    buyBtn.addEventListener('click', () => {
+                        if (humanPlayer) {
+                            this.handleHumanInsuranceClick(humanPlayer.id);
+                        }
+                    });
+                }
+                
+                // Update countdown every second
+                this.humanCountdownInterval = setInterval(() => {
+                    timeLeft--;
+                    if (timeLeft > 0) {
+                        countdownElement.querySelector('div:last-child').textContent = `${timeLeft}s`;
+                    } else {
+                        clearInterval(this.humanCountdownInterval);
+                    }
+                }, 1000);
+            }
+            
+            endHumanInsurancePhase() {
+                // Clear timers
+                if (this.humanInsuranceTimer) {
+                    clearTimeout(this.humanInsuranceTimer);
+                    this.humanInsuranceTimer = null;
+                }
+                if (this.humanCountdownInterval) {
+                    clearInterval(this.humanCountdownInterval);
+                    this.humanCountdownInterval = null;
+                }
+                
+                // Remove countdown display
+                const countdownElement = document.getElementById('human-insurance-countdown');
+                if (countdownElement) {
+                    countdownElement.remove();
+                }
+                
+                // Disable human insurance icons
+                this.disableHumanInsuranceIcons();
+                
+                // Start bot insurance phase
+                this.showInsuranceModal();
+            }
+
+            addInsuranceMarker(playerId) {
+                const playerSeat = document.getElementById(`player-${playerId}`);
+                if (playerSeat) {
+                    // Remove any existing insurance marker
+                    const existingMarker = playerSeat.querySelector('.insurance-marker');
+                    if (existingMarker) {
+                        existingMarker.remove();
+                    }
+                    
+                    // Create new insurance marker with a simple red circle
+                    const marker = document.createElement('div');
+                    marker.className = 'insurance-marker';
+                    marker.innerHTML = '<div style="width: 24px; height: 24px; border-radius: 50%; background: #e74c3c; border: 2px solid #fff; box-shadow: 0 0 10px rgba(231, 76, 60, 0.8);"></div>';
+                    marker.title = 'Has Insurance';
+                    
+                    playerSeat.appendChild(marker);
+                    console.log(`🛡️ Added insurance marker to player ${playerId}`);
+                }
+            }
+
+            removeInsuranceMarkers() {
+                const markers = document.querySelectorAll('.insurance-marker');
+                markers.forEach(marker => marker.remove());
+                console.log('🛡️ Removed all insurance markers');
+            }
+
+            proceedWithoutInsurance() {
+                console.log('🛡️ Proceeding without insurance (UIController)');
+                this.gameLogic.proceedWithoutInsurance();
+            }
+
+            proceedToCardSelection() {
+                console.log('🛡️ Proceeding to card selection phase (UIController)');
+                this.gameLogic.proceedToCardSelection();
+            }
+
+            createInsuranceWinAnimation(playerId, insuranceAmount = 0) {
+                console.log(`🛡️ Creating insurance win animation for player ${playerId} with amount $${insuranceAmount}`);
+                
+                const playerSeat = document.getElementById(`player-${playerId}`);
+                if (!playerSeat) {
+                    console.error(`🛡️ Player seat not found for player ${playerId}`);
+                    return;
+                }
+                
+                // Create insurance win display
+                const insuranceWinDisplay = document.createElement('div');
+                insuranceWinDisplay.className = 'insurance-win-display';
+                
+                const title = document.createElement('div');
+                title.className = 'insurance-win-title';
+                title.textContent = '🛡️ INSURANCE WIN!';
+                
+                const amount = document.createElement('div');
+                amount.className = 'insurance-win-amount';
+                amount.textContent = `$${insuranceAmount}`;
+                
+                insuranceWinDisplay.appendChild(title);
+                insuranceWinDisplay.appendChild(amount);
+                
+                // Position relative to player seat
+                const rect = playerSeat.getBoundingClientRect();
+                insuranceWinDisplay.style.position = 'absolute';
+                insuranceWinDisplay.style.left = rect.left + 'px';
+                insuranceWinDisplay.style.top = (rect.top - 60) + 'px';
+                insuranceWinDisplay.style.zIndex = '2000';
+                
+                document.body.appendChild(insuranceWinDisplay);
+                
+                // Remove after animation
+                setTimeout(() => {
+                    if (insuranceWinDisplay.parentNode) {
+                        insuranceWinDisplay.parentNode.removeChild(insuranceWinDisplay);
+                    }
+                }, 3000);
+                
+                console.log(`🛡️ Insurance win animation created for player ${playerId}`);
             }
         }
 
@@ -5091,6 +6854,9 @@
                 this.gameLogic = new GameLogic(this.stateManager);
                 this.botController = new BotController(this.stateManager, this.gameLogic);
                 this.uiController = new UIController(this.stateManager, this.gameLogic, this.botController);
+                
+                // Set UIController reference in GameLogic for jackpot animations
+                this.gameLogic.setUIController(this.uiController);
                 
                 this.initializeGame();
             }
@@ -5119,6 +6885,9 @@
                     case GAME_STATES.WAITING_FOR_ROUND_START:
                         this.handleWaitingForRoundStart();
                         break;
+                    case GAME_STATES.INSURANCE_PURCHASE:
+                        this.handleInsurancePurchase();
+                        break;
                     case GAME_STATES.CARD_SELECTION:
                         this.handleCardSelection();
                         break;
@@ -5139,6 +6908,29 @@
 
             handleWaitingForRoundStart() {
                 console.log('Waiting for round to start...');
+            }
+
+            handleInsurancePurchase() {
+                console.log('🛡️ Insurance purchase phase started...');
+                // Remove any existing insurance markers
+                if (this.uiController && typeof this.uiController.removeInsuranceMarkers === 'function') {
+                    this.uiController.removeInsuranceMarkers();
+                } else {
+                    console.log('🛡️ UIController removeInsuranceMarkers not available');
+                }
+                
+                // Start with human insurance phase (5 seconds)
+                if (this.uiController && typeof this.uiController.startHumanInsurancePhase === 'function') {
+                    this.uiController.startHumanInsurancePhase();
+                } else {
+                    console.error('UIController not available for human insurance phase');
+                    // Fallback to gameLogic if uiController is not available
+                    if (this.gameLogic && typeof this.gameLogic.proceedWithoutInsurance === 'function') {
+                        this.gameLogic.proceedWithoutInsurance();
+                    } else {
+                        console.error('GameLogic proceedWithoutInsurance not available either');
+                    }
+                }
             }
 
             handleCardSelection() {
@@ -5164,8 +6956,8 @@
         }
 
         // Game version and update check
-        const GAME_VERSION = '1.100.0';
-        const LAST_UPDATE = '2025-10-25';
+        const GAME_VERSION = '1.115.7';
+        const LAST_UPDATE = '2025-10-27';
         
         // Display version info
         function showVersionInfo() {
@@ -5185,7 +6977,7 @@
                 }
             }, 5000);
         }
-        
+
         // Check for updates (simple cache busting)
         function checkForUpdates() {
             const lastCheck = localStorage.getItem('nineCard_lastCheck');
@@ -5194,230 +6986,47 @@
             if (lastCheck !== now) {
                 console.log('🔄 Checking for updates...');
                 console.log(`Current version: ${GAME_VERSION}`);
-                console.log('To force refresh: Ctrl+F5 or Cmd+Shift+R');
                 localStorage.setItem('nineCard_lastCheck', now);
             }
         }
 
-        // Dynamic Matrix Functions
-        let matrixCalculator = null;
-
-
-        function generateDynamicMatrix() {
-            if (!matrixCalculator) {
-                matrixCalculator = new MatrixCalculator();
-            }
-            
-            // Update current settings display
-            const jackpotRateElement = document.getElementById('matrix-jackpot-rate');
-            const bankRateElement = document.getElementById('matrix-bank-rate');
-            
-            if (jackpotRateElement) {
-                const jackpotRate = document.getElementById('jackpot-rate')?.value || '5';
-                jackpotRateElement.textContent = jackpotRate;
-            }
-            
-            if (bankRateElement) {
-                const bankRate = document.getElementById('bank-rate')?.value || '2';
-                bankRateElement.textContent = bankRate;
-            }
-            
-            const matrix = matrixCalculator.generateMatrix();
-            const table = document.getElementById('dynamic-matrix-table');
-            
-            if (!table) {
-                console.error('Dynamic matrix table not found');
-                return;
-            }
-            
-            // Clear existing content
-            table.innerHTML = '';
-            
-            // Generate table rows
-            matrix.forEach((row, rowIndex) => {
-                const tr = document.createElement('tr');
-                
-                row.forEach((cell, cellIndex) => {
-                    const td = document.createElement('td');
-                    td.textContent = cell;
-                    
-                    // Apply styling based on cell content and position
-                    if (rowIndex === 0) {
-                        // Header row
-                        td.className = '';
-                    } else if (rowIndex === matrix.length - 1) {
-                        // Jackpot row
-                        td.className = 'jackpot';
-                    } else if (cellIndex < 2) {
-                        // Card and Bet Value columns
-                        td.className = '';
-                    } else {
-                        // Value cells - determine type based on MatrixCalculator result
-                        const playerRank = matrix[rowIndex][0];
-                        const bankRankIndex = cellIndex - 2; // k=A is column 2, so bankRankIndex = cellIndex - 2
-                        const bankRanks = ['A', '2', '3', '4', '5', '6', '7', '8', '9', '10'];
-                        const bankRank = bankRanks[bankRankIndex];
-                        
-                        // Get the actual result from MatrixCalculator
-                        const result = matrixCalculator.calculateMatrixValue(playerRank, bankRank);
-                        
-                        // Debug logging
-                        console.log(`Player ${playerRank} vs Bank ${bankRank}: type=${result.type}, value=${result.value}`);
-                        
-                        // Apply the correct class based on result type
-                        if (result.type === 'loss') {
-                            td.className = 'loss';
-                        } else if (result.type === 'win') {
-                            td.className = 'win';
-                        } else if (result.type === 'refund') {
-                            td.className = 'refund';
-                        } else {
-                            td.className = '';
-                        }
-                    }
-                    
-                    tr.appendChild(td);
-                });
-                
-                table.appendChild(tr);
-            });
-        }
-
-        function updateMatrixOnSettingsChange() {
-            // Add event listeners to jackpot and bank rate inputs
-            const jackpotRateInput = document.getElementById('jackpot-rate');
-            const bankRateInput = document.getElementById('bank-rate');
-            
-            if (jackpotRateInput) {
-                jackpotRateInput.addEventListener('input', generateDynamicMatrix);
-                jackpotRateInput.addEventListener('change', generateDynamicMatrix);
-            }
-            
-            if (bankRateInput) {
-                bankRateInput.addEventListener('input', generateDynamicMatrix);
-                bankRateInput.addEventListener('change', generateDynamicMatrix);
-            }
-        }
-
-        // Jackpot Chip Stack Management
+        // Update jackpot chip stack function
         function updateJackpotChipStack(jackpotAmount) {
             const chipPile = document.getElementById('jackpot-chip-pile');
-            if (!chipPile) return;
+            if (!chipPile) {
+                console.log('Jackpot chip pile not found');
+                return;
+            }
             
             // Clear existing chips
             chipPile.innerHTML = '';
             
-            // Calculate number of chips based on jackpot amount
-            // Each chip represents approximately $25 (reduced from $50)
-            const chipValue = 25;
-            const numberOfChips = Math.max(0, Math.floor(jackpotAmount / chipValue));
+            // Calculate number of chips to display (max 20, one chip per $50)
+            const chipCount = Math.min(Math.floor(jackpotAmount / 50), 20);
             
-            // Ensure at least one chip shows if there's any jackpot amount
-            const finalChipCount = jackpotAmount > 0 ? Math.max(1, numberOfChips) : 0;
-            
-            // Create chips
-            for (let i = 0; i < finalChipCount; i++) {
+            // Create and position chips with better spacing
+            for (let i = 0; i < chipCount; i++) {
                 const chip = document.createElement('div');
                 chip.className = 'chip';
-                chip.style.bottom = `${i * 5}px`; // Increased spacing for bigger chips
-                chip.style.zIndex = finalChipCount - i;
-                
-                // Add slight random rotation for realism
-                const randomRotation = (Math.random() - 0.5) * 15; // Increased rotation range
-                chip.style.transform = `perspective(100px) rotateX(15deg) rotateZ(${randomRotation}deg)`;
-                
+                chip.style.bottom = `${i * 4}px`; // Increased spacing
+                chip.style.zIndex = chipCount - i;
                 chipPile.appendChild(chip);
             }
+            
+            console.log(`Updated jackpot chip stack: $${jackpotAmount} = ${chipCount} chips`);
         }
-
-        function animateChipToJackpot(fromElement, jackpotAmount) {
-            // Create animated chip
-            const animatedChip = document.createElement('div');
-            animatedChip.className = 'animated-chip';
-            animatedChip.style.background = 'linear-gradient(145deg, #f39c12, #e67e22)';
-            animatedChip.style.borderColor = '#f39c12';
-            
-            // Position at source
-            const fromRect = fromElement.getBoundingClientRect();
-            const jackpotPile = document.getElementById('jackpot-chip-pile');
-            const jackpotRect = jackpotPile.getBoundingClientRect();
-            
-            animatedChip.style.left = `${fromRect.left + fromRect.width / 2}px`;
-            animatedChip.style.top = `${fromRect.top + fromRect.height / 2}px`;
-            
-            document.body.appendChild(animatedChip);
-            
-            // Animate to jackpot pile
-            setTimeout(() => {
-                animatedChip.style.left = `${jackpotRect.left + jackpotRect.width / 2}px`;
-                animatedChip.style.top = `${jackpotRect.top + jackpotRect.height / 2}px`;
-                animatedChip.style.transform = 'perspective(100px) rotateX(15deg) scale(0.5)';
-            }, 50);
-            
-            // Remove chip and update stack
-            setTimeout(() => {
-                document.body.removeChild(animatedChip);
-                updateJackpotChipStack(jackpotAmount);
-            }, 1000);
-        }
-
-        function animateChipFromJackpot(toElement, jackpotAmount) {
-            const jackpotPile = document.getElementById('jackpot-chip-pile');
-            const toRect = toElement.getBoundingClientRect();
-            const jackpotRect = jackpotPile.getBoundingClientRect();
-            
-            // Create animated chip
-            const animatedChip = document.createElement('div');
-            animatedChip.className = 'animated-chip';
-            animatedChip.style.background = 'linear-gradient(145deg, #f39c12, #e67e22)';
-            animatedChip.style.borderColor = '#f39c12';
-            
-            // Start from jackpot pile
-            animatedChip.style.left = `${jackpotRect.left + jackpotRect.width / 2}px`;
-            animatedChip.style.top = `${jackpotRect.top + jackpotRect.height / 2}px`;
-            
-            document.body.appendChild(animatedChip);
-            
-            // Animate to destination
-            setTimeout(() => {
-                animatedChip.style.left = `${toRect.left + toRect.width / 2}px`;
-                animatedChip.style.top = `${toRect.top + toRect.height / 2}px`;
-                animatedChip.style.transform = 'perspective(100px) rotateX(15deg) scale(0.3)';
-            }, 50);
-            
-            // Remove chip and update stack
-            setTimeout(() => {
-                document.body.removeChild(animatedChip);
-                updateJackpotChipStack(jackpotAmount);
-            }, 1000);
-        }
-
+        
         // Initialize game when DOM is loaded
         document.addEventListener('DOMContentLoaded', () => {
             console.log('DOM loaded, initializing Nine Card Game...');
-            console.log(`🎯 Nine Card Game v${GAME_VERSION} - ${LAST_UPDATE}`);
-            
-            // Show version info
-            showVersionInfo();
-            checkForUpdates();
+            console.log(`🎯 Nine Card Game ${GAME_VERSION} - ${LAST_UPDATE}`);
             
             try {
-                window.nineCardGame = new NineCardGame();
-                window.game = window.nineCardGame;
-                window.GAME_VERSION = GAME_VERSION;
-                window.generateDynamicMatrix = generateDynamicMatrix;
+                window.game = new NineCardGame();
                 window.updateJackpotChipStack = updateJackpotChipStack;
-                window.animateChipToJackpot = animateChipToJackpot;
-                window.animateChipFromJackpot = animateChipFromJackpot;
-                
-                // Initialize dynamic matrix and chip stack
-                setTimeout(() => {
-                    generateDynamicMatrix();
-                    updateMatrixOnSettingsChange();
-                    updateJackpotChipStack(0); // Initialize with empty stack
-                }, 100);
-                
-                console.log('Nine Card Game ready!');
+                showVersionInfo();
+                checkForUpdates();
+                console.log('Game initialized successfully!');
                 console.log('Type "game.getGameStats()" in console for game info');
             } catch (error) {
                 console.error('Error initializing game:', error);
