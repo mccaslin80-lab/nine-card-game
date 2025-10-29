@@ -51,18 +51,30 @@
             font-weight: normal;
         }
 
+        .version-badge-side {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            z-index: 1001;
+            margin-left: 0;
+            font-size: 0.7em;
+            padding: 4px 10px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+        }
+
         .rules-btn {
             background: linear-gradient(145deg, #28a745, #20c997);
             color: white;
             border: none;
-            padding: 8px 16px;
+            padding: 7px 14px;
             border-radius: 8px;
             cursor: pointer;
-            font-size: 14px;
+            font-size: 13px;
             font-weight: bold;
             transition: all 0.3s ease;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-            margin-right: 10px;
+            white-space: nowrap;
+            flex-shrink: 0;
         }
 
         .rules-btn:hover {
@@ -71,17 +83,25 @@
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
         }
 
+        .history-header-btn {
+            background: linear-gradient(145deg, #27ae60, #229954) !important;
+        }
+
+        .history-header-btn:hover {
+            background: linear-gradient(145deg, #229954, #1e8449) !important;
+        }
+
         .rules-modal {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.8);
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            top: 200px;
+            right: 50px;
             z-index: 1000;
+            cursor: move;
+            user-select: none;
+        }
+        
+        .rules-modal.hidden {
+            display: none;
         }
         
         .admin-panel {
@@ -161,6 +181,332 @@
         .close-admin-btn:hover {
             background: rgba(255,255,255,0.2);
             border-radius: 3px;
+        }
+
+        /* Bot Control Panel Styles */
+        .bot-control-panel {
+            position: fixed;
+            top: 200px;
+            left: 50px;
+            background: linear-gradient(145deg, #2c3e50, #34495e);
+            border: 2px solid #e74c3c;
+            border-radius: 10px;
+            padding: 0;
+            z-index: 1000;
+            max-width: 500px;
+            max-height: 600px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+            color: white;
+            cursor: move;
+            user-select: none;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .bot-control-header {
+            background: linear-gradient(145deg, #1a252f, #2c3e50);
+            color: white;
+            padding: 10px 15px;
+            border-radius: 8px 8px 0 0;
+            cursor: move;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .bot-control-header h3 {
+            margin: 0;
+            font-size: 16px;
+            color: #e74c3c;
+        }
+        
+        .bot-control-content {
+            flex: 1;
+            overflow-y: auto;
+            padding: 0;
+            max-height: calc(600px - 60px);
+        }
+        
+        .bot-control-content::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        .bot-control-content::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+        }
+        
+        .bot-control-content::-webkit-scrollbar-thumb {
+            background: #e74c3c;
+            border-radius: 4px;
+        }
+        
+        .bot-control-content::-webkit-scrollbar-thumb:hover {
+            background: #c0392b;
+        }
+        
+        .close-bot-control-btn {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 20px;
+            cursor: pointer;
+            padding: 0;
+            width: 25px;
+            height: 25px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .close-bot-control-btn:hover {
+            background: rgba(255,255,255,0.2);
+            border-radius: 3px;
+        }
+        
+        .bot-control-section {
+            padding: 15px;
+            color: white;
+        }
+        
+        .bot-control-section h4 {
+            color: #e74c3c;
+            margin-bottom: 15px;
+            font-size: 14px;
+        }
+        
+        .bot-item {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(231, 76, 60, 0.3);
+            border-radius: 8px;
+            padding: 12px;
+            margin-bottom: 10px;
+            transition: all 0.2s ease;
+        }
+        
+        .bot-item:hover {
+            background: rgba(255, 255, 255, 0.15);
+            border-color: rgba(231, 76, 60, 0.5);
+        }
+        
+        .bot-item-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        
+        .bot-name {
+            font-weight: bold;
+            color: #e74c3c;
+            font-size: 14px;
+        }
+        
+        .bot-controls-row {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        
+        .bot-control-group {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            min-width: 120px;
+        }
+        
+        .bot-control-group label {
+            font-size: 11px;
+            color: #bdc3c7;
+            font-weight: 500;
+        }
+        
+        .bot-control-group input,
+        .bot-control-group select {
+            padding: 4px 6px;
+            font-size: 11px;
+            border: 1px solid #555;
+            border-radius: 4px;
+            background: #34495e;
+            color: white;
+            transition: all 0.2s ease;
+        }
+        
+        .bot-control-group input:focus,
+        .bot-control-group select:focus {
+            outline: none;
+            border-color: #e74c3c;
+            box-shadow: 0 0 0 2px rgba(231, 76, 60, 0.2);
+        }
+        
+        .bot-control-group input:hover,
+        .bot-control-group select:hover {
+            border-color: #e74c3c;
+        }
+        
+        /* History Panel Styles */
+        .history-panel {
+            position: fixed;
+            top: 200px;
+            right: 50px;
+            background: linear-gradient(145deg, #2c3e50, #34495e);
+            border: 2px solid #27ae60;
+            border-radius: 10px;
+            padding: 0;
+            z-index: 1000;
+            max-width: 450px;
+            max-height: 700px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+            color: white;
+            cursor: move;
+            user-select: none;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .history-header {
+            background: linear-gradient(145deg, #1a252f, #2c3e50);
+            color: white;
+            padding: 10px 15px;
+            border-radius: 8px 8px 0 0;
+            cursor: move;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .history-header h3 {
+            margin: 0;
+            font-size: 16px;
+            color: #27ae60;
+        }
+        
+        .history-content {
+            flex: 1;
+            overflow-y: auto;
+            padding: 0;
+            max-height: calc(700px - 60px);
+        }
+        
+        .history-content::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        .history-content::-webkit-scrollbar-track {
+            background: #34495e;
+        }
+        
+        .history-content::-webkit-scrollbar-thumb {
+            background: #27ae60;
+            border-radius: 4px;
+        }
+        
+        .history-content::-webkit-scrollbar-thumb:hover {
+            background: #2ecc71;
+        }
+        
+        .close-history-btn {
+            background: none;
+            border: none;
+            color: #27ae60;
+            font-size: 20px;
+            cursor: pointer;
+            padding: 0;
+            width: 25px;
+            height: 25px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            transition: all 0.2s ease;
+        }
+        
+        .close-history-btn:hover {
+            background: rgba(231, 76, 60, 0.2);
+            color: #e74c3c;
+        }
+        
+        .history-section {
+            padding: 15px;
+            color: white;
+        }
+        
+        .history-section h4 {
+            color: #27ae60;
+            margin-bottom: 15px;
+            font-size: 14px;
+        }
+        
+        .history-list {
+            max-height: 500px;
+            overflow-y: auto;
+        }
+        
+        .history-entry {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(39, 174, 96, 0.3);
+            border-radius: 8px;
+            padding: 10px;
+            margin-bottom: 8px;
+            transition: all 0.2s ease;
+        }
+        
+        .history-entry:hover {
+            background: rgba(255, 255, 255, 0.15);
+            border-color: rgba(39, 174, 96, 0.5);
+        }
+        
+        .history-entry.jackpot-win {
+            border-color: rgba(241, 196, 15, 0.5);
+            background: rgba(241, 196, 15, 0.1);
+        }
+        
+        .history-entry.insurance-win {
+            border-color: rgba(52, 152, 219, 0.5);
+            background: rgba(52, 152, 219, 0.1);
+        }
+        
+        .history-round {
+            font-weight: bold;
+            color: #27ae60;
+            font-size: 12px;
+            margin-bottom: 5px;
+        }
+        
+        .history-player {
+            color: white;
+            font-size: 13px;
+            margin-bottom: 3px;
+        }
+        
+        .history-player.human {
+            color: #3498db;
+            font-weight: bold;
+        }
+        
+        .history-result {
+            font-size: 12px;
+            margin-bottom: 2px;
+        }
+        
+        .history-result.win {
+            color: #27ae60;
+        }
+        
+        .history-result.loss {
+            color: #e74c3c;
+        }
+        
+        .history-result.refund {
+            color: #f39c12;
+        }
+        
+        .history-jackpot {
+            color: #f1c40f;
+            font-weight: bold;
+            font-size: 12px;
+            margin-top: 5px;
         }
         
         .admin-panel .admin-section {
@@ -374,63 +720,35 @@
                 transform: scale(0.6) rotate(360deg) translateY(-80px);
             }
         }
-        
-        /* Bank History Styles */
-        .bank-history {
-            background: linear-gradient(145deg, #8e44ad, #9b59b6);
-            color: white;
-            padding: 6px 12px;
-            border-radius: 6px;
-            font-weight: bold;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
-            margin-top: 8px;
-            font-size: 12px;
-        }
-        
-        .history-label {
-            font-size: 11px;
-            margin-bottom: 3px;
-            display: block;
-        }
-        
-        #bank-history-list {
-            display: flex;
-            gap: 4px;
-            flex-wrap: wrap;
-        }
-        
-        .bank-card-item {
-            background: rgba(255,255,255,0.2);
-            padding: 2px 6px;
-            border-radius: 3px;
-            font-size: 10px;
-            border: 1px solid rgba(255,255,255,0.3);
-        }
 
         .rules-content {
             background: linear-gradient(145deg, #2c3e50, #34495e);
-            border-radius: 15px;
+            border: 2px solid #3498db;
+            border-radius: 10px;
             padding: 0;
-            max-width: 800px;
-            max-height: 90vh;
-            width: 90%;
-            overflow-y: auto;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            max-width: 500px;
+            max-height: 700px;
+            width: 500px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+            color: white;
+            display: flex;
+            flex-direction: column;
         }
 
         .rules-header {
             background: linear-gradient(145deg, #3498db, #2980b9);
             color: white;
-            padding: 20px;
-            border-radius: 15px 15px 0 0;
+            padding: 10px 15px;
+            border-radius: 8px 8px 0 0;
             display: flex;
             justify-content: space-between;
             align-items: center;
+            cursor: move;
         }
 
         .rules-header h2 {
             margin: 0;
-            font-size: 1.8em;
+            font-size: 16px;
         }
 
         .close-rules-btn {
@@ -454,9 +772,30 @@
         }
 
         .rules-body {
-            padding: 30px;
+            padding: 20px;
             color: #ecf0f1;
             line-height: 1.6;
+            flex: 1;
+            overflow-y: auto;
+            max-height: calc(700px - 60px);
+        }
+        
+        .rules-body::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        .rules-body::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+        }
+        
+        .rules-body::-webkit-scrollbar-thumb {
+            background: #3498db;
+            border-radius: 4px;
+        }
+        
+        .rules-body::-webkit-scrollbar-thumb:hover {
+            background: #2980b9;
         }
 
         .rules-body h3 {
@@ -655,6 +994,52 @@
             gap: 4px;
         }
 
+        .insurance-behavior {
+            margin-top: 8px;
+            margin-left: 10px; /* Small offset to the right, but not covering chip stack */
+            max-width: 120px; /* Limit width to prevent covering chip stack */
+        }
+
+        .insurance-behavior label {
+            font-size: 11px;
+            color: #2196F3;
+            display: block;
+            margin-bottom: 3px;
+            font-weight: 600;
+            text-shadow: 0 1px 2px rgba(33, 150, 243, 0.3);
+        }
+
+        .insurance-select {
+            width: 100%;
+            max-width: 120px; /* Limit width to prevent covering chip stack */
+            padding: 3px 6px;
+            font-size: 11px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            background: #fff;
+            color: #333;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .insurance-select:hover {
+            border-color: #2196F3;
+            box-shadow: 0 2px 6px rgba(33, 150, 243, 0.2);
+            transform: translateY(-1px);
+        }
+
+        .insurance-select:focus {
+            outline: none;
+            border-color: #2196F3;
+            box-shadow: 0 0 0 2px rgba(33, 150, 243, 0.2);
+        }
+
+        .insurance-select option {
+            padding: 4px;
+            font-size: 11px;
+        }
+
         .animated-chip {
             position: absolute;
             width: 24px;
@@ -768,15 +1153,11 @@
         /* Matrix Modal Styles */
         .matrix-modal {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.8);
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            top: 200px;
+            left: 50px;
             z-index: 2000;
+            cursor: move;
+            user-select: none;
         }
 
         .matrix-modal.hidden {
@@ -784,56 +1165,88 @@
         }
 
         .matrix-content {
-            background: white;
+            background: linear-gradient(145deg, #2c3e50, #34495e);
+            border: 2px solid #27ae60;
             border-radius: 10px;
-            padding: 20px;
-            max-width: 90%;
-            max-height: 90%;
-            overflow: auto;
-            position: relative;
-            color: #333;
+            padding: 0;
+            max-width: 600px;
+            max-height: 700px;
+            width: 600px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+            color: white;
+            display: flex;
+            flex-direction: column;
         }
 
         .matrix-content p {
-            color: #333;
+            color: #ecf0f1;
             margin: 10px 0;
         }
 
         .matrix-content strong {
-            color: #000;
+            color: #f39c12;
             font-weight: bold;
         }
 
         .matrix-header {
+            background: linear-gradient(145deg, #27ae60, #229954);
+            color: white;
+            padding: 10px 15px;
+            border-radius: 8px 8px 0 0;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 20px;
-            border-bottom: 2px solid #333;
-            padding-bottom: 10px;
+            cursor: move;
         }
 
         .matrix-header h2 {
             margin: 0;
-            color: #333;
+            color: white;
+            font-size: 16px;
+        }
+
+        .matrix-body {
+            padding: 20px;
+            flex: 1;
+            overflow-y: auto;
+            max-height: calc(700px - 60px);
+        }
+        
+        .matrix-body::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        .matrix-body::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+        }
+        
+        .matrix-body::-webkit-scrollbar-thumb {
+            background: #27ae60;
+            border-radius: 4px;
+        }
+        
+        .matrix-body::-webkit-scrollbar-thumb:hover {
+            background: #229954;
         }
 
         .close-matrix-btn {
-            background: #ff4444;
-            color: white;
+            background: none;
             border: none;
-            border-radius: 50%;
-            width: 30px;
-            height: 30px;
-            font-size: 18px;
+            color: white;
+            font-size: 20px;
             cursor: pointer;
+            padding: 0;
+            width: 25px;
+            height: 25px;
             display: flex;
             align-items: center;
             justify-content: center;
         }
 
         .close-matrix-btn:hover {
-            background: #ff6666;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 3px;
         }
 
         .matrix-image {
@@ -852,65 +1265,68 @@
         .matrix-table {
             width: 100%;
             border-collapse: collapse;
-            font-size: 14px;
-            background: white;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            font-size: 11px;
+            background: rgba(255, 255, 255, 0.05);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.3);
             border-radius: 8px;
             overflow: hidden;
         }
 
         .matrix-table th {
-            background: linear-gradient(145deg, #34495e, #2c3e50);
+            background: linear-gradient(145deg, #27ae60, #229954);
             color: white;
-            padding: 12px 8px;
+            padding: 6px 4px;
             text-align: center;
             font-weight: bold;
-            border: 1px solid #2c3e50;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            font-size: 10px;
         }
 
         .matrix-table td {
-            padding: 10px 8px;
+            padding: 5px 4px;
             text-align: center;
-            border: 1px solid #ddd;
+            border: 1px solid rgba(255, 255, 255, 0.1);
             font-weight: 500;
+            color: #ecf0f1;
+            font-size: 11px;
         }
 
         .matrix-table td:first-child,
         .matrix-table td:nth-child(2) {
-            background-color: #f8f9fa !important;
-            color: #333 !important;
+            background-color: rgba(255, 255, 255, 0.1) !important;
+            color: #ecf0f1 !important;
             font-weight: bold;
         }
 
         .matrix-table tr:nth-child(even) {
-            background-color: #f8f9fa;
+            background-color: rgba(255, 255, 255, 0.02);
         }
 
         .matrix-table tr:hover {
-            background-color: #e8f4fd;
+            background-color: rgba(255, 255, 255, 0.1);
         }
 
         .matrix-table .win {
-            background-color: #d4edda !important;
-            color: #155724;
+            background-color: rgba(76, 175, 80, 0.3) !important;
+            color: #a5d6a7;
             font-weight: bold;
         }
 
         .matrix-table .loss {
-            background-color: #f8d7da !important;
-            color: #721c24;
+            background-color: rgba(244, 67, 54, 0.3) !important;
+            color: #ef9a9a;
             font-weight: bold;
         }
 
         .matrix-table .refund {
-            background-color: #ffb366 !important;
-            color: #cc5500;
+            background-color: rgba(255, 152, 0, 0.3) !important;
+            color: #ffb74d;
             font-weight: bold;
         }
 
         .matrix-table .jackpot {
-            background-color: #e1ecf4 !important;
-            color: #0c5460;
+            background-color: rgba(33, 150, 243, 0.3) !important;
+            color: #90caf9;
             font-weight: bold;
         }
 
@@ -918,7 +1334,7 @@
         .jackpot-promo {
             position: fixed;
             right: 100px;
-            top: 20%;
+            top: 22.5%;
             transform: translateY(-50%);
             background: rgba(255, 215, 0, 0.1);
             color: #ffd700;
@@ -929,6 +1345,58 @@
             width: 500px;
             box-shadow: 0 2px 8px rgba(255, 215, 0, 0.2);
             z-index: 1000;
+        }
+
+        /* Quick Rules Promotion Box */
+        .quick-rules-promo {
+            position: fixed;
+            left: 50px;
+            top: 40%;
+            transform: translateY(-50%);
+            background: rgba(52, 152, 219, 0.15);
+            color: #3498db;
+            padding: 15px 20px;
+            border-radius: 8px;
+            border: 2px solid rgba(52, 152, 219, 0.4);
+            width: 350px;
+            box-shadow: 0 2px 8px rgba(52, 152, 219, 0.3);
+            z-index: 1000;
+        }
+
+        .quick-rules-promo h3 {
+            margin: 0 0 12px 0;
+            font-size: 16px;
+            color: #3498db;
+            text-align: center;
+            border-bottom: 1px solid rgba(52, 152, 219, 0.3);
+            padding-bottom: 8px;
+        }
+
+        .quick-rules-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .quick-rules-list li {
+            margin-bottom: 10px;
+            font-size: 12px;
+            line-height: 1.4;
+            padding-left: 20px;
+            position: relative;
+        }
+
+        .quick-rules-list li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #3498db;
+            font-weight: bold;
+        }
+
+        .quick-rules-list li strong {
+            color: #2980b9;
+            font-weight: 600;
         }
 
         .promo-text {
@@ -986,25 +1454,101 @@
             position: relative;
             margin: 0 auto;
         }
+
+        /* Header Layout */
+        .game-header {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 8px;
+            overflow-x: auto;
+            overflow-y: hidden;
+        }
+
+        .game-header h1 {
+            white-space: nowrap;
+            margin-right: 15px;
+            margin-bottom: 0;
+            margin-top: 0;
+        }
+
+        /* Jackpot Display Boxes */
+        .jackpot-display,
+        .insurance-jackpot-display {
+            display: inline-flex;
+            align-items: center;
+            padding: 5px 10px;
+            border-radius: 6px;
+            white-space: nowrap;
+            flex-shrink: 0;
+        }
+
+        /* Super Jackpot Display */
+        .super-jackpot-display {
+            display: inline-flex;
+            align-items: center;
+            padding: 5px 10px;
+            border-radius: 6px;
+            border: 2px solid rgba(142, 68, 173, 0.6);
+            background: rgba(142, 68, 173, 0.1);
+            animation: superJackpotGlow 2s ease-in-out infinite alternate;
+            white-space: nowrap;
+            flex-shrink: 0;
+        }
+        
+        @keyframes superJackpotGlow {
+            0% {
+                box-shadow: 0 0 5px rgba(142, 68, 173, 0.5), 0 0 10px rgba(142, 68, 173, 0.3);
+                border-color: rgba(142, 68, 173, 0.6);
+            }
+            100% {
+                box-shadow: 0 0 15px rgba(142, 68, 173, 0.8), 0 0 25px rgba(142, 68, 173, 0.5), 0 0 35px rgba(142, 68, 173, 0.3);
+                border-color: rgba(142, 68, 173, 1);
+            }
+        }
+        
+        .super-jackpot-label {
+            font-weight: bold;
+            margin-right: 5px;
+            color: #8e44ad;
+        }
+
+        /* Ensure labels and amounts stay on one line */
+        .jackpot-label,
+        .super-jackpot-label,
+        .insurance-label {
+            display: inline;
+            white-space: nowrap;
+        }
+
+        #jackpot-amount,
+        #super-jackpot-amount,
+        #insurance-amount {
+            display: inline;
+            white-space: nowrap;
+            font-weight: bold;
+        }
     </style>
 </head>
 <body>
     <div id="game-container">
         <!-- Header -->
+        <span class="version-badge version-badge-side">v1.120.82</span>
         <header class="game-header">
-            <h1>🎯 Nine Card <span class="version-badge">v1.120.34</span></h1>
+            <h1>🎯 Nine Card</h1>
             <div class="jackpot-display">
-                <span class="jackpot-label">Jackpot:</span>
+                <span class="jackpot-label">♥️ Jackpot:</span>
                 <span id="jackpot-amount">0</span>
             </div>
+            <div class="super-jackpot-display">
+                <span class="super-jackpot-label">💎 Super Jackpot:</span>
+                <span id="super-jackpot-amount">0</span>
+            </div>
             <div class="insurance-jackpot-display">
-                <span class="insurance-label">Insurance:</span>
+                <span class="insurance-label">Insurance Jackpot:</span>
                 <span id="insurance-amount">0</span>
             </div>
-        <div class="bank-history">
-            <span class="history-label">Bank History:</span>
-            <div id="bank-history-list"></div>
-        </div>
+            <button id="history-btn" class="rules-btn history-header-btn">📊 History</button>
             <button id="rules-btn" class="rules-btn">📋 Rules</button>
             <button id="matrix-btn" class="rules-btn">📊 Pay out Matrix</button>
         </header>
@@ -1038,16 +1582,35 @@
 
         <!-- Jackpot Promotional Text -->
         <div class="jackpot-promo">
-            <span class="promo-text">💎 <strong>HEARTS JACKPOT:</strong> Match rank & suit with ♥️ Hearts<br>
+            <span class="promo-text">♥️ <strong>HEARTS JACKPOT:</strong> Match rank & suit with ♥️ Hearts<br>
+            💎 <strong>SUPER JACKPOT:</strong> Win Hearts Jackpot twice in a row for MEGA payout!<br>
             🛡️ <strong>INSURANCE JACKPOT:</strong> Buy $10 insurance, match ANY suit<br>
             <small>⚠️ Insurance available when pot reaches $50 minimum</small><br>
-            <em>Two ways to win BIG! 80% Hearts / 20% Insurance from all contributions!</em></span>
+            <em>THREE ways to win BIG! Win Hearts twice = Super Jackpot! 80% Hearts / 20% Insurance from all contributions!</em></span>
+        </div>
+
+        <!-- Quick Rules Promotion Box -->
+        <div class="quick-rules-promo">
+            <h3>📋 Quick Rules</h3>
+            <ul class="quick-rules-list">
+                <li><strong>Select a card at your turn:</strong> Click on an available card to place your bet</li>
+                <li><strong>Bank draws a card:</strong> After all players choose, bank draws Ace through 10</li>
+                <li><strong>Lower card wins:</strong> Beat the bank's card</li>
+                <li><strong>Same card loses:</strong> You lose your bet</li>
+                <li><strong>Higher card refund:</strong> Get bet back minus jackpot fee</li>
+                <li><strong>Bank draws 10:</strong> Only card 9 wins (739)</li>
+                <li><strong>Bank draws Ace:</strong> No winners, Ace bet goes to jackpot</li>
+                <li><strong>Hearts Jackpot:</strong> Match rank & suit with ♥️</li>
+                <li><strong>Super Jackpot:</strong> Win Hearts Jackpot twice in a row!</li>
+                <li><strong>Insurance:</strong> Match rank & suit (any suit)</li>
+            </ul>
         </div>
 
         <!-- Game Controls -->
         <div class="game-controls">
             <button id="start-round-btn" class="control-btn primary">Start New Round</button>
             <button id="admin-panel-btn" class="control-btn">Admin Panel</button>
+            <button id="bot-control-btn" class="control-btn">Bot Control</button>
         </div>
 
         <!-- Rules Modal -->
@@ -1087,12 +1650,21 @@
                         <li><strong>Bank Rake:</strong> The casino takes 2% from the losing player's bet as house commission. Can be changed in admin controls</li>
                     </ul>
                     
-                    <h3>💎 Hearts Jackpot</h3>
+                    <h3>♥️ Hearts Jackpot</h3>
                     <ul>
                         <li><strong>How to Win:</strong> Draw the same rank AND suit as the bank with ♥️ Hearts!</li>
-                        <li><strong>Jackpot Split:</strong> Contributions are split 80% to Hearts Jackpot, 20% to Insurance Jackpot</li>
+                        <li><strong>Jackpot Split:</strong> Contributions are split 80% to Hearts Jackpot, 20% to Insurance Jackpot. From the Hearts Jackpot portion, a percentage (adjustable in admin) is reserved for Super Jackpot.</li>
                         <li><strong>Payout:</strong> Win the entire Hearts Jackpot if bank card matches players number and heart suit</li>
                         <li><strong>Example:</strong> If you select the 7♥ and the bank draws 7♥, you win!</li>
+                    </ul>
+                    
+                    <h3>💎 Super Jackpot</h3>
+                    <ul>
+                        <li><strong>How to Win:</strong> Win the Hearts Jackpot two times in a row! Must be the same player winning both times consecutively.</li>
+                        <li><strong>Super Jackpot Contribution:</strong> A percentage (default 10%, adjustable in admin controls) of each Hearts Jackpot contribution is reserved for the Super Jackpot, multiplied by the number of simultaneous tables (default 10, adjustable in admin).</li>
+                        <li><strong>Payout:</strong> When you win Hearts Jackpot for the second consecutive time, you receive BOTH the Hearts Jackpot AND the entire Super Jackpot!</li>
+                        <li><strong>Reset:</strong> After a Super Jackpot win, the Super Jackpot resets to zero, and you start fresh for the next consecutive win attempt.</li>
+                        <li><strong>Example:</strong> Win with 5♥ in round 1, then win again with 8♥ in round 2 = You win Hearts Jackpot + Super Jackpot!</li>
                     </ul>
                     
                     <h3>🛡️ Insurance System</h3>
@@ -1328,6 +1900,7 @@
                     <div>Expected: <span id="expected-balance">9000</span></div>
                     <div>Player Balances: <span id="player-balances">0</span></div>
                     <div>Jackpot: <span id="admin-jackpot">0</span></div>
+                    <div>Super Jackpot: <span id="admin-super-jackpot">0</span></div>
                     <div>Insurance: <span id="admin-insurance">0</span></div>
                     <div>Bank Rake: <span id="admin-bank-rake">0</span></div>
                     <div>Round: <span id="admin-round">1</span></div>
@@ -1362,6 +1935,15 @@
                         <label for="bank-rate">Bank Rate (from losing players):</label>
                         <input type="number" id="bank-rate" min="0" max="100" step="1" value="2">
                         <span>%</span>
+                    </div>
+                    <div class="control-group">
+                        <label for="super-jackpot-rate">Super Jackpot Rate (% of hearts jackpot):</label>
+                        <input type="number" id="super-jackpot-rate" min="0" max="50" step="1" value="10" class="insurance-setting-input">
+                        <span>%</span>
+                    </div>
+                    <div class="control-group">
+                        <label for="number-of-tables">Number of Tables:</label>
+                        <input type="number" id="number-of-tables" min="1" max="100" step="1" value="50" class="insurance-setting-input">
                     </div>
                 </div>
             </div>
@@ -1403,6 +1985,38 @@
                     <button id="resume-game-btn" class="control-btn">Resume Game</button>
                 </div>
             </div>
+            </div>
+        </div>
+
+        <!-- Bot Control Panel -->
+        <div id="bot-control-panel" class="bot-control-panel hidden">
+            <div class="bot-control-header">
+                <h3>Bot Control Panel</h3>
+                <button id="close-bot-control-btn" class="close-bot-control-btn">&times;</button>
+            </div>
+            <div class="bot-control-content">
+                <div class="bot-control-section">
+                    <h4>Bot Settings</h4>
+                    <div class="bot-list" id="bot-list">
+                        <!-- Bot controls will be generated here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- History Panel -->
+        <div id="history-panel" class="history-panel hidden">
+            <div class="history-header">
+                <h3>Game History</h3>
+                <button id="close-history-btn" class="close-history-btn">&times;</button>
+            </div>
+            <div class="history-content">
+                <div class="history-section">
+                    <h4>Round Results</h4>
+                    <div class="history-list" id="history-list">
+                        <!-- History entries will be generated here -->
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -1495,7 +2109,9 @@
             CARD_SELECTION_TIMEOUT: 10000,
             BOT_DELAY: 2000,
             AUTO_START_NEXT_ROUND: true,
-            ROUND_DELAY: 3000
+            ROUND_DELAY: 3000,
+            SUPER_JACKPOT_RATE: 0.10,         // 10% of hearts jackpot goes to super jackpot
+            NUMBER_OF_TABLES: 50              // Number of tables playing simultaneously
         };
 
         // Dynamic Matrix Calculator
@@ -1677,10 +2293,18 @@
                     bankCard: null,
                     jackpot: 0,
                     insuranceJackpot: 0,
+                    superJackpot: 0,
                     bankRake: 0,
                     previousLoser: null,
                     selectedCards: new Map(),
-                    gameHistory: []
+                    gameHistory: [],
+                    currentRoundJackpotWin: false,
+                    currentRoundJackpotWinner: null,
+                    currentRoundJackpotAmount: 0,
+                    currentRoundInsuranceWin: false,
+                    currentRoundInsuranceWinner: null,
+                    currentRoundInsuranceAmount: 0,
+                    lastHeartsJackpotWinner: null  // Track last hearts jackpot winner for super jackpot
                 };
                 this.stateListeners = [];
                 this.isPaused = false;
@@ -1700,7 +2324,8 @@
                     result: null,
                     isBot: false,
                     strategy: 'random',
-                    hasInsurance: false
+                    hasInsurance: false,
+                    insuranceBehavior: 'ask'
                 });
 
                 // Create bot players
@@ -1714,15 +2339,18 @@
                         result: null,
                         isBot: true,
                         strategy: 'random',
-                        hasInsurance: false
+                        hasInsurance: false,
+                        insuranceBehavior: 'ask'
                     });
                 }
 
                 this.gameData.jackpot = 0;
                 this.gameData.insuranceJackpot = 0;
+                this.gameData.superJackpot = 0;
                 this.gameData.bankRake = 0;
                 this.gameData.selectedCards.clear();
                 this.gameData.previousLoser = null;
+                this.gameData.lastHeartsJackpotWinner = null;
                 
                 this.setState(GAME_STATES.WAITING_FOR_ROUND_START);
                 console.log('Game data initialized:', this.gameData);
@@ -1897,6 +2525,37 @@
                     console.log(`Player ${player.name} strategy updated to: ${strategy}`);
                 }
             }
+            
+            updatePlayerName(playerId, name) {
+                const player = this.getPlayer(playerId);
+                if (player) {
+                    player.name = name;
+                    console.log(`Player ${playerId} name updated to: ${name}`);
+                    // Update UI immediately
+                    this.updatePlayerSeatUI(playerId);
+                }
+            }
+            
+            updatePlayerInsuranceBehavior(playerId, behavior) {
+                const player = this.getPlayer(playerId);
+                if (player) {
+                    player.insuranceBehavior = behavior;
+                    console.log(`Player ${player.name} insurance behavior updated to: ${behavior}`);
+                }
+            }
+            
+            updatePlayerSeatUI(playerId) {
+                const player = this.getPlayer(playerId);
+                if (player) {
+                    const seat = document.getElementById(`player-${playerId}`);
+                    if (seat) {
+                        const nameElement = seat.querySelector('.player-name');
+                        if (nameElement) {
+                            nameElement.textContent = player.name;
+                        }
+                    }
+                }
+            }
 
             pauseGame() {
                 this.isPaused = true;
@@ -1986,7 +2645,53 @@
             isGamePaused() {
                 return this.isPaused;
             }
-
+            
+            addRoundToHistory(roundData) {
+                const historyEntry = {
+                    roundNumber: this.gameData.round,
+                    timestamp: Date.now(),
+                    bankCard: roundData.bankCard,
+                    players: roundData.players.map(player => ({
+                        id: player.id,
+                        name: player.name,
+                        isHuman: player.isHuman,
+                        selectedCard: player.selectedCard,
+                        bet: player.bet,
+                        result: player.result,
+                        winnings: player.winnings,
+                        refund: player.refund,
+                        balance: player.balance || 0 // Include balance in history
+                    })),
+                    heartsJackpotWin: roundData.heartsJackpotWin || false,
+                    heartsJackpotWinner: roundData.heartsJackpotWinner || null,
+                    heartsJackpotAmount: roundData.heartsJackpotAmount || 0,
+                    insuranceWin: roundData.insuranceWin || false,
+                    insuranceWinner: roundData.insuranceWinner || null,
+                    insuranceAmount: roundData.insuranceAmount || 0
+                };
+                
+                this.gameData.gameHistory.push(historyEntry);
+                
+                // Keep only last 50 rounds to prevent memory issues
+                if (this.gameData.gameHistory.length > 50) {
+                    this.gameData.gameHistory = this.gameData.gameHistory.slice(-50);
+                }
+                
+                console.log(`📝 Added round ${this.gameData.round} to history`);
+            }
+            
+            setRoundJackpotWin(won, winner, amount) {
+                this.gameData.currentRoundJackpotWin = won;
+                this.gameData.currentRoundJackpotWinner = winner;
+                this.gameData.currentRoundJackpotAmount = amount;
+            }
+            
+            setRoundInsuranceWin(won, winner, amount) {
+                this.gameData.currentRoundInsuranceWin = won;
+                this.gameData.currentRoundInsuranceWinner = winner;
+                this.gameData.currentRoundInsuranceAmount = amount;
+            }
+            
             updateJackpot(amount) {
                 // Safety check for NaN or undefined
                 if (isNaN(amount) || amount === undefined || amount === null) {
@@ -2000,13 +2705,21 @@
                     const mainJackpotAmount = amount * GAME_CONFIG.JACKPOT_PAYOUT_RATE; // 80%
                     const insuranceAmount = amount * GAME_CONFIG.INSURANCE_JACKPOT_RATE; // 20%
                     
-                    this.gameData.jackpot += mainJackpotAmount;
-                    this.gameData.insuranceJackpot += insuranceAmount;
+                    // Split main jackpot: SUPER_JACKPOT_RATE (10%) goes to super jackpot, rest to regular jackpot
+                    const superJackpotContribution = mainJackpotAmount * GAME_CONFIG.SUPER_JACKPOT_RATE;
+                    const regularJackpotAmount = mainJackpotAmount - superJackpotContribution;
                     
-                    console.log(`Jackpot contribution split: $${amount.toFixed(2)} -> Main: $${mainJackpotAmount.toFixed(2)}, Insurance: $${insuranceAmount.toFixed(2)}`);
+                    // Super jackpot contribution is multiplied by number of tables
+                    const superJackpotMultiplied = superJackpotContribution * GAME_CONFIG.NUMBER_OF_TABLES;
+                    
+                    this.gameData.jackpot += regularJackpotAmount;
+                    this.gameData.insuranceJackpot += insuranceAmount;
+                    this.gameData.superJackpot += superJackpotMultiplied;
+                    
+                    console.log(`Jackpot contribution split: $${amount.toFixed(2)} -> Main: $${regularJackpotAmount.toFixed(2)}, Super: $${superJackpotMultiplied.toFixed(2)} (${superJackpotContribution.toFixed(2)} x ${GAME_CONFIG.NUMBER_OF_TABLES}), Insurance: $${insuranceAmount.toFixed(2)}`);
                 } else {
                     // Negative amounts (withdrawals) only affect main jackpot
-                this.gameData.jackpot += amount;
+                    this.gameData.jackpot += amount;
                 }
                 
                 if (this.gameData.jackpot < 0) {
@@ -2015,10 +2728,14 @@
                 if (this.gameData.insuranceJackpot < 0) {
                     this.gameData.insuranceJackpot = 0;
                 }
+                if (this.gameData.superJackpot < 0) {
+                    this.gameData.superJackpot = 0;
+                }
                 
                 // Round to nearest integer
                 this.gameData.jackpot = Math.round(this.gameData.jackpot);
                 this.gameData.insuranceJackpot = Math.round(this.gameData.insuranceJackpot);
+                this.gameData.superJackpot = Math.round(this.gameData.superJackpot);
             }
 
             updateInsuranceJackpot(amount) {
@@ -2062,16 +2779,24 @@
                 }, 0);
                 
                 const jackpot = this.gameData.jackpot || 0;
+                const superJackpot = this.gameData.superJackpot || 0;
+                const insuranceJackpot = this.gameData.insuranceJackpot || 0;
                 const bankRake = this.gameData.bankRake || 0;
                 
                 if (isNaN(jackpot)) {
                     console.error('Invalid jackpot:', jackpot);
                 }
+                if (isNaN(superJackpot)) {
+                    console.error('Invalid super jackpot:', superJackpot);
+                }
+                if (isNaN(insuranceJackpot)) {
+                    console.error('Invalid insurance jackpot:', insuranceJackpot);
+                }
                 if (isNaN(bankRake)) {
                     console.error('Invalid bank rake:', bankRake);
                 }
                 
-                return playerBalances + jackpot + bankRake;
+                return playerBalances + jackpot + superJackpot + insuranceJackpot + bankRake;
             }
 
             allCardsSelected() {
@@ -2424,7 +3149,12 @@
                 console.log(`DEBUG: Bank rake after update: ${this.stateManager.getGameData().bankRake}`);
                 
                 // Losing player already paid their bet when selecting card - no need to deduct again
-                this.stateManager.updatePlayer(losingPlayer.id, { result: RESULT_TYPES.LOSS });
+                this.stateManager.updatePlayer(losingPlayer.id, { 
+                    result: RESULT_TYPES.LOSS,
+                    bet: losingBet,
+                    winnings: 0,
+                    refund: 0
+                });
                 console.log(`${losingPlayer.name} with ${losingPlayer.selectedCard.rank} LOSES ${losingBet} (already deducted when card was selected)`);
                 
                 // Categorize all OTHER players
@@ -2516,7 +3246,12 @@
                         const totalWin = winnerBet + winAmount;
                         this.stateManager.updatePlayerBalance(winner.playerId, totalWin);
                         // Store the actual winnings for display purposes
-                        this.stateManager.updatePlayer(winner.playerId, { actualWinnings: totalWin });
+                        this.stateManager.updatePlayer(winner.playerId, { 
+                            actualWinnings: totalWin,
+                            bet: winnerBet,
+                            winnings: totalWin,
+                            refund: 0
+                        });
                         console.log(`  ${this.stateManager.getPlayer(winner.playerId).name} wins ${totalWin.toFixed(2)} (bet back: ${winnerBet} + pool share: ${winAmount.toFixed(2)})`);
                         
                         currentPool -= winAmount;
@@ -2547,7 +3282,12 @@
                     console.log(`DEBUG: JACKPOT_RATE = ${GAME_CONFIG.JACKPOT_RATE}, jackpotContribution = ${jackpotContribution}`);
                     
                     this.stateManager.updatePlayerBalance(refundPlayerId, refundAmount);
-                        this.stateManager.updateJackpot(jackpotContribution);
+                    this.stateManager.updatePlayer(refundPlayerId, { 
+                        refund: refundAmount,
+                        bet: betValue,
+                        winnings: 0
+                    });
+                    this.stateManager.updateJackpot(jackpotContribution);
                     console.log(`  ${refundPlayer.name} refund ${refundAmount.toFixed(2)} (jackpot: ${jackpotContribution.toFixed(2)})`);
                     
                     totalRefundGiven += refundAmount;
@@ -2569,16 +3309,52 @@
                     // Player gets the full main jackpot (insurance was already separated during contributions)
                     const payout = jackpotAmount;
                     
-                    this.stateManager.updatePlayerBalance(losingPlayer.id, payout);
+                    // Check if this player won hearts jackpot last round (2 wins in a row = SUPER JACKPOT!)
+                    const isSuperJackpotWin = gameData.lastHeartsJackpotWinner === losingPlayer.id && gameData.superJackpot > 0;
+                    let totalPayout = payout;
+                    
+                    let superPayoutAmount = 0;
+                    if (isSuperJackpotWin) {
+                        // SUPER JACKPOT! Player wins both regular jackpot AND super jackpot
+                        superPayoutAmount = gameData.superJackpot;
+                        totalPayout = payout + superPayoutAmount;
+                        
+                        console.log(`💎💎💎 SUPER JACKPOT WON! 💎💎💎`);
+                        console.log(`💎 Player ${losingPlayer.id} (${losingPlayer.name}) wins hearts jackpot 2 rounds in a row!`);
+                        console.log(`💎 Regular jackpot: $${payout}`);
+                        console.log(`💎 Super jackpot: $${superPayoutAmount}`);
+                        console.log(`💎 Total payout: $${totalPayout}`);
+                        
+                        // Clear super jackpot
+                        gameData.superJackpot = 0;
+                        
+                        // Reset tracking (since super jackpot was won)
+                        gameData.lastHeartsJackpotWinner = null;
+                        
+                        // Play super jackpot sound/animation if available
+                        if (this.uiController && this.uiController.soundManager) {
+                            this.uiController.soundManager.playSound('jackpot'); // Use jackpot sound for now
+                        }
+                    } else {
+                        // Normal hearts jackpot win - update tracking for potential super jackpot
+                        gameData.lastHeartsJackpotWinner = losingPlayer.id;
+                        console.log(`🎰 Hearts jackpot won by ${losingPlayer.name} - tracking for potential super jackpot next round`);
+                    }
+                    
+                    this.stateManager.updatePlayerBalance(losingPlayer.id, totalPayout);
                     this.stateManager.updatePlayer(losingPlayer.id, { 
                         result: RESULT_TYPES.JACKPOT,
-                        jackpotAmount: payout 
+                        jackpotAmount: payout,
+                        superJackpotAmount: superPayoutAmount
                     });
                     
                     // Clear main jackpot (insurance jackpot stays untouched)
                     this.stateManager.updateJackpot(-jackpotAmount);
                     
-                    console.log(`🎰 JACKPOT WON! Player ${losingPlayer.id} (${losingPlayer.name}) gets full main jackpot: $${payout}`);
+                    // Store jackpot win data for history
+                    this.stateManager.setRoundJackpotWin(true, losingPlayer.name, isSuperJackpotWin ? totalPayout : payout);
+                    
+                    console.log(`🎰 ${isSuperJackpotWin ? 'SUPER ' : ''}JACKPOT WON! Player ${losingPlayer.id} (${losingPlayer.name}) gets ${isSuperJackpotWin ? 'SUPER + regular' : 'regular'} jackpot: $${totalPayout}`);
                     console.log(`🎰 Player isHuman: ${losingPlayer.isHuman}`);
                     console.log(`🎰 window.uiController exists: ${!!window.uiController}`);
                     console.log(`🎰 soundManager exists: ${!!(window.uiController && window.uiController.soundManager)}`);
@@ -2623,8 +3399,29 @@
                         insuranceAmount: insurancePot 
                     });
                     
-                    // Clear insurance pot
-                    this.stateManager.updateInsuranceJackpot(-insurancePot);
+                    // Store insurance win data for history
+                    this.stateManager.setRoundInsuranceWin(true, winningPlayer.name, insurancePot);
+                    
+                    // Reset insurance pot to zero after payout
+                    gameData.insuranceJackpot = 0;
+                    console.log(`🛡️ Insurance pot reset to $0 after payout`);
+                    
+                    // Remove all insurance markers since pot is now empty
+                    // All players lose their insurance status when pot is won
+                    gameData.players.forEach(player => {
+                        player.hasInsurance = false;
+                    });
+                    
+                    // Remove all insurance markers from UI
+                    if (this.uiController && typeof this.uiController.removeInsuranceMarkers === 'function') {
+                        this.uiController.removeInsuranceMarkers();
+                        console.log(`🛡️ Removed all insurance markers after payout`);
+                    }
+                    
+                    // Update insurance jackpot display
+                    if (this.uiController) {
+                        this.uiController.updateInsuranceJackpotDisplay();
+                    }
                     
                     // Play insurance win sound and animation immediately
                     if (this.uiController && this.uiController.soundManager) {
@@ -2865,6 +3662,8 @@
                 // Detailed balance breakdown
                 const playerBalances = gameData.players.reduce((sum, player) => sum + (player.balance || 0), 0);
                 const jackpot = gameData.jackpot || 0;
+                const superJackpot = gameData.superJackpot || 0;
+                const insuranceJackpot = gameData.insuranceJackpot || 0;
                 const bankRake = gameData.bankRake || 0;
                 
                 // Calculate difference and percentage
@@ -2875,6 +3674,8 @@
                 console.log('=== BALANCE VALIDATION ===');
                 console.log(`Player balances: $${playerBalances}`);
                 console.log(`Jackpot: $${jackpot}`);
+                console.log(`Super Jackpot: $${superJackpot}`);
+                console.log(`Insurance: $${insuranceJackpot}`);
                 console.log(`Bank rake: $${bankRake}`);
                 console.log(`Total: $${totalBalance}`);
                 console.log(`Expected: $${expectedTotal}`);
@@ -3401,17 +4202,22 @@
                     playerSeats: document.querySelector('.player-seats'),
                     bankCard: document.getElementById('bank-card'),
                     jackpotAmount: document.getElementById('jackpot-amount'),
+                    superJackpotAmount: document.getElementById('super-jackpot-amount'),
                     insuranceAmount: document.getElementById('insurance-amount'),
-                    bankHistoryList: document.getElementById('bank-history-list'),
                     startRoundBtn: document.getElementById('start-round-btn'),
                     adminPanelBtn: document.getElementById('admin-panel-btn'),
                     adminPanel: document.getElementById('admin-panel'),
+                    botControlBtn: document.getElementById('bot-control-btn'),
+                    botControlPanel: document.getElementById('bot-control-panel'),
+                    historyBtn: document.getElementById('history-btn'),
+                    historyPanel: document.getElementById('history-panel'),
                     gameState: document.getElementById('game-state'),
                     gameTimer: document.getElementById('game-timer'),
                     totalBalance: document.getElementById('total-balance'),
                     expectedBalance: document.getElementById('expected-balance'),
                     playerBalances: document.getElementById('player-balances'),
                     adminJackpot: document.getElementById('admin-jackpot'),
+                    adminSuperJackpot: document.getElementById('admin-super-jackpot'),
                     adminInsurance: document.getElementById('admin-insurance'),
                     adminBankRake: document.getElementById('admin-bank-rake'),
                     adminBankRakeDisplay: document.getElementById('admin-bank-rake-display'),
@@ -3450,8 +4256,23 @@
                     this.elements.adminPanelBtn.addEventListener('click', () => this.toggleAdminPanel());
                 }
                 
+                if (this.elements.botControlBtn) {
+                    this.elements.botControlBtn.addEventListener('click', () => this.toggleBotControlPanel());
+                }
+                
+                // History panel event listeners
+                if (this.elements.historyBtn) {
+                    this.elements.historyBtn.addEventListener('click', () => this.toggleHistoryPanel());
+                }
+                
                 // Make admin panel draggable
                 this.makeAdminPanelDraggable();
+                
+                // Make bot control panel draggable
+                this.makeBotControlPanelDraggable();
+                
+                // Make history panel draggable
+                this.makeHistoryPanelDraggable();
                 
                 // Sound toggle control
                 const soundToggle = document.getElementById('sound-toggle');
@@ -3466,6 +4287,17 @@
                 const closeAdminBtn = document.getElementById('close-admin-btn');
                 if (closeAdminBtn) {
                     closeAdminBtn.addEventListener('click', () => this.toggleAdminPanel());
+                }
+
+                // Close bot control panel button
+                const closeBotControlBtn = document.getElementById('close-bot-control-btn');
+                if (closeBotControlBtn) {
+                    closeBotControlBtn.addEventListener('click', () => this.toggleBotControlPanel());
+                }
+                
+                const closeHistoryBtn = document.getElementById('close-history-btn');
+                if (closeHistoryBtn) {
+                    closeHistoryBtn.addEventListener('click', () => this.toggleHistoryPanel());
                 }
 
                 // Rules button
@@ -3530,6 +4362,40 @@
                     });
                 }
                 
+                // Super jackpot rate control
+                const superJackpotRate = document.getElementById('super-jackpot-rate');
+                if (superJackpotRate) {
+                    // Initialize with current values
+                    superJackpotRate.value = Math.round(GAME_CONFIG.SUPER_JACKPOT_RATE * 100);
+                    
+                    superJackpotRate.addEventListener('change', (e) => {
+                        const newRate = parseFloat(e.target.value) / 100;
+                        if (newRate >= 0 && newRate <= 0.5) {
+                            GAME_CONFIG.SUPER_JACKPOT_RATE = newRate;
+                            console.log('Super jackpot rate updated to:', GAME_CONFIG.SUPER_JACKPOT_RATE, '(', e.target.value, '%)');
+                        } else {
+                            e.target.value = Math.round(GAME_CONFIG.SUPER_JACKPOT_RATE * 100); // Reset to current value
+                        }
+                    });
+                }
+                
+                // Number of tables control
+                const numberOfTables = document.getElementById('number-of-tables');
+                if (numberOfTables) {
+                    // Initialize with current values
+                    numberOfTables.value = GAME_CONFIG.NUMBER_OF_TABLES;
+                    
+                    numberOfTables.addEventListener('change', (e) => {
+                        const newTables = parseInt(e.target.value);
+                        if (newTables >= 1 && newTables <= 100) {
+                            GAME_CONFIG.NUMBER_OF_TABLES = newTables;
+                            console.log('Number of tables updated to:', GAME_CONFIG.NUMBER_OF_TABLES);
+                        } else {
+                            e.target.value = GAME_CONFIG.NUMBER_OF_TABLES; // Reset to current value
+                        }
+                    });
+                }
+                
                 // Admin panel is now always visible, so we don't auto-close it
                 // document.addEventListener('click', (e) => {
                 //     if (!this.elements.adminPanel.contains(e.target) && 
@@ -3538,25 +4404,11 @@
                 //     }
                 // });
 
-                // Close rules modal when clicking outside
-                document.addEventListener('click', (e) => {
-                    const rulesModal = document.getElementById('rules-modal');
-                    if (rulesModal && !rulesModal.classList.contains('hidden')) {
-                        if (e.target === rulesModal) {
-                            this.hideRules();
-                        }
-                    }
-                });
-
-                // Close matrix modal when clicking outside
-                document.addEventListener('click', (e) => {
-                    const matrixModal = document.getElementById('matrix-modal');
-                    if (matrixModal && !matrixModal.classList.contains('hidden')) {
-                        if (e.target === matrixModal) {
-                            this.hideMatrix();
-                        }
-                    }
-                });
+                // Make rules modal draggable
+                this.makeRulesModalDraggable();
+                
+                // Make matrix modal draggable
+                this.makeMatrixModalDraggable();
                 
                 // Add pause/resume button listeners
                 const pauseBtn = document.getElementById('pause-game-btn');
@@ -3646,6 +4498,9 @@
                 // Human insurance icon click handlers
                 this.setupHumanInsuranceListeners();
                 
+                // Insurance behavior dropdown for human player
+                this.setupInsuranceBehaviorListener();
+                
                 console.log('Event listeners set up');
             }
             
@@ -3658,6 +4513,56 @@
                         const playerId = parseInt(icon.id.replace('human-insurance-', ''));
                         console.log(`Human insurance icon clicked for player ${playerId}`);
                         this.handleHumanInsuranceClick(playerId);
+                    }
+                });
+            }
+            
+            getHumanInsuranceBehavior() {
+                const insuranceSelect = document.getElementById('insurance-select-0');
+                if (insuranceSelect) {
+                    return insuranceSelect.value;
+                }
+                return 'ask'; // Default to ask
+            }
+            
+            setHumanInsuranceBehavior(behavior) {
+                const insuranceSelect = document.getElementById('insurance-select-0');
+                if (insuranceSelect) {
+                    insuranceSelect.value = behavior;
+                }
+            }
+            
+            setupInsuranceBehaviorListener() {
+                // Set up event listener for insurance behavior dropdown
+                document.addEventListener('change', (e) => {
+                    if (e.target.classList.contains('insurance-select')) {
+                        const playerId = parseInt(e.target.id.replace('insurance-select-', ''));
+                        const behavior = e.target.value;
+                        console.log(`🛡️ Insurance behavior changed for player ${playerId}: ${behavior}`);
+                        
+                        // Store the preference (could be saved to localStorage or game state)
+                        if (playerId === 0) { // Human player
+                            console.log(`🛡️ Human player insurance behavior set to: ${behavior}`);
+                        }
+                    }
+                });
+                
+                // Set up event listener for strategy buttons
+                document.addEventListener('click', (e) => {
+                    if (e.target.classList.contains('strategy-btn')) {
+                        const strategy = e.target.getAttribute('data-strategy');
+                        const playerId = 0; // Human player
+                        console.log(`Strategy changed to: ${strategy}`);
+                        
+                        // Update active button
+                        const buttons = e.target.parentElement.querySelectorAll('.strategy-btn');
+                        buttons.forEach(btn => btn.classList.remove('active'));
+                        e.target.classList.add('active');
+                        
+                        // Update player strategy
+                        if (this.stateManager) {
+                            this.stateManager.updatePlayerStrategy(playerId, strategy);
+                        }
                     }
                 });
             }
@@ -3691,6 +4596,15 @@
                     return;
                 }
                 
+                // Check if insurance pot meets minimum requirement (only for purchases, not cancellations)
+                if (!player.hasInsurance) {
+                    const insurancePot = gameData.insuranceJackpot || 0;
+                    if (insurancePot < GAME_CONFIG.INSURANCE_MIN_POT) {
+                        console.log(`🛡️ Insurance pot too small: $${insurancePot} < $${GAME_CONFIG.INSURANCE_MIN_POT} - purchase not allowed`);
+                        return;
+                    }
+                }
+                
                 // Toggle insurance purchase
                 if (player.hasInsurance) {
                     // Cancel insurance
@@ -3701,11 +4615,33 @@
                     // Buy insurance
                     this.stateManager.updatePlayer(playerId, { hasInsurance: true });
                     this.stateManager.updatePlayerBalance(playerId, -GAME_CONFIG.INSURANCE_COST);
+                    
+                    // Add insurance cost to insurance jackpot
+                    gameData.insuranceJackpot += GAME_CONFIG.INSURANCE_COST;
+                    
                     console.log(`${player.name} purchased insurance for $${GAME_CONFIG.INSURANCE_COST}`);
                 }
                 
                 // Update player display
                 this.updatePlayerDisplay(playerId);
+                
+                // Add/remove insurance marker and update insurance jackpot
+                const updatedPlayer = this.stateManager.getGameData().players.find(p => p.id === playerId);
+                if (updatedPlayer && updatedPlayer.hasInsurance) {
+                    this.addInsuranceMarker(playerId);
+                    this.updateInsuranceJackpotDisplay();
+                } else {
+                    // If insurance cancelled, remove marker
+                    const marker = document.querySelector(`.insurance-marker[data-player-id="${playerId}"]`);
+                    if (marker) {
+                        marker.remove();
+                    }
+                    // Also subtract from pot if cancelling
+                    if (player.hasInsurance && !updatedPlayer.hasInsurance) {
+                        gameData.insuranceJackpot = Math.max(0, gameData.insuranceJackpot - GAME_CONFIG.INSURANCE_COST);
+                        this.updateInsuranceJackpotDisplay();
+                    }
+                }
                 
                 // Update button text to show current state
                 const buyBtn = document.getElementById('buy-insurance-btn');
@@ -3830,14 +4766,8 @@
                             });
                         });
                     } else {
-                        // Bot players get dropdowns
-                        const strategySelect = document.getElementById(`bot-strategy-${i}`);
-                        if (strategySelect) {
-                            strategySelect.addEventListener('change', (e) => {
-                                console.log(`Bot ${i} strategy changed to: ${e.target.value}`);
-                                this.stateManager.updatePlayerStrategy(i, e.target.value);
-                            });
-                        }
+                        // Bot controls moved to Bot Control Panel
+                        // No individual controls needed here anymore
                     }
                 }
             }
@@ -3907,6 +4837,11 @@
                         y -= 50; // Move 50px higher up
                     }
                     
+                    // Move bot2 and bot7 2% higher up (additional 2%)
+                    if (player.id === 2 || player.id === 7) {
+                        y -= radiusY * 0.04; // 4% of vertical radius (2% + 2% more)
+                    }
+                    
                     const seat = document.createElement('div');
                     seat.className = `player-seat ${player.isHuman ? 'human' : ''}`;
                     seat.id = `player-${player.id}`;
@@ -3926,12 +4861,7 @@
                                     <button class="strategy-btn ${player.strategy === 'manual' ? 'active' : ''}" data-strategy="manual">Manual</button>
                                 </div>
                             ` : `
-                                <select class="bot-strategy" id="bot-strategy-${player.id}">
-                                    <option value="random" ${player.strategy === 'random' ? 'selected' : ''}>Random</option>
-                                    <option value="lowest" ${player.strategy === 'lowest' ? 'selected' : ''}>Lowest</option>
-                                    <option value="highest" ${player.strategy === 'highest' ? 'selected' : ''}>Highest</option>
-                                    <option value="manual" ${player.strategy === 'manual' ? 'selected' : ''}>Manual</option>
-                                </select>
+                                <!-- Bot controls moved to Bot Control Panel -->
                             `}
                             <div class="manual-timer" id="manual-timer-${player.id}" style="display: none;">
                                 <span class="timer-text">5s</span>
@@ -3952,10 +4882,19 @@
                                 <button class="strategy-btn ${player.strategy === 'highest' ? 'active' : ''}" data-strategy="highest">Highest</button>
                                 <button class="strategy-btn ${player.strategy === 'manual' ? 'active' : ''}" data-strategy="manual">Manual</button>
                             </div>
+                            <div class="insurance-behavior" id="insurance-behavior-${player.id}">
+                                <label for="insurance-select-${player.id}">Insurance:</label>
+                                <select class="insurance-select" id="insurance-select-${player.id}">
+                                    <option value="ask" selected>Ask before round</option>
+                                    <option value="always">Always buy</option>
+                                    <option value="never">Never buy</option>
+                                </select>
+                            </div>
                         `;
                         
-                        // Position strategy container to the left of "You" player
-                        const strategyX = x - 60; // 60px to the left of seat (half step back)
+                        // Position strategy container outside the player's golden frame (seat)
+                        // Player seat is 120px wide, so place buttons to the left of it
+                        const strategyX = x - 80; // Position to the left of the player seat, half of last step
                         const strategyY = y + 10;  // Align with top of seat
                         strategyContainer.style.left = `${strategyX}px`;
                         strategyContainer.style.top = `${strategyY}px`;
@@ -4659,11 +5598,15 @@
                 
                 // Safety checks for display values
                 const jackpot = isNaN(gameData.jackpot) ? 0 : gameData.jackpot;
+                const superJackpot = isNaN(gameData.superJackpot) ? 0 : gameData.superJackpot;
                 const insuranceJackpot = isNaN(gameData.insuranceJackpot) ? 0 : gameData.insuranceJackpot;
                 const bankRake = isNaN(gameData.bankRake) ? 0 : gameData.bankRake;
                 const totalBalance = this.stateManager.getTotalBalance();
                 
                 this.elements.jackpotAmount.textContent = `$${Math.round(jackpot)}`;
+                if (this.elements.superJackpotAmount) {
+                    this.elements.superJackpotAmount.textContent = `$${Math.round(superJackpot)}`;
+                }
                 this.elements.insuranceAmount.textContent = `$${Math.round(insuranceJackpot)}`;
                 
                 // Update jackpot chip stack
@@ -4676,9 +5619,6 @@
                 
                 this.elements.currentRound.textContent = `Round ${gameData.round}`;
                 this.elements.adminRound.textContent = gameData.round;
-                
-                // Update bank history
-                this.updateBankHistory();
                 
                 // Always update admin panel to keep values in sync
                 this.updateAdminPanel();
@@ -4696,9 +5636,10 @@
                 // Calculate detailed balance breakdown
                 const playerBalances = gameData.players.reduce((sum, player) => sum + (player.balance || 0), 0);
                 const jackpot = gameData.jackpot || 0;
+                const superJackpot = gameData.superJackpot || 0;
                 const insuranceJackpot = gameData.insuranceJackpot || 0;
                 const bankRake = gameData.bankRake || 0;
-                const totalBalance = playerBalances + jackpot + insuranceJackpot + bankRake;
+                const totalBalance = playerBalances + jackpot + superJackpot + insuranceJackpot + bankRake;
                 const expectedTotal = GAME_CONFIG.TOTAL_PLAYERS * GAME_CONFIG.INITIAL_BALANCE;
                 
                 // Update admin panel displays
@@ -4706,6 +5647,9 @@
                 this.elements.expectedBalance.textContent = `$${expectedTotal}`;
                 this.elements.playerBalances.textContent = `$${Math.round(playerBalances)}`;
                 this.elements.adminJackpot.textContent = `$${Math.round(jackpot)}`;
+                if (this.elements.adminSuperJackpot) {
+                    this.elements.adminSuperJackpot.textContent = `$${Math.round(superJackpot)}`;
+                }
                 this.elements.adminInsurance.textContent = `$${Math.round(insuranceJackpot)}`;
                 this.elements.adminBankRake.textContent = `$${Math.round(bankRake)}`;
                 this.elements.adminBankRakeDisplay.textContent = `$${Math.round(bankRake)}`;
@@ -4823,6 +5767,15 @@
                 this.elements.startRoundBtn.disabled = false;
                 this.elements.startRoundBtn.textContent = 'Start New Round';
                 
+                // Record round history
+                this.recordRoundHistory();
+                
+                // Update history panel if it's open
+                if (!this.elements.historyPanel.classList.contains('hidden')) {
+                    console.log('📊 History panel is open, updating...');
+                    this.updateHistoryPanel();
+                }
+                
                 // Update clockwise start player for next round
                 this.gameLogic.updateClockwiseStartPlayer();
                 
@@ -4841,6 +5794,67 @@
                         }
                     }, GAME_CONFIG.ROUND_DELAY);
                 }
+            }
+            
+            recordRoundHistory() {
+                const gameData = this.stateManager.getGameData();
+                
+                // Get fresh player data to ensure balance is current
+                const roundData = {
+                    bankCard: gameData.bankCard,
+                    players: gameData.players.map(player => {
+                        // Get fresh player data to ensure balance is up to date
+                        // Try multiple sources to get the most current balance
+                        const freshPlayer = this.stateManager.getPlayer(player.id);
+                        let balance = 0;
+                        
+                        if (freshPlayer && freshPlayer.balance !== undefined && freshPlayer.balance !== null) {
+                            balance = freshPlayer.balance;
+                        } else if (player.balance !== undefined && player.balance !== null) {
+                            balance = player.balance;
+                        }
+                        
+                        // Round to integer
+                        balance = Math.round(balance);
+                        
+                        // Debug log for human player
+                        if (player.isHuman) {
+                            console.log(`📊 Recording history for ${player.name}:`, {
+                                finalBalance: balance,
+                                freshPlayerBalance: freshPlayer ? freshPlayer.balance : 'N/A',
+                                playerBalance: player.balance,
+                                freshPlayerExists: !!freshPlayer,
+                                freshPlayerFull: freshPlayer
+                            });
+                        }
+                        return {
+                            id: player.id,
+                            name: player.name,
+                            isHuman: player.isHuman,
+                            selectedCard: player.selectedCard,
+                            bet: player.bet || this.getBetValue(player.selectedCard),
+                            result: player.result,
+                            winnings: player.actualWinnings || 0,
+                            refund: player.refund || 0,
+                            balance: balance // Get fresh balance from state manager
+                        };
+                    }),
+                    heartsJackpotWin: gameData.currentRoundJackpotWin || false,
+                    heartsJackpotWinner: gameData.currentRoundJackpotWinner || null,
+                    heartsJackpotAmount: gameData.currentRoundJackpotAmount || 0,
+                    insuranceWin: gameData.currentRoundInsuranceWin || false,
+                    insuranceWinner: gameData.currentRoundInsuranceWinner || null,
+                    insuranceAmount: gameData.currentRoundInsuranceAmount || 0
+                };
+                
+                // Check for jackpot wins (this would need to be passed from the game logic)
+                // For now, we'll add this information when we have it
+                
+                this.stateManager.addRoundToHistory(roundData);
+                
+                // Clear jackpot data for next round
+                this.stateManager.setRoundJackpotWin(false, null, 0);
+                this.stateManager.setRoundInsuranceWin(false, null, 0);
             }
 
             async processBotMoves() {
@@ -5369,37 +6383,6 @@
                 return CARD_VALUES[card.rank] || 0;
             }
             
-            updateBankHistory() {
-                const gameData = this.stateManager.getGameData();
-                const bankHistory = gameData.bankHistory || [];
-                
-                // Clear existing history
-                this.elements.bankHistoryList.innerHTML = '';
-                
-                // Show last 5 bank cards
-                const recentHistory = bankHistory.slice(-5);
-                
-                if (recentHistory.length === 0) {
-                    this.elements.bankHistoryList.innerHTML = '<span style="opacity: 0.7;">No history yet</span>';
-                    return;
-                }
-                
-                recentHistory.forEach(card => {
-                    const cardItem = document.createElement('div');
-                    cardItem.className = 'bank-card-item';
-                    
-                    // Get simple suit symbols
-                    const suitSymbols = {
-                        'hearts': '♥',
-                        'diamonds': '♦', 
-                        'clubs': '♣',
-                        'spades': '♠'
-                    };
-                    
-                    cardItem.textContent = `${card.rank}${suitSymbols[card.suit] || card.suit}`;
-                    this.elements.bankHistoryList.appendChild(cardItem);
-                });
-            }
 
             generateChipStack(balance) {
                 const chips = [];
@@ -5674,6 +6657,104 @@
                 }
             }
             
+            toggleBotControlPanel() {
+                this.elements.botControlPanel.classList.toggle('hidden');
+                if (!this.elements.botControlPanel.classList.contains('hidden')) {
+                    this.updateBotControlPanel();
+                }
+            }
+            
+            toggleHistoryPanel() {
+                this.elements.historyPanel.classList.toggle('hidden');
+                if (!this.elements.historyPanel.classList.contains('hidden')) {
+                    console.log('📊 History panel opened, updating...');
+                    this.updateHistoryPanel();
+                }
+            }
+            
+            updateBotControlPanel() {
+                const botList = document.getElementById('bot-list');
+                if (!botList) return;
+                
+                const gameData = this.stateManager.getGameData();
+                const bots = gameData.players.filter(player => !player.isHuman);
+                
+                botList.innerHTML = '';
+                
+                bots.forEach((bot, index) => {
+                    const botItem = document.createElement('div');
+                    botItem.className = 'bot-item';
+                    botItem.innerHTML = `
+                        <div class="bot-item-header">
+                            <div class="bot-name">Bot ${bot.id}</div>
+                        </div>
+                        <div class="bot-controls-row">
+                            <div class="bot-control-group">
+                                <label>Name:</label>
+                                <input type="text" id="bot-name-${bot.id}" value="${bot.name}" maxlength="15">
+                            </div>
+                            <div class="bot-control-group">
+                                <label>Strategy:</label>
+                                <select id="bot-strategy-${bot.id}">
+                                    <option value="random" ${bot.strategy === 'random' ? 'selected' : ''}>Random</option>
+                                    <option value="lowest" ${bot.strategy === 'lowest' ? 'selected' : ''}>Lowest</option>
+                                    <option value="highest" ${bot.strategy === 'highest' ? 'selected' : ''}>Highest</option>
+                                    <option value="manual" ${bot.strategy === 'manual' ? 'selected' : ''}>Manual</option>
+                                </select>
+                            </div>
+                            <div class="bot-control-group">
+                                <label>Insurance:</label>
+                                <select id="bot-insurance-${bot.id}">
+                                    <option value="ask" ${bot.insuranceBehavior === 'ask' ? 'selected' : ''}>Ask before round</option>
+                                    <option value="always" ${bot.insuranceBehavior === 'always' ? 'selected' : ''}>Always buy</option>
+                                    <option value="never" ${bot.insuranceBehavior === 'never' ? 'selected' : ''}>Never buy</option>
+                                </select>
+                            </div>
+                        </div>
+                    `;
+                    
+                    botList.appendChild(botItem);
+                });
+                
+                // Set up event listeners for bot controls
+                this.setupBotControlListeners();
+            }
+            
+            setupBotControlListeners() {
+                const gameData = this.stateManager.getGameData();
+                const bots = gameData.players.filter(player => !player.isHuman);
+                
+                bots.forEach(bot => {
+                    // Name change
+                    const nameInput = document.getElementById(`bot-name-${bot.id}`);
+                    if (nameInput) {
+                        nameInput.addEventListener('change', (e) => {
+                            const newName = e.target.value.trim() || `Bot ${bot.id}`;
+                            this.stateManager.updatePlayerName(bot.id, newName);
+                            console.log(`Bot ${bot.id} name changed to: ${newName}`);
+                        });
+                    }
+                    
+                    // Strategy change
+                    const strategySelect = document.getElementById(`bot-strategy-${bot.id}`);
+                    if (strategySelect) {
+                        strategySelect.addEventListener('change', (e) => {
+                            this.stateManager.updatePlayerStrategy(bot.id, e.target.value);
+                            console.log(`Bot ${bot.id} strategy changed to: ${e.target.value}`);
+                        });
+                    }
+                    
+                    // Insurance behavior change
+                    const insuranceSelect = document.getElementById(`bot-insurance-${bot.id}`);
+                    if (insuranceSelect) {
+                        insuranceSelect.addEventListener('change', (e) => {
+                            this.stateManager.updatePlayerInsuranceBehavior(bot.id, e.target.value);
+                            console.log(`Bot ${bot.id} insurance behavior changed to: ${e.target.value}`);
+                        });
+                    }
+                });
+            }
+            
             makeAdminPanelDraggable() {
                 const panel = this.elements.adminPanel;
                 const header = panel.querySelector('.admin-header');
@@ -5690,6 +6771,280 @@
                 document.addEventListener('mouseup', dragEnd);
                 
                 function dragStart(e) {
+                    initialX = e.clientX - xOffset;
+                    initialY = e.clientY - yOffset;
+                    
+                    if (e.target === header || header.contains(e.target)) {
+                        isDragging = true;
+                    }
+                }
+                
+                function drag(e) {
+                    if (isDragging) {
+                        e.preventDefault();
+                        currentX = e.clientX - initialX;
+                        currentY = e.clientY - initialY;
+                        
+                        xOffset = currentX;
+                        yOffset = currentY;
+                        
+                        panel.style.transform = `translate(${currentX}px, ${currentY}px)`;
+                    }
+                }
+                
+                function dragEnd(e) {
+                    initialX = currentX;
+                    initialY = currentY;
+                    isDragging = false;
+                }
+            }
+            
+            makeBotControlPanelDraggable() {
+                const panel = this.elements.botControlPanel;
+                const header = panel.querySelector('.bot-control-header');
+                let isDragging = false;
+                let currentX;
+                let currentY;
+                let initialX;
+                let initialY;
+                let xOffset = 0;
+                let yOffset = 0;
+                
+                header.addEventListener('mousedown', dragStart);
+                document.addEventListener('mousemove', drag);
+                document.addEventListener('mouseup', dragEnd);
+                
+                function dragStart(e) {
+                    initialX = e.clientX - xOffset;
+                    initialY = e.clientY - yOffset;
+                    
+                    if (e.target === header || header.contains(e.target)) {
+                        isDragging = true;
+                    }
+                }
+                
+                function drag(e) {
+                    if (isDragging) {
+                        e.preventDefault();
+                        currentX = e.clientX - initialX;
+                        currentY = e.clientY - initialY;
+                        
+                        xOffset = currentX;
+                        yOffset = currentY;
+                        
+                        panel.style.transform = `translate(${currentX}px, ${currentY}px)`;
+                    }
+                }
+                
+                function dragEnd(e) {
+                    initialX = currentX;
+                    initialY = currentY;
+                    isDragging = false;
+                }
+            }
+            
+            formatCardDisplay(card) {
+                if (typeof card === 'object' && card.rank && card.suit) {
+                    const suitSymbols = {
+                        'hearts': '♥',
+                        'diamonds': '♦',
+                        'clubs': '♣',
+                        'spades': '♠'
+                    };
+                    return `${card.rank}${suitSymbols[card.suit] || card.suit}`;
+                }
+                return card || 'Unknown';
+            }
+            
+            updateHistoryPanel() {
+                const historyList = document.getElementById('history-list');
+                if (!historyList) return;
+                
+                // Get game history from state manager
+                const gameData = this.stateManager.getGameData();
+                const history = gameData.gameHistory || [];
+                
+                historyList.innerHTML = '';
+                
+                if (history.length === 0) {
+                    historyList.innerHTML = '<div style="color: #bdc3c7; text-align: center; padding: 20px;">No rounds played yet</div>';
+                    return;
+                }
+                
+                // Show last 20 rounds (most recent first)
+                const recentHistory = history.slice(-20).reverse();
+                
+                recentHistory.forEach((round, index) => {
+                    const entry = document.createElement('div');
+                    entry.className = 'history-entry';
+                    
+                    // Add special styling for jackpot/insurance wins
+                    if (round.heartsJackpotWin || round.insuranceWin) {
+                        if (round.heartsJackpotWin) {
+                            entry.classList.add('jackpot-win');
+                        }
+                        if (round.insuranceWin) {
+                            entry.classList.add('insurance-win');
+                        }
+                    }
+                    
+                    let html = `
+                        <div class="history-round">Round ${round.roundNumber}</div>
+                    `;
+                    
+                    // Add human player result
+                    const humanPlayer = round.players.find(p => p.isHuman);
+                    if (humanPlayer) {
+                        const cardDisplay = this.formatCardDisplay(humanPlayer.selectedCard);
+                        const betAmount = Math.round(humanPlayer.bet || 0);
+                        const balanceAfter = Math.round(humanPlayer.balance || 0);
+                        
+                        html += `<div class="history-player human">You (${cardDisplay}): `;
+                        if (humanPlayer.result === 'win') {
+                            html += `<span class="history-result win">Won $${Math.round(humanPlayer.winnings || 0)}</span>`;
+                        } else if (humanPlayer.result === 'loss') {
+                            html += `<span class="history-result loss">Lost $${betAmount}</span>`;
+                        } else if (humanPlayer.result === 'refund') {
+                            html += `<span class="history-result refund">Refunded $${Math.round(humanPlayer.refund || 0)}</span>`;
+                        }
+                        html += `<div style="font-size: 11px; color: #95a5a6; margin-top: 3px;">Bet: $${betAmount} | Balance: $${balanceAfter}</div>`;
+                        html += `</div>`;
+                    }
+                    
+                    // Add jackpot wins
+                    if (round.heartsJackpotWin) {
+                        html += `<div class="history-jackpot">♥️ Hearts Jackpot: ${round.heartsJackpotWinner} won $${Math.round(round.heartsJackpotAmount)}</div>`;
+                    }
+                    
+                    if (round.insuranceWin) {
+                        html += `<div class="history-jackpot">🛡️ Insurance Jackpot: ${round.insuranceWinner} won $${Math.round(round.insuranceAmount)}</div>`;
+                    }
+                    
+                    // Add bank card info
+                    const bankCardDisplay = this.formatCardDisplay(round.bankCard);
+                    html += `<div style="font-size: 11px; color: #bdc3c7; margin-top: 5px;">Bank: ${bankCardDisplay}</div>`;
+                    
+                    entry.innerHTML = html;
+                    historyList.appendChild(entry);
+                });
+            }
+            
+            makeHistoryPanelDraggable() {
+                const panel = this.elements.historyPanel;
+                const header = panel.querySelector('.history-header');
+                let isDragging = false;
+                let currentX;
+                let currentY;
+                let initialX;
+                let initialY;
+                let xOffset = 0;
+                let yOffset = 0;
+                
+                header.addEventListener('mousedown', dragStart);
+                document.addEventListener('mousemove', drag);
+                document.addEventListener('mouseup', dragEnd);
+                
+                function dragStart(e) {
+                    initialX = e.clientX - xOffset;
+                    initialY = e.clientY - yOffset;
+                    
+                    if (e.target === header || header.contains(e.target)) {
+                        isDragging = true;
+                    }
+                }
+                
+                function drag(e) {
+                    if (isDragging) {
+                        e.preventDefault();
+                        currentX = e.clientX - initialX;
+                        currentY = e.clientY - initialY;
+                        
+                        xOffset = currentX;
+                        yOffset = currentY;
+                        
+                        panel.style.transform = `translate(${currentX}px, ${currentY}px)`;
+                    }
+                }
+                
+                function dragEnd(e) {
+                    initialX = currentX;
+                    initialY = currentY;
+                    isDragging = false;
+                }
+            }
+
+            makeRulesModalDraggable() {
+                const panel = document.getElementById('rules-modal');
+                const header = panel ? panel.querySelector('.rules-header') : null;
+                if (!panel || !header) return;
+                
+                let isDragging = false;
+                let currentX;
+                let currentY;
+                let initialX;
+                let initialY;
+                let xOffset = 0;
+                let yOffset = 0;
+                
+                header.addEventListener('mousedown', dragStart);
+                document.addEventListener('mousemove', drag);
+                document.addEventListener('mouseup', dragEnd);
+                
+                function dragStart(e) {
+                    // Don't start dragging if clicking the close button
+                    if (e.target.classList.contains('close-rules-btn')) {
+                        return;
+                    }
+                    initialX = e.clientX - xOffset;
+                    initialY = e.clientY - yOffset;
+                    
+                    if (e.target === header || header.contains(e.target)) {
+                        isDragging = true;
+                    }
+                }
+                
+                function drag(e) {
+                    if (isDragging) {
+                        e.preventDefault();
+                        currentX = e.clientX - initialX;
+                        currentY = e.clientY - initialY;
+                        
+                        xOffset = currentX;
+                        yOffset = currentY;
+                        
+                        panel.style.transform = `translate(${currentX}px, ${currentY}px)`;
+                    }
+                }
+                
+                function dragEnd(e) {
+                    initialX = currentX;
+                    initialY = currentY;
+                    isDragging = false;
+                }
+            }
+            
+            makeMatrixModalDraggable() {
+                const panel = document.getElementById('matrix-modal');
+                const header = panel ? panel.querySelector('.matrix-header') : null;
+                if (!panel || !header) return;
+                
+                let isDragging = false;
+                let currentX;
+                let currentY;
+                let initialX;
+                let initialY;
+                let xOffset = 0;
+                let yOffset = 0;
+                
+                header.addEventListener('mousedown', dragStart);
+                document.addEventListener('mousemove', drag);
+                document.addEventListener('mouseup', dragEnd);
+                
+                function dragStart(e) {
+                    // Don't start dragging if clicking the close button
+                    if (e.target.classList.contains('close-matrix-btn')) {
+                        return;
+                    }
                     initialX = e.clientX - xOffset;
                     initialY = e.clientY - yOffset;
                     
@@ -5825,6 +7180,9 @@
                         // All other players lose their entire bet when bank draws 10
                         return { display: `-${betValue}`, cssClass: 'loss' };
                     }
+                } else if (bankRank === 'A') {
+                    // Special case: Bank draws Ace - all players lose (no loser scenario, all money to jackpot)
+                    return { display: `-${betValue}`, cssClass: 'loss' };
                 } else if (playerRank === bankRank) {
                     // Loss - same card as bank
                     return { display: `-${betValue}`, cssClass: 'loss' };
@@ -5841,14 +7199,80 @@
             }
             
             calculateWinAmount(playerRank, bankRank, betValue) {
-                // Simplified win calculation - in reality this would be more complex
-                // based on the actual cascade distribution logic
+                // Simulate the actual cascade distribution logic
                 const cardValues = { 'A': 10, '2': 15, '3': 23, '4': 34, '5': 51, '6': 76, '7': 114, '8': 171, '9': 256 };
-                const losingPlayerValue = cardValues[bankRank];
+                const rankOrder = ['A', '2', '3', '4', '5', '6', '7', '8', '9'];
                 
-                // Basic calculation: get bet back + share of losing player's bet
-                const baseWin = betValue + Math.round(losingPlayerValue * 0.5);
-                return baseWin;
+                const bankIndex = rankOrder.indexOf(bankRank);
+                const playerIndex = rankOrder.indexOf(playerRank);
+                
+                // If player is same or higher than bank, they don't win
+                if (playerIndex >= bankIndex) {
+                    return 0;
+                }
+                
+                // Get the losing player's bet (the bank card)
+                const losingBet = cardValues[bankRank];
+                
+                // Calculate bank rate
+                const bankRake = losingBet * GAME_CONFIG.BANK_RATE;
+                let winnerPool = losingBet - bankRake;
+                
+                // Find all winners (all players with rank < bankRank)
+                const winners = [];
+                rankOrder.forEach((rank, idx) => {
+                    if (idx < bankIndex && rank !== bankRank) {
+                        winners.push({ rank, index: idx, bet: cardValues[rank] });
+                    }
+                });
+                
+                // Sort winners by rank (descending - highest first, for cascade)
+                winners.sort((a, b) => b.index - a.index);
+                
+                // Special Rule 2: Bank draws 2 - only Ace wins
+                if (bankRank === '2') {
+                    if (playerRank === 'A') {
+                        // Ace gets 50% of pool
+                        const aceWinAmount = winnerPool * GAME_CONFIG.CASCADE_RATE;
+                        return Math.round(betValue + aceWinAmount);
+                    }
+                    return 0;
+                }
+                
+                // Normal cascade distribution
+                // Find where this player ranks among winners
+                const winnerIndices = winners.map(w => w.index);
+                const position = winnerIndices.indexOf(playerIndex);
+                
+                if (position === -1) {
+                    return 0; // Not a winner
+                }
+                
+                // Simulate cascade: each winner takes 50% of remaining pool
+                let currentPool = winnerPool;
+                let playerWinShare = 0;
+                
+                for (let i = 0; i < winners.length; i++) {
+                    let winAmount;
+                    if (i === winners.length - 1) {
+                        // Last winner (lowest) gets remaining pool
+                        winAmount = currentPool;
+                    } else {
+                        // Each winner gets 50% of current pool
+                        winAmount = currentPool * GAME_CONFIG.CASCADE_RATE;
+                    }
+                    
+                    if (i === position) {
+                        // This is the player we're calculating for
+                        playerWinShare = winAmount;
+                        break;
+                    }
+                    
+                    currentPool -= winAmount;
+                }
+                
+                // Player gets bet back + pool share
+                return Math.round(betValue + playerWinShare);
             }
             
             getCardIndex(rank) {
@@ -6536,7 +7960,14 @@
                     const playerId = parseInt(checkbox.value);
                     const player = gameData.players.find(p => p.id === playerId);
                     
-                    if (player && player.balance >= GAME_CONFIG.INSURANCE_COST) {
+                    // Check insurance pot BEFORE each purchase (pot needs to be >= MIN before adding this purchase)
+                    const currentInsurancePot = gameData.insuranceJackpot || 0;
+                    if (currentInsurancePot < GAME_CONFIG.INSURANCE_MIN_POT) {
+                        console.log(`🛡️ Cannot process insurance purchase for ${player ? player.name : 'player ' + playerId} - pot too small: $${currentInsurancePot} < $${GAME_CONFIG.INSURANCE_MIN_POT}`);
+                        return; // Skip this purchase
+                    }
+                    
+                    if (player && player.balance >= GAME_CONFIG.INSURANCE_COST && !player.hasInsurance) {
                         console.log(`🛡️ Player ${player.name} (${playerId}) bought insurance for $${GAME_CONFIG.INSURANCE_COST}`);
                         
                         // Deduct insurance cost from player balance
@@ -6544,6 +7975,9 @@
                         
                         // Mark player as having insurance
                         this.stateManager.updatePlayer(playerId, { hasInsurance: true });
+                        
+                        // Add to insurance jackpot first
+                        gameData.insuranceJackpot += GAME_CONFIG.INSURANCE_COST;
                         
                         // Add insurance marker to player seat
                         this.addInsuranceMarker(playerId);
@@ -6555,21 +7989,18 @@
                     }
                 });
                 
-                // Process human insurance purchases (already handled by click events, just add to total cost)
+                // Process human insurance purchases (already handled by click events, just check if they have insurance)
                 gameData.players.forEach(player => {
                     if (player.isHuman && player.hasInsurance) {
-                        totalInsuranceCost += GAME_CONFIG.INSURANCE_COST;
-                        // Add insurance marker to human player seat too
+                        // Human player insurance was already added to pot in handleHumanInsuranceClick
+                        // Just make sure marker is added if missing
                         this.addInsuranceMarker(player.id);
                     }
                 });
                 
-                // Add total insurance cost to insurance pot
+                // Update admin panel and insurance display immediately (pot already updated in loop above)
                 if (totalInsuranceCost > 0) {
-                    this.stateManager.updateInsuranceJackpot(totalInsuranceCost);
-                    console.log(`🛡️ Added $${totalInsuranceCost} to insurance pot`);
-                    
-                    // Update admin panel and insurance display immediately
+                    console.log(`🛡️ Processed $${totalInsuranceCost} in insurance purchases`);
                     this.updateAdminPanel();
                     this.updateInsuranceJackpotDisplay();
                 }
@@ -6655,8 +8086,46 @@
             startHumanInsurancePhase() {
                 console.log('🛡️ Starting human insurance phase (5 seconds)');
                 
-                // Check if insurance pot is large enough
+                // Check human player's insurance behavior preference
+                const insuranceBehavior = this.getHumanInsuranceBehavior();
+                console.log(`🛡️ Human insurance behavior: ${insuranceBehavior}`);
+                
                 const gameData = this.stateManager.getGameData();
+                const humanPlayer = gameData.players.find(p => p.isHuman);
+                
+                if (insuranceBehavior === 'always') {
+                    // Check if insurance pot is large enough for "always buy"
+                    const insurancePot = gameData.insuranceJackpot || 0;
+                    console.log(`🛡️ Human 'always buy' - Insurance pot check: $${insurancePot} >= $${GAME_CONFIG.INSURANCE_MIN_POT}?`);
+                    
+                    if (insurancePot >= GAME_CONFIG.INSURANCE_MIN_POT) {
+                        console.log('🛡️ Human player set to always buy insurance - purchasing automatically');
+                        if (humanPlayer && !humanPlayer.hasInsurance) {
+                            this.handleHumanInsuranceClick(humanPlayer.id);
+                        }
+                        // Skip countdown and proceed directly to bot phase
+                        setTimeout(() => {
+                            this.endHumanInsurancePhase();
+                        }, 1000); // Short delay to show the purchase
+                        return;
+                    } else {
+                        console.log(`🛡️ Human 'always buy' - Insurance pot too small: $${insurancePot} < $${GAME_CONFIG.INSURANCE_MIN_POT}`);
+                        // Skip countdown and proceed directly to bot phase
+                        setTimeout(() => {
+                            this.endHumanInsurancePhase();
+                        }, 1000);
+                        return;
+                    }
+                } else if (insuranceBehavior === 'never') {
+                    console.log('🛡️ Human player set to never buy insurance - skipping phase');
+                    // Skip countdown and proceed directly to bot phase
+                    setTimeout(() => {
+                        this.endHumanInsurancePhase();
+                    }, 1000); // Short delay for consistency
+                    return;
+                }
+                
+                // Check if insurance pot is large enough
                 const insurancePot = gameData.insuranceJackpot || 0;
                 console.log(`🛡️ Insurance pot check: $${insurancePot} >= $${GAME_CONFIG.INSURANCE_MIN_POT}?`);
                 
@@ -6763,8 +8232,152 @@
                 // Disable human insurance icons
                 this.disableHumanInsuranceIcons();
                 
-                // Start bot insurance phase
-                this.showInsuranceModal();
+                // Process bot insurance based on their individual settings from Bot Control Panel
+                this.processBotInsuranceFromPanel();
+            }
+            
+            processBotInsuranceFromPanel() {
+                console.log('🛡️ Processing bot insurance from Bot Control Panel settings');
+                
+                const gameData = this.stateManager.getGameData();
+                const bots = gameData.players.filter(player => !player.isHuman);
+                
+                const botsNeedingManualDecision = [];
+                
+                bots.forEach(bot => {
+                    const insuranceBehavior = bot.insuranceBehavior || 'ask'; // Default to 'ask' if not set
+                    console.log(`🛡️ Bot ${bot.name} (ID: ${bot.id}) insurance behavior: ${insuranceBehavior}`);
+                    
+                    if (insuranceBehavior === 'always') {
+                        // Bot always buys insurance - but only if pot is large enough
+                        const insurancePot = gameData.insuranceJackpot || 0;
+                        console.log(`🛡️ Bot ${bot.name} 'always buy' - Insurance pot check: $${insurancePot} >= $${GAME_CONFIG.INSURANCE_MIN_POT}?`);
+                        
+                        if (insurancePot >= GAME_CONFIG.INSURANCE_MIN_POT && bot.balance >= GAME_CONFIG.INSURANCE_COST && !bot.hasInsurance) {
+                            console.log(`🛡️ Bot ${bot.name} automatically buying insurance`);
+                            this.processBotInsurancePurchase(bot.id);
+                        } else if (insurancePot < GAME_CONFIG.INSURANCE_MIN_POT) {
+                            console.log(`🛡️ Bot ${bot.name} 'always buy' - Insurance pot too small: $${insurancePot} < $${GAME_CONFIG.INSURANCE_MIN_POT}`);
+                        }
+                    } else if (insuranceBehavior === 'never') {
+                        // Bot never buys insurance
+                        console.log(`🛡️ Bot ${bot.name} skipping insurance (never buy)`);
+                    } else { // 'ask'
+                        // Bot asks before round - add to list for manual decision
+                        botsNeedingManualDecision.push(bot);
+                    }
+                });
+                
+                if (botsNeedingManualDecision.length > 0) {
+                    console.log(`🛡️ ${botsNeedingManualDecision.length} bots need manual insurance decisions`);
+                    this.showInsuranceModalForBots(botsNeedingManualDecision);
+                } else {
+                    console.log('🛡️ No bots need manual insurance decisions, proceeding to card selection');
+                    setTimeout(() => {
+                        this.proceedWithoutInsurance();
+                    }, 1000);
+                }
+            }
+            
+            processBotInsurancePurchase(playerId) {
+                const gameData = this.stateManager.getGameData();
+                const player = gameData.players.find(p => p.id === playerId);
+                
+                if (!player) {
+                    console.log(`🛡️ Player ${playerId} not found`);
+                    return;
+                }
+                
+                // Check if insurance pot meets minimum requirement BEFORE purchase
+                const insurancePotBeforePurchase = gameData.insuranceJackpot || 0;
+                if (insurancePotBeforePurchase < GAME_CONFIG.INSURANCE_MIN_POT) {
+                    console.log(`🛡️ Bot ${player.name} cannot purchase insurance - pot too small: $${insurancePotBeforePurchase} < $${GAME_CONFIG.INSURANCE_MIN_POT}`);
+                    return;
+                }
+                
+                if (player.balance >= GAME_CONFIG.INSURANCE_COST && !player.hasInsurance) {
+                    // Deduct insurance cost
+                    player.balance -= GAME_CONFIG.INSURANCE_COST;
+                    player.hasInsurance = true;
+                    
+                    // Add to insurance jackpot
+                    gameData.insuranceJackpot += GAME_CONFIG.INSURANCE_COST;
+                    
+                    console.log(`🛡️ Bot ${player.name} purchased insurance. New balance: $${player.balance}`);
+                    
+                    // Update UI
+                    this.updatePlayerSeats();
+                    this.updateInsuranceJackpotDisplay();
+                    this.addInsuranceMarker(playerId);
+                }
+            }
+            
+            showInsuranceModalForBots(bots) {
+                console.log('🛡️ Showing insurance modal for bots that need manual decisions');
+                
+                // Update modal info
+                if (this.elements.modalInsuranceCost) {
+                    this.elements.modalInsuranceCost.textContent = GAME_CONFIG.INSURANCE_COST;
+                }
+                if (this.elements.modalInsurancePot) {
+                    this.elements.modalInsurancePot.textContent = this.stateManager.getGameData().insuranceJackpot;
+                }
+                
+                // Generate player checkboxes only for bots that need manual decisions
+                this.generateInsurancePlayerListForBots(bots);
+                
+                // Show modal
+                if (this.elements.insuranceModal) {
+                    this.elements.insuranceModal.classList.remove('hidden');
+                }
+                
+                // Start countdown timer
+                this.startInsuranceTimer();
+            }
+            
+            generateInsurancePlayerListForBots(bots) {
+                const playersContainer = this.elements.insurancePlayers;
+                playersContainer.innerHTML = '';
+                
+                bots.forEach(player => {
+                    // Only show bots who can afford insurance
+                    if (player.balance >= GAME_CONFIG.INSURANCE_COST) {
+                        const playerDiv = document.createElement('div');
+                        playerDiv.className = 'insurance-player';
+                        
+                        const checkbox = document.createElement('input');
+                        checkbox.type = 'checkbox';
+                        checkbox.id = `insurance-${player.id}`;
+                        checkbox.value = player.id;
+                        
+                        const label = document.createElement('label');
+                        label.htmlFor = `insurance-${player.id}`;
+                        
+                        const playerInfo = document.createElement('div');
+                        playerInfo.className = 'insurance-player-info';
+                        
+                        const playerName = document.createElement('div');
+                        playerName.className = 'insurance-player-name';
+                        playerName.textContent = player.name;
+                        
+                        const playerBalance = document.createElement('div');
+                        playerBalance.className = 'insurance-player-balance';
+                        playerBalance.textContent = `Balance: $${player.balance}`;
+                        
+                        playerInfo.appendChild(playerName);
+                        playerInfo.appendChild(playerBalance);
+                        
+                        label.appendChild(playerInfo);
+                        
+                        playerDiv.appendChild(checkbox);
+                        playerDiv.appendChild(label);
+                        
+                        playersContainer.appendChild(playerDiv);
+                    }
+                });
+                
+                // Add event listener for "Select All" checkbox
+                this.setupSelectAllInsurance();
             }
 
             addInsuranceMarker(playerId) {
@@ -6912,6 +8525,20 @@
 
             handleInsurancePurchase() {
                 console.log('🛡️ Insurance purchase phase started...');
+                
+                // Check if insurance pot is large enough to enable purchases
+                const gameData = this.stateManager.getGameData();
+                const insurancePot = gameData.insuranceJackpot || 0;
+                
+                if (insurancePot < GAME_CONFIG.INSURANCE_MIN_POT) {
+                    console.log(`🛡️ Insurance pot too small: $${insurancePot} < $${GAME_CONFIG.INSURANCE_MIN_POT} - skipping insurance phase`);
+                    // Skip insurance phase and go directly to card selection
+                    this.stateManager.setState(GAME_STATES.CARD_SELECTION);
+                    return;
+                }
+                
+                console.log(`🛡️ Insurance pot sufficient: $${insurancePot} >= $${GAME_CONFIG.INSURANCE_MIN_POT} - proceeding with insurance phase`);
+                
                 // Remove any existing insurance markers
                 if (this.uiController && typeof this.uiController.removeInsuranceMarkers === 'function') {
                     this.uiController.removeInsuranceMarkers();
