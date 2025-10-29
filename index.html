@@ -4956,17 +4956,27 @@
                         balanceElement.textContent = `$${Math.round(player.balance)}`;
                     }
                     
-                    // Clear player card
+                    // Clear player card - IMPORTANT: Clear ALL content including any child elements
                     const cardElement = document.querySelector(`#player-${player.id} .player-card`);
                     if (cardElement) {
+                        // Remove all child nodes
+                        while (cardElement.firstChild) {
+                            cardElement.removeChild(cardElement.firstChild);
+                        }
+                        // Clear innerHTML to be sure
                         cardElement.innerHTML = '';
+                        // Reset class and styles
                         cardElement.className = 'player-card';
+                        cardElement.style.background = '';
+                        cardElement.style.border = '';
+                        cardElement.style.color = '';
+                        console.log(`🎴 Cleared card area for player ${player.id} (${player.name})`);
                     }
                     
                     // Clear result classes
                     const seatElement = document.querySelector(`#player-${player.id}`);
                     if (seatElement) {
-                        seatElement.classList.remove('win', 'loss', 'refund', 'jackpot');
+                        seatElement.classList.remove('win', 'loss', 'refund', 'jackpot', 'card-selected');
                     }
                 });
                 
@@ -5576,18 +5586,19 @@
                         seat.classList.add('selected');
                         }
                         
-                        // Prepare the card area but don't show the card yet (animation will handle display)
+                        // DON'T clear the card area if it already has content
+                        // This prevents cards from disappearing when other players select
                         const playerCardArea = seat.querySelector('.player-card');
-                        if (playerCardArea) {
-                            // Keep the card area empty - animation will populate it
-                            playerCardArea.innerHTML = '';
-                            // Reset any previous styling
+                        if (playerCardArea && playerCardArea.innerHTML === '') {
+                            // Only prepare empty card areas - animation will populate them
                             playerCardArea.style.background = '';
                             playerCardArea.style.border = '';
                             playerCardArea.style.color = '';
                             playerCardArea.classList.remove('hearts-jackpot');
                             
                             console.log(`🎴 Card area prepared for player ${playerId} (${player.name}) - waiting for animation`);
+                        } else if (playerCardArea && playerCardArea.innerHTML !== '') {
+                            console.log(`🎴 Card area for player ${playerId} already has content - keeping it`);
                         }
                     }
                 }
@@ -7500,6 +7511,44 @@
                 // Create a copy for animation
                 const animatedCard = cardElement.cloneNode(true);
                 
+                // Immediately clear all classes and styles to prevent conflicts
+                animatedCard.className = '';
+                animatedCard.removeAttribute('class');
+                animatedCard.style.cssText = '';
+                
+                // IMPORTANT: Clean up the card content to show only rank during animation
+                // Extract just the rank from the card (remove any player name or extra text)
+                const rankElement = animatedCard.querySelector('.card-rank');
+                const suitElement = animatedCard.querySelector('.card-suit');
+                
+                // Get the rank value - prioritize dataset, then element text (split on newline to remove player name)
+                let cardRank = cardElement.dataset.rank || '';
+                if (rankElement) {
+                    const rankText = rankElement.textContent.trim().split('\n')[0];
+                    if (rankText) cardRank = rankText;
+                }
+                if (!cardRank) cardRank = '?';
+                
+                // Get suit symbol if available
+                let suitSymbol = '';
+                if (suitElement) {
+                    suitSymbol = suitElement.textContent.trim().split('\n')[0];
+                }
+                
+                // Clear and set clean content for animation (just rank and suit, no player name)
+                animatedCard.innerHTML = '';
+                const cleanRank = document.createElement('div');
+                cleanRank.className = 'card-rank';
+                cleanRank.textContent = cardRank;
+                animatedCard.appendChild(cleanRank);
+                
+                if (suitSymbol) {
+                    const cleanSuit = document.createElement('div');
+                    cleanSuit.className = 'card-suit';
+                    cleanSuit.textContent = suitSymbol;
+                    animatedCard.appendChild(cleanSuit);
+                }
+                
                 // Set up the animated card with fixed positioning
                 animatedCard.style.position = 'fixed';
                 animatedCard.style.left = `${cardRect.left}px`;
@@ -7509,6 +7558,10 @@
                 animatedCard.style.zIndex = '1000';
                 animatedCard.style.pointerEvents = 'none';
                 animatedCard.style.transition = 'all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
+                animatedCard.style.background = 'linear-gradient(145deg, #fff, #f0f0f0)';
+                animatedCard.style.color = '#333';
+                animatedCard.style.border = '2px solid #333';
+                animatedCard.style.borderRadius = '10px';
                 
                 // Add to body to ensure proper positioning
                 document.body.appendChild(animatedCard);
@@ -7543,18 +7596,25 @@
                     // Player card area should already be empty from updatePlayerDisplay
                     console.log(`🎴 Player card area for ${playerId} should be empty, current content:`, playerCardArea.innerHTML);
                     
-                    // Reset animated card styles
+                    // Reset animated card styles for final positioning
                     animatedCard.style.position = 'relative';
                     animatedCard.style.left = '0';
                     animatedCard.style.top = '0';
                     animatedCard.style.width = '100%';
                     animatedCard.style.height = '100%';
                     animatedCard.style.transition = 'none';
+                    animatedCard.style.boxShadow = '';
+                    animatedCard.style.cursor = '';
+                    animatedCard.style.opacity = '';
+                    
+                    // IMPORTANT: Clear any existing content and styles from the cloned card
+                    animatedCard.innerHTML = '';
                     
                     // Calculate card value
                     const cardValue = this.getBetValue(player.selectedCard);
                     
                     // Reveal the card immediately with rank, suit, and value (vertically stacked)
+                    // Set innerHTML fresh to ensure suit symbol is displayed
                     animatedCard.innerHTML = `
                         <div class="card-content">
                             <div class="card-rank">${player.selectedCard.rank}</div>
@@ -7562,10 +7622,6 @@
                             <div class="card-value">$${cardValue}</div>
                         </div>
                     `;
-                    
-                    // Set card background to white (revealed)
-                    animatedCard.style.background = 'linear-gradient(145deg, #fff, #f0f0f0)';
-                    animatedCard.style.color = '#333';
                     
                     // Check if card is hearts for jackpot potential
                     if (player.selectedCard.suit === 'hearts') {
@@ -7575,6 +7631,7 @@
                         animatedCard.style.border = '2px solid #ffd700';
                     } else {
                         animatedCard.classList.remove('hearts-jackpot');
+                        // Regular cards get black border
                         animatedCard.style.border = '2px solid #333';
                     }
                     
